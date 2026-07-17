@@ -336,10 +336,10 @@
         </p>
 
         <div class="assessment-switcher">
-            <button id="btn-a1" class="active" onclick="switchAssessment('a1')">Ass 1 — Fortnightly Responses</button>
-            <button id="btn-a2" onclick="switchAssessment('a2')">Ass 2 — Investigation 1</button>
-            <button id="btn-a3" onclick="switchAssessment('a3')">Ass 3 — Investigation 2</button>
-            <button id="btn-a4" onclick="switchAssessment('a4')">Ass 4 — Investigations 3&amp;4</button>
+            <button id="btn-a1" class="active" onclick="switchAssessment('a1')">Discord Contribution (Ongoing)</button>
+            <button id="btn-a2" onclick="switchAssessment('a2')">Investigation 1 (Week 3)</button>
+            <button id="btn-a3" onclick="switchAssessment('a3')">Investigation 2 (Week 7)</button>
+            <button id="btn-a4" onclick="switchAssessment('a4')">Investigation 3 &amp; 4 (Week 13)</button>
         </div>
     </div>
 
@@ -357,7 +357,7 @@
 
     const ASSESSMENTS = {
         a1: {
-            subtitle: "Fortnightly Responses — best 5 of 6 submissions — 20% of subject grade",
+            subtitle: "Discord Contribution 20% (Ongoing)",
             note: "How this is marked: each fortnight, your response and your reply to a peer are each assessed against the criteria below and given a mark that reflects how well they meet them — from Fail through to High Distinction. The two marks for that submission are combined into a mark out of 20. Your best five of six submissions across the semester are then averaged to give your final mark for this assessment. This means one strong or one weaker week won't define your result — what matters is the standard of your contribution across the semester as a whole.",
             criteria: [
                 {
@@ -392,7 +392,7 @@
         },
 
         a2: {
-            subtitle: "Investigation 1 — The Space Between — due before census, Week 3 — 20% of subject grade",
+            subtitle: "Investigation 1 (Week 3): Non Veridical Devices 20%",
             criteria: [
                 {
                     id: "research",
@@ -455,7 +455,7 @@
         },
 
         a3: {
-            subtitle: "Investigation 2 — due Week 7 — 20% of subject grade",
+            subtitle: "Investigation 2 (Week 7): Mid Term Project 20%",
             criteria: [
                 {
                     id: "research",
@@ -518,7 +518,7 @@
         },
 
         a4: {
-            subtitle: "Investigations 3 & 4 — due Week 13 — 40% of subject grade",
+            subtitle: "Investigation 3 & 4 (Week 13): End of Term Projects 40%",
             note: "Two investigations, one rubric: each criterion is assessed holistically across the combined body of work (or the single double-length project), not as a requirement for a demonstrated relationship between the two pieces.",
             criteria: [
                 {
@@ -585,10 +585,10 @@
     /* ===== LOGIC ===== */
 
     const ASSESSMENT_LABELS = {
-        a1: "Assessment 1 — Fortnightly Responses",
-        a2: "Assessment 2 — Investigation 1",
-        a3: "Assessment 3 — Investigation 2",
-        a4: "Assessment 4 — Investigations 3 & 4"
+        a1: "Discord Contribution",
+        a2: "Investigation 1 (Week 3)",
+        a3: "Investigation 2 (Week 7)",
+        a4: "Investigation 3 & 4 (Week 13)"
     };
 
     let currentAssessment = 'a1';
@@ -762,7 +762,7 @@
         `;
     }
 
-    // Deep-link support: #a2 opens the full Assessment 2 rubric page.
+    // Deep-link support: #a2 opens the full Investigation 1 rubric page.
     // #a2-research opens a stripped-down single view of the Research criterion, all grade bands shown.
     function handleHash() {
         const h = window.location.hash.replace('#', '');

@@ -280,9 +280,9 @@
     <h1>BCM116 Assessment Prompts</h1>
     <p class="subtitle">Investigation project options — click a prompt to expand, or print for the full sheet.</p>
     <div class="assessment-switcher">
-        <button id="btn-a2" class="active" onclick="switchAssessment('a2')">Assessment 2 — Investigation 1</button>
-        <button id="btn-a3" onclick="switchAssessment('a3')">Assessment 3 — Investigation 2</button>
-        <button id="btn-a4" onclick="switchAssessment('a4')">Assessment 4 — Investigations 3&amp;4</button>
+        <button id="btn-a2" class="active" onclick="switchAssessment('a2')">Investigation 1 (Week 3)</button>
+        <button id="btn-a3" onclick="switchAssessment('a3')">Investigation 2 (Week 7)</button>
+        <button id="btn-a4" onclick="switchAssessment('a4')">Investigation 3 &amp; 4 (Week 13)</button>
     </div>
 </div>
 
@@ -351,9 +351,9 @@ const DATA = {
 };
 
 const ASSESSMENT_LABELS = {
-    a2: "Assessment 2 — Investigation 1",
-    a3: "Assessment 3 — Investigation 2",
-    a4: "Assessment 4 — Investigations 3 & 4"
+    a2: "Investigation 1 (Week 3)",
+    a3: "Investigation 2 (Week 7)",
+    a4: "Investigation 3 & 4 (Week 13)"
 };
 
 let current = 'a2';
@@ -487,7 +487,7 @@ function renderFocusedAlt(assessmentId) {
     `;
 }
 
-// Deep-link support: #a2 opens the full Assessment 2 page.
+// Deep-link support: #a2 opens the full Investigation 1 page.
 // #a2-p3 opens a stripped-down single view of prompt 3.
 // #a2-alt opens a stripped-down single view of the Critical Analysis Alternative.
 function handleHash() {
