@@ -131,7 +131,8 @@ function renderMarkdown(md) {
             const joined = block.lines.join(' ');
             const videoId = youtubeEmbedId(joined.trim());
             if (videoId && joined.trim().match(/^https?:\/\/\S+$/)) {
-                html += `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
+                const url = joined.trim();
+                html += `<div class="video-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe><a class="print-video-link" href="${url}" target="_blank" rel="noopener">Watch: ${url}</a></div>`;
                 continue;
             }
             const isWhollyItalic = /^\*[^*]+\*$/.test(joined.trim());
@@ -175,12 +176,21 @@ function handleHash() {
     }, 50);
 }
 
+function addPrintButton() {
+    const btn = document.createElement('button');
+    btn.className = 'print-btn';
+    btn.textContent = 'Save as PDF';
+    btn.onclick = () => window.print();
+    document.body.insertBefore(btn, document.body.firstChild);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const source = document.getElementById('content');
     const target = document.getElementById('rendered');
     if (source && target) {
         target.innerHTML = renderMarkdown(source.textContent);
     }
+    addPrintButton();
     handleHash();
     window.addEventListener('hashchange', handleHash);
 });

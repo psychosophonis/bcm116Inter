@@ -104,6 +104,25 @@ a { color: #1f3864; }
     border: 0;
 }
 
+.print-video-link { display: none; }
+
+.print-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 9px 16px;
+    background: #1f3864;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    z-index: 1000;
+}
+.print-btn:hover { background: #162a4e; }
+
 .link-btn {
     flex-shrink: 0;
     background: none;
@@ -127,4 +146,26 @@ a { color: #1f3864; }
 
 @media (max-width: 600px) {
     body { padding: 14px; }
+    .print-btn { position: static; margin-bottom: 20px; display: block; }
+}
+
+@media print {
+    body { padding: 0; }
+    .back-link, .print-btn, .link-btn { display: none; }
+    .w-banner { background: none; padding: 0; }
+    #rendered h2, #rendered h3, #rendered h4 { page-break-after: avoid; }
+    .reflect-box, li { page-break-inside: avoid; }
+    .video-embed {
+        padding-top: 0;
+        background: none;
+        border-radius: 0;
+    }
+    .video-embed iframe { display: none; }
+    .print-video-link {
+        display: block;
+        position: static;
+        color: #1f3864;
+        font-size: 0.9em;
+        word-break: break-all;
+    }
 }
