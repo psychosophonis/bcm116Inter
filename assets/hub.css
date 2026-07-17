@@ -28,8 +28,7 @@ body {
 .top a:hover { color: var(--ink); }
 
 .hero {
-    padding: 18px 40px 36px;
-    border-bottom: 1px solid var(--ink);
+    padding: 18px 40px 28px;
 }
 .hero h1 {
     font-size: clamp(1.8em, 4vw, 2.4em);
@@ -44,6 +43,33 @@ body {
     color: var(--gray);
     margin-top: 10px;
     line-height: 1.5;
+}
+
+.ref-strip {
+    margin: 0 40px 36px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 2px 0;
+}
+.ref-strip .ref-strip-imgs {
+    display: flex;
+    gap: 2px;
+}
+.ref-strip img {
+    flex: 1;
+    min-width: 0;
+    height: 96px;
+    object-fit: cover;
+    display: block;
+}
+.ref-strip figcaption {
+    font-size: 0.72em;
+    color: var(--gray);
+    padding: 6px 0 4px;
+}
+
+@media (max-width: 620px) {
+    .ref-strip img { height: 56px; }
 }
 
 .rows { padding: 0 40px; }
