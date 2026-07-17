@@ -39,6 +39,19 @@
 
     .subtitle { font-size: 1em; color: var(--gray); margin-bottom: 16px; }
 
+    .ref-strip {
+        border-top: 1px solid var(--ink);
+        border-bottom: 1px solid var(--ink);
+        padding: 2px 0;
+        margin-bottom: 20px;
+    }
+    .ref-strip-imgs { display: flex; gap: 2px; }
+    .ref-strip img { flex: 1; min-width: 0; height: 90px; object-fit: cover; display: block; }
+    .ref-strip figcaption { font-size: 0.72em; color: var(--gray); padding: 6px 0 4px; }
+
+    @media print { .ref-strip { display: none; } }
+    @media (max-width: 600px) { .ref-strip img { height: 56px; } }
+
     .assessment-switcher {
         display: flex;
         flex-wrap: wrap;
@@ -297,6 +310,15 @@
 <div class="banner">
     <h1>BCM116 Assessment Prompts</h1>
     <p class="subtitle">Investigation project options — click a prompt to expand, or print for the full sheet.</p>
+    <figure class="ref-strip">
+        <div class="ref-strip-imgs">
+            <img src="assets/images/strip/strip-2-muybridge.webp" alt="Eadweard Muybridge motion study">
+            <img src="assets/images/strip/strip-melies-1.webp" alt="Early trick-film still">
+            <img src="assets/images/strip/strip-steps.webp" alt="Montage-cinema still, feet on steps">
+            <img src="assets/images/strip/strip-bladerunner-2.webp" alt="Blade Runner 2049 still">
+        </div>
+        <figcaption>Muybridge · Méliès · Eisenstein · sci-fi — precedents named across these prompts</figcaption>
+    </figure>
     <div class="assessment-switcher">
         <button id="btn-a2" class="active" onclick="switchAssessment('a2')">Investigation 1 (Week 3)</button>
         <button id="btn-a3" onclick="switchAssessment('a3')">Investigation 2 (Week 7)</button>

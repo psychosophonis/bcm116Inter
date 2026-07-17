@@ -38,6 +38,33 @@ a { color: var(--red); }
 .w-banner h1 { font-size: 1.9em; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 8px; }
 .w-banner .w-tagline { font-size: 0.98em; color: var(--gray); max-width: 62ch; }
 
+.ref-strip {
+    margin: 0 0 30px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 2px 0;
+}
+.ref-strip .ref-strip-imgs {
+    display: flex;
+    gap: 2px;
+}
+.ref-strip img {
+    flex: 1;
+    min-width: 0;
+    height: 96px;
+    object-fit: cover;
+    display: block;
+}
+.ref-strip figcaption {
+    font-size: 0.72em;
+    color: var(--gray);
+    padding: 6px 0 4px;
+}
+
+@media (max-width: 600px) {
+    .ref-strip img { height: 56px; }
+}
+
 #rendered h2 {
     display: flex;
     align-items: baseline;
@@ -160,7 +187,7 @@ a { color: var(--red); }
 
 @media print {
     body { padding: 0; }
-    .back-link, .print-btn, .link-btn { display: none; }
+    .back-link, .print-btn, .link-btn, .ref-strip { display: none; }
     .w-banner { border-bottom-color: var(--ink); }
     #rendered h2, #rendered h3, #rendered h4 { page-break-after: avoid; }
     .reflect-box, .aside, li { page-break-inside: avoid; }
