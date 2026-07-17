@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 Assessment Prompts</title>
+<style>
+    @page { size: A4; margin: 2cm; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        line-height: 1.6;
+        color: #1a1a1a;
+        background: white;
+        padding: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    h1 { font-size: 1.9em; margin-bottom: 4px; color: #1f3864; }
+
+    .banner {
+        background: #f2f2f2;
+        border-radius: 10px;
+        padding: 22px 24px 20px;
+        margin-bottom: 30px;
+    }
+
+    .subtitle { font-size: 1em; color: #666; margin-bottom: 16px; font-style: italic; }
+
+    .assessment-switcher {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        overflow: hidden;
+        width: fit-content;
+        background: white;
+    }
+
+    .assessment-switcher button {
+        padding: 8px 16px;
+        border: none;
+        background: #f5f5f5;
+        color: #555;
+        font-size: 0.85em;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .assessment-switcher button.active { background: #1f3864; color: white; }
+    .assessment-switcher button:not(:last-child) { border-right: 1px solid #ddd; }
+
+    .assessment-intro {
+        background: #f0f7fb;
+        border-left: 5px solid #3498db;
+        border-radius: 4px;
+        padding: 16px;
+        margin-bottom: 24px;
+        font-size: 0.95em;
+    }
+
+    .jump-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 28px;
+    }
+
+    .jump-nav a {
+        display: inline-block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        font-size: 0.8em;
+        color: #1f3864;
+        text-decoration: none;
+        background: white;
+    }
+    .jump-nav a:hover { background: #1f3864; color: white; }
+    .jump-nav a.alt-link {
+        width: auto;
+        border-radius: 15px;
+        padding: 0 12px;
+        font-size: 0.78em;
+    }
+
+    .prompt {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        overflow: hidden;
+        page-break-inside: avoid;
+    }
+
+    .prompt-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 18px;
+        cursor: pointer;
+        background: #fafafa;
+        user-select: none;
+    }
+
+    .prompt-header:hover { background: #f0f0f0; }
+
+    .prompt-number {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        border-radius: 50%;
+        background: #1f3864;
+        color: white;
+        font-size: 0.85em;
+        font-weight: 700;
+    }
+
+    .prompt-summary {
+        flex: 1;
+        font-size: 0.95em;
+        font-weight: 600;
+        color: #1a1a1a;
+    }
+
+    .prompt-caret {
+        flex-shrink: 0;
+        font-size: 0.75em;
+        color: #999;
+        transition: transform 0.15s;
+    }
+
+    .prompt.open .prompt-caret { transform: rotate(90deg); }
+
+    .prompt-body {
+        display: none;
+        padding: 4px 18px 18px 58px;
+    }
+
+    .prompt.open .prompt-body { display: block; }
+
+    .prompt-text {
+        font-size: 0.95em;
+        color: #1a1a1a;
+        margin-bottom: 14px;
+    }
+
+    .resources {
+        background: #f7f7f7;
+        border-left: 4px solid #cbb677;
+        border-radius: 4px;
+        padding: 12px 14px;
+        font-size: 0.85em;
+    }
+
+    .resources .resources-label {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.8em;
+        color: #8a7237;
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    .resources .empty { color: #999; font-style: italic; }
+    .resources ul { padding-left: 18px; }
+    .resources li { margin-bottom: 4px; }
+
+    .alt-block {
+        border: 1px dashed #bbb;
+        border-radius: 8px;
+        padding: 16px 18px;
+        margin-top: 20px;
+        background: #fcfcfa;
+    }
+
+    .alt-block .alt-title {
+        font-weight: 700;
+        color: #1f3864;
+        font-size: 0.95em;
+        margin-bottom: 8px;
+    }
+
+    .controls {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+        z-index: 1000;
+    }
+
+    .controls button {
+        display: block;
+        width: 100%;
+        padding: 8px 14px;
+        margin-bottom: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: white;
+        font-size: 0.82em;
+        cursor: pointer;
+        color: #333;
+    }
+    .controls button:last-child { margin-bottom: 0; }
+    .controls button.primary { background: #1f3864; color: white; border-color: #1f3864; }
+
+    @media print {
+        body { padding: 0; }
+        .controls, .assessment-switcher, .jump-nav, .prompt-caret { display: none; }
+        .banner { background: none; padding: 0; }
+        .prompt-body { display: block !important; }
+        .prompt-header { cursor: default; background: none; }
+        .prompt { page-break-inside: avoid; border: 1px solid #ccc; }
+        #content-container > div[data-assessment] { display: block !important; }
+        .assessment-section:not(.print-current) { display: none !important; }
+    }
+
+    @media (max-width: 600px) {
+        .controls { position: static; margin-bottom: 20px; }
+        .prompt-body { padding-left: 18px; }
+    }
+</style>
+</head>
+<body>
+
+<div class="controls">
+    <button onclick="expandAll()">Expand all</button>
+    <button onclick="collapseAll()">Collapse all</button>
+    <button class="primary" onclick="window.print()">Save as PDF</button>
+</div>
+
+<div class="banner">
+    <h1>BCM116 Assessment Prompts</h1>
+    <p class="subtitle">Investigation project options — click a prompt to expand, or print for the full sheet.</p>
+    <div class="assessment-switcher">
+        <button id="btn-a2" class="active" onclick="switchAssessment('a2')">Assessment 2 — Investigation 1</button>
+        <button id="btn-a3" onclick="switchAssessment('a3')">Assessment 3 — Investigation 2</button>
+        <button id="btn-a4" onclick="switchAssessment('a4')">Assessment 4 — Investigations 3&amp;4</button>
+    </div>
+</div>
+
+<div id="content-container"></div>
+
+<script>
+const DATA = {
+    a2: {
+        intro: "Choose a non-veridical device — one that produces an experience of motion, depth, or wonder that has no direct correlate in the world, in the tradition of the optical devices Jonathan Crary discusses in <em>Techniques of the Observer</em>. Look at how other creatives have worked with it, then explore its technical affordances creatively: try things, follow what surprises you, make again. Present your work for an audience to experience.<br><br>Include a reflective statement (200–300 words) drawing on <em>Techniques of the Observer</em> to account for what the apparatus revealed through your research and making — in your own words, from your own experience.<br><br>Share your experiments on Discord as you go; this will be considered evidence of creative research practice.",
+        prompts: [
+            { summary: "Thaumatrope series (3)", text: "Create a series of 3 thaumatropes that effectively uses a related theme, meaning, or aesthetic by exploiting the particular affordances of the artefact, as discussed in lectures and in Crary's <em>Techniques of the Observer</em>. Experiments crossing analog and digital are encouraged." },
+            { summary: "Phenakistoscope", text: "Create a phenakistoscope that exploits the constraints and affordances of the artefact to produce a meaning or aesthetic. Experiments crossing analog and digital are encouraged." },
+            { summary: "Flipbook (60+ frames)", text: "Create a flipbook of at least 60 frames that exploits the constraints and affordances of the artefact and places it in the context of Crary's <em>Techniques of the Observer</em>. (See Andymation's excellent resources and examples of extraordinary flipbooks.) Experiments crossing analog and digital are encouraged." },
+            { summary: "16mm scratch cinema", text: "Create an experimental scratch cinema project using 16mm film and the techniques explored in class." },
+            { summary: "The 'kaleidoscopic'", text: "Create a work that uses the 'kaleidoscopic' to produce a novel aesthetic, meaning, or experience. This is a self-directed exercise requiring interpretation of the term 'kaleidoscopic' in the context of Crary's <em>Techniques of the Observer</em>. Vibe-coded generative visualisations are a possible vector here, but raise the bar in terms of aesthetic refinement, novelty, and critical engagement with both the code and the output. You could also build a physical kaleidoscope, if you can source and cut mirrors." },
+            { summary: "Stereograph series", text: "Create a series of manually constructed stereographs that use a theme, meaning, or aesthetic by exploiting the particular affordances of the artefact, as discussed in lectures and in Crary's <em>Techniques of the Observer</em>." },
+            { summary: "openBrush immersive experience", text: "Use openBrush to create an immersive experience that tells a coherent story, addresses a theme, or otherwise uses the constraints and affordances of the medium to create a meaningful experience. (Be aware this is a difficult challenge given the limits of the tool and medium.)" }
+        ],
+        alt: {
+            title: "Critical Analysis Alternative",
+            text: "Produce an 1800-word critical and technical analysis of one of the listed VR works: <em>Dear Angelica</em>, <em>Notes on Blindness</em>, <em>On the Morning You Wake (to the End of the World)</em>, <em>We Live Here</em>. Use close reading of the text to place it in the context of Crary's <em>Techniques of the Observer</em>, and extend that analysis with reference to at least two other critical or academic sources. What strategies does the work use to produce an immersive experience? Is it successful — where and how, and where not, and why? What creative possibilities does the work present?"
+        },
+        citation: "Crary, J 1988, 'Techniques of the observer', <em>October</em>, vol. 45, pp. 3–35, https://doi.org/10.2307/779041."
+    },
+
+    a3: {
+        intro: "",
+        prompts: [
+            { summary: "Reanimating Muybridge", text: "Create a film/visual poem that reanimates Muybridge's motion studies, using their technical abstraction of space and time. Return them to a new space, time, or context — creatively or provocatively." },
+            { summary: "Analog/digital mix", text: "Create a film/visual poem that mixes analog and digital to creative effect — printing and resampling, montage, scratch, material play, stop-motion, animation, time sampling, or photomontage. It should have a clear reason for being: a theme, aesthetic, or idea it addresses." },
+            { summary: "Eisenstein montage study", text: "Produce a creative study of one of Eisenstein's theories of montage (Metric, Rhythmic, Tonal, Overtonal, Intellectual) that communicates an idea or feeling relevant to this time and place." },
+            { summary: "Méliès trick film", text: "Create a trick film that updates Méliès' magic to novel aesthetic or narrative effect. For it to work as magic, it needs to surprise its audience — avoid generic replays of social media phenomena." },
+            { summary: "Continuity editing scene", text: "Investigate the magic of continuity editing by creating a single-scene film with two or three characters, an object, and a space. Use sound, composition, and movement to give the scene dynamism, and Harmon's Story Circle to ensure the character 'returns having changed.'" },
+            { summary: "Discontinuity / misuse of continuity", text: "Use — and misuse — the magic of continuity cinema to build an absurd, surreal, or discontinuous world. Use discontinuity to say something interesting, or to communicate an idea or feeling." },
+            { summary: "Sound + stills sci-fi (La Jetée)", text: "Use sound and stills to create a science-fiction film inspired by Chris Marker's <em>La Jetée</em>. You may sample or resample visual media in the style of Soda Jerk, Tracey Moffatt, or Christian Marclay's <em>The Clock</em>, as long as the sound design and narrative/theme are original and substantial." },
+            { summary: "Scale reconfiguring time/space", text: "Use scale — visual or aural — to reconfigure our perception of time and space: find new rhythms and aesthetics, or recover forgotten relationships." },
+            { summary: "Sound design horror", text: "Use the techniques of cinematic sound design to turn a familiar or everyday space into an immersive horror film or poem. Generic liminal-space horror already has its defining example — don't remake it. Bonus points if something is thematically at stake." }
+        ],
+        alt: {
+            title: "Critical Analysis Alternative",
+            text: "Write an 1800-word critical analysis of a film that, in your view, uses interesting strategies of immersion. Close-read the film's use of those strategies and techniques, with reference to at least two critical or academic sources. Illustrate your argument with frame references."
+        },
+        citation: ""
+    },
+
+    a4: {
+        intro: "Pick one prompt below for Investigation 3 and a different one for Investigation 4 — or pitch a single combined or group project of double length covering both.",
+        prompts: [
+            { summary: "Body, signal, screen (Turvey et al.)", text: "Create a work that stages the relationship between the viewer's body, the signal, and the screen. Draw on Turvey et al.'s discussion, and on the work of Anthony McCall, Malcolm Le Grice, Guy Sherwin, or Lis Rhodes." },
+            { summary: "Synchrony of light and sound", text: "Create a work that uses synchrony of light and sound to produce immersive projections. Lis Rhodes and Ryoji Ikeda are useful reference points, or combine music and video in the style of Michel Gondry's music videos." },
+            { summary: "Camera movement (Daniel Crooks)", text: "Create a single large-screen or projection work that uses camera movement to complicate the relationship between body, screen, and subject, as Daniel Crooks does." },
+            { summary: "360° storytelling / poetic montage", text: "Build a piece of storytelling or poetic montage for 360° video, using YouTube 360. Extend the Week 2 technique into 360° space, and use sound to help tell the story." },
+            { summary: "Sound work / walk", text: "Create a sound work or walk that remodulates our experience of space, or of other people within that space. Change how we see a space, or each other, having experienced the work." },
+            { summary: "Two-screen work", text: "Create a two-screen work that tests the relationship between the screens and the viewer's body. Draw on what you've learned about continuity editing and montage, and on how the screen mediates perception — extend those methods across multiple screens, or work the strange non-space between them." },
+            { summary: "360° video storytelling across space", text: "Use 360° video to place the viewer at the centre of multiple frames, and tell a story around or across that space. Continuity editing naturalises a fixed viewing position — what techniques does storytelling need across 360° of freedom?" },
+            { summary: "Projection ↔ object transformation", text: "Use projection to transform an object, or an object to transform a projection, to generate a novel aesthetic, thematic, or conceptual outcome." },
+            { summary: "Procedural generation / repetition", text: "Use repetition, procedural generation (including code, hand-written or 'vibe-coded'), and difference to produce emergent, relational qualities across frames arrayed in space or time." },
+            { summary: "Computation / code-generated experience", text: "Use computation or code to generate a novel aesthetic, thematic, or conceptual experience — through vibe-coding, machine input, or other generative interaction between screen and viewer." }
+        ],
+        alt: {
+            title: "Critical Analysis Alternative",
+            text: "Write a 2500-word critical analysis of the catalogue or body of work of a contemporary media artist whose practice you identify as immersive. What does this body of work tell us about the quality, or the potential, of immersion?"
+        },
+        citation: ""
+    }
+};
+
+let current = 'a2';
+
+function switchAssessment(id) {
+    current = id;
+    ['a2','a3','a4'].forEach(a => document.getElementById('btn-' + a).classList.toggle('active', a === id));
+    render();
+    if (history.replaceState) history.replaceState(null, '', '#' + id);
+}
+
+function togglePrompt(el) {
+    el.parentElement.classList.toggle('open');
+}
+
+function expandAll() {
+    document.querySelectorAll('#content-container .prompt').forEach(p => p.classList.add('open'));
+}
+function collapseAll() {
+    document.querySelectorAll('#content-container .prompt').forEach(p => p.classList.remove('open'));
+}
+
+function render() {
+    const data = DATA[current];
+
+    const jumpLinks = data.prompts.map((p, i) =>
+        `<a href="#prompt-${i}">${i + 1}</a>`
+    ).join('') + `<a class="alt-link" href="#alt">Critical Analysis Alt.</a>`;
+
+    const introHTML = data.intro
+        ? `<div class="assessment-intro">${data.intro}</div>`
+        : '';
+
+    const promptsHTML = data.prompts.map((p, i) => `
+        <div class="prompt" id="prompt-${i}">
+            <div class="prompt-header" onclick="togglePrompt(this)">
+                <span class="prompt-number">${i + 1}</span>
+                <span class="prompt-summary">${p.summary}</span>
+                <span class="prompt-caret">▶</span>
+            </div>
+            <div class="prompt-body">
+                <p class="prompt-text">${p.text}</p>
+                <div class="resources">
+                    <span class="resources-label">Additional resources</span>
+                    <span class="empty">None added yet.</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    const altHTML = `
+        <div class="alt-block" id="alt">
+            <div class="alt-title">${data.alt.title}</div>
+            <p class="prompt-text">${data.alt.text}</p>
+            <div class="resources">
+                <span class="resources-label">Additional resources</span>
+                <span class="empty">None added yet.</span>
+            </div>
+        </div>`;
+
+    const citationHTML = data.citation
+        ? `<p style="font-size:0.8em; color:#888; margin-top:20px;">${data.citation}</p>`
+        : '';
+
+    document.getElementById('content-container').innerHTML = `
+        <div class="jump-nav">${jumpLinks}</div>
+        ${introHTML}
+        ${promptsHTML}
+        ${altHTML}
+        ${citationHTML}
+    `;
+}
+
+render();
+
+// Deep-link support: #a2 opens Assessment 2 overview.
+// #a2-p3 opens Assessment 2 and expands/scrolls to prompt 3.
+// #a2-alt opens Assessment 2 and scrolls to the Critical Analysis Alternative.
+function handleHash() {
+    const h = window.location.hash.replace('#', '');
+    const match = h.match(/^(a2|a3|a4)(?:-(p\d+|alt))?$/);
+    if (!match) return;
+
+    const assessment = match[1];
+    const target = match[2];
+    if (assessment !== current) {
+        switchAssessment(assessment);
+    }
+
+    if (target === 'alt') {
+        setTimeout(() => { const el = document.getElementById('alt'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 50);
+    } else if (target && target.startsWith('p')) {
+        const idx = parseInt(target.slice(1), 10) - 1;
+        setTimeout(() => {
+            const el = document.getElementById('prompt-' + idx);
+            if (el) {
+                el.classList.add('open');
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 50);
+    }
+}
+
+handleHash();
+window.addEventListener('hashchange', handleHash);
+</script>
+</body>
+</html>
