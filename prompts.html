@@ -109,12 +109,7 @@
         background: white;
     }
     .jump-nav a:hover { background: var(--red); border-color: var(--red); color: white; }
-    .jump-nav a.alt-link {
-        width: auto;
-        border-radius: 15px;
-        padding: 0 12px;
-        font-size: 0.78em;
-    }
+    .jump-nav a.jump-alt { border-color: var(--red); color: var(--red); }
 
     .prompt {
         border: 1px solid var(--line);
@@ -147,6 +142,8 @@
         font-size: 0.85em;
         font-weight: 700;
     }
+
+    .prompt-number.alt-number { background: var(--red); }
 
     .prompt-summary {
         flex: 1;
@@ -197,21 +194,9 @@
 
     .resources .empty { color: #999; font-style: italic; }
     .resources ul { padding-left: 18px; }
-    .resources li { margin-bottom: 4px; }
-
-    .alt-block {
-        border: 1px dashed #bbb;
-        padding: 16px 18px;
-        margin-top: 20px;
-        background: #fcfcfa;
-    }
-
-    .alt-block .alt-title {
-        font-weight: 700;
-        color: var(--ink);
-        font-size: 0.95em;
-        margin-bottom: 8px;
-    }
+    .resources li { margin-bottom: 6px; }
+    .resources a { color: var(--ink); font-weight: 600; }
+    .resources a:hover { color: var(--red); }
 
     .controls {
         position: fixed;
@@ -278,8 +263,6 @@
     .link-btn:hover { background: #eee; color: var(--red); }
     .link-btn.copied { color: #27ae60; }
 
-    .alt-title-row { display: flex; align-items: center; justify-content: space-between; }
-
     body.is-focused .banner { display: none; }
     body.is-focused .controls { display: none; }
 
@@ -333,12 +316,33 @@ const DATA = {
     a2: {
         intro: "Choose a non-veridical device — one that produces an experience of motion, depth, or wonder that has no direct correlate in the world, in the tradition of the optical devices Jonathan Crary discusses in <em>Techniques of the Observer</em>. Look at how other creatives have worked with it, then explore its technical affordances creatively: try things, follow what surprises you, make again. Present your work for an audience to experience.<br><br>Include a reflective statement (200–300 words) drawing on <em>Techniques of the Observer</em> to account for what the apparatus revealed through your research and making — in your own words, from your own experience.<br><br>Share your experiments on Discord as you go; this will be considered evidence of creative research practice.",
         prompts: [
-            { summary: "Thaumatrope series (3)", text: "Create a series of 3 thaumatropes that effectively uses a related theme, meaning, or aesthetic by exploiting the particular affordances of the artefact, as discussed in lectures and in Crary's <em>Techniques of the Observer</em>. Experiments crossing analog and digital are encouraged." },
-            { summary: "Phenakistoscope", text: "Create a phenakistoscope that exploits the constraints and affordances of the artefact to produce a meaning or aesthetic. Experiments crossing analog and digital are encouraged." },
-            { summary: "Flipbook (60+ frames)", text: "Create a flipbook of at least 60 frames that exploits the constraints and affordances of the artefact and places it in the context of Crary's <em>Techniques of the Observer</em>. (See Andymation's excellent resources and examples of extraordinary flipbooks.) Experiments crossing analog and digital are encouraged." },
+            { summary: "Thaumatrope series (3)", text: "Create a series of 3 thaumatropes that effectively uses a related theme, meaning, or aesthetic by exploiting the particular affordances of the artefact, as discussed in lectures and in Crary's <em>Techniques of the Observer</em>. Experiments crossing analog and digital are encouraged.",
+              resources: [
+                  { title: "Thaumatrope example (image-combination)", url: "https://vimeo.com/140613497", note: "Combines two separate images into a single blended face — the classic thaumatrope move." },
+                  { title: "Thaumatrope example (motion effect)", url: "https://vimeo.com/164274501", note: "Leans on the trope's potential for a felt sense of animation, rather than image-combination — a different poetic use of the same device." },
+                  { title: "Thaumatrope example", url: "https://vimeo.com/54251291", note: "Further example for reference." }
+              ] },
+            { summary: "Phenakistoscope", text: "Create a phenakistoscope that exploits the constraints and affordances of the artefact to produce a meaning or aesthetic. Experiments crossing analog and digital are encouraged.",
+              resources: [
+                  { title: "PHENAKISTOSCOPE — Tribute to Joseph Plateau", url: "https://www.youtube.com/watch?v=UqwkdlwmHig", note: "Short history of the device and its inventor." },
+                  { title: "The forgotten art of the zoetrope (Eric Dyer)", url: "https://www.youtube.com/watch?v=_B9A3J70IPQ", note: "An animator's practice built around the zoetrope — usable as an alternative device for this prompt." },
+                  { title: "Phénakistiscope, in colour", url: "https://vimeo.com/61973009", note: "Example disc." },
+                  { title: "Embroidered Zoetrope", url: "https://vimeo.com/133396066", note: "A textile/embroidery-based zoetrope — crossing craft and optical animation." },
+                  { title: "Lecaudé — Circles", url: "https://vimeo.com/158149385", note: "Example disc/cylinder animation." },
+                  { title: "BLOOMS 2: Strobe Animated Sculptures (John Edmark)", url: "https://vimeo.com/198605915", note: "Kinetic sculptures animated by strobe + rotation — adjacent logic to the phenakistoscope/zoetrope, worth seeing for the same underlying principle in a different form." },
+                  { title: "72 Dancers", url: "https://vimeo.com/274628683", note: "Example disc/cylinder animation." },
+                  { title: "Phenakistoscope/zoetrope example", url: "https://vimeo.com/28478552", note: "Further example for reference." }
+              ] },
+            { summary: "Flipbook (60+ frames)", text: "Create a flipbook of at least 60 frames that exploits the constraints and affordances of the artefact and places it in the context of Crary's <em>Techniques of the Observer</em>. (See Andymation's excellent resources and examples of extraordinary flipbooks.) Experiments crossing analog and digital are encouraged.",
+              resources: [
+                  { title: "Andymation flipbook showcase", url: "https://www.andymation.com/showcase", note: "Fan-submitted flipbook animations from the Andymation community — a good sense of range and ambition." },
+                  { title: "Flipboku shop", url: "https://flipboku.com/collections/all", note: "Commercially produced flipbooks (nature, space, artist collaborations) — useful for production quality and framing reference, not just technique." },
+                  { title: "Andymation Compilation // My Best Flipbooks", url: "https://www.youtube.com/watch?v=ntD2qiGx-DY", note: "Compilation of standout flipbook work." },
+                  { title: "How to MAKE A FLIPBOOK", url: "https://www.youtube.com/watch?v=Un-BdBSOGKY&t=140s", note: "Technique walkthrough, linked to start at 2:20." },
+                  { title: "Flip Book Generator (this course's tool)", url: "https://psychosophonis.github.io/frame-animation-tools/flipbook-generator.html", note: "Turns a folder of numbered frames into a print-ready, cut-and-assemble flipbook PDF." },
+                  { title: "Using Photoshop's Animation Tools", url: "resources/using-photoshops-animation-tools.html", note: "How to get frames out of Photoshop (Timeline / Video Frames to Layers) and into the generator above." }
+              ] },
             { summary: "16mm scratch cinema", text: "Create an experimental scratch cinema project using 16mm film and the techniques explored in class." },
-            { summary: "The 'kaleidoscopic'", text: "Create a work that uses the 'kaleidoscopic' to produce a novel aesthetic, meaning, or experience. This is a self-directed exercise requiring interpretation of the term 'kaleidoscopic' in the context of Crary's <em>Techniques of the Observer</em>. Vibe-coded generative visualisations are a possible vector here, but raise the bar in terms of aesthetic refinement, novelty, and critical engagement with both the code and the output. You could also build a physical kaleidoscope, if you can source and cut mirrors." },
-            { summary: "Stereograph series", text: "Create a series of manually constructed stereographs that use a theme, meaning, or aesthetic by exploiting the particular affordances of the artefact, as discussed in lectures and in Crary's <em>Techniques of the Observer</em>." },
             { summary: "openBrush immersive experience", text: "Use openBrush to create an immersive experience that tells a coherent story, addresses a theme, or otherwise uses the constraints and affordances of the medium to create a meaningful experience. (Be aware this is a difficult challenge given the limits of the tool and medium.)" }
         ],
         alt: {
@@ -434,12 +438,19 @@ function collapseAll() {
     document.querySelectorAll('#content-container .prompt').forEach(p => p.classList.remove('open'));
 }
 
+function renderResources(list) {
+    if (!list || !list.length) return `<span class="empty">None added yet.</span>`;
+    return '<ul>' + list.map(r =>
+        `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a> — ${r.note}</li>`
+    ).join('') + '</ul>';
+}
+
 function render() {
     const data = DATA[current];
 
     const jumpLinks = data.prompts.map((p, i) =>
         `<a href="#prompt-${i}">${i + 1}</a>`
-    ).join('') + `<a class="alt-link" href="#alt">Critical Analysis Alt.</a>`;
+    ).join('') + `<a href="#alt" class="jump-alt">${data.prompts.length + 1}</a>`;
 
     const introHTML = data.intro
         ? `<div class="assessment-intro">${data.intro}</div>`
@@ -457,22 +468,26 @@ function render() {
                 <p class="prompt-text">${p.text}</p>
                 <div class="resources">
                     <span class="resources-label">Additional resources</span>
-                    <span class="empty">None added yet.</span>
+                    ${renderResources(p.resources)}
                 </div>
             </div>
         </div>
     `).join('');
 
     const altHTML = `
-        <div class="alt-block" id="alt">
-            <div class="alt-title-row">
-                <div class="alt-title">${data.alt.title}</div>
+        <div class="prompt" id="alt">
+            <div class="prompt-header" onclick="togglePrompt(this)">
+                <span class="prompt-number alt-number">${data.prompts.length + 1}</span>
+                <span class="prompt-summary">${data.alt.title}</span>
                 <button class="link-btn" title="Copy link to this alternative" onclick="copyLink(event, '${current}-alt')">🔗</button>
+                <span class="prompt-caret">▶</span>
             </div>
-            <p class="prompt-text">${data.alt.text}</p>
-            <div class="resources">
-                <span class="resources-label">Additional resources</span>
-                <span class="empty">None added yet.</span>
+            <div class="prompt-body">
+                <p class="prompt-text">${data.alt.text}</p>
+                <div class="resources">
+                    <span class="resources-label">Additional resources</span>
+                    ${renderResources(data.alt.resources)}
+                </div>
             </div>
         </div>`;
 
@@ -504,7 +519,7 @@ function renderFocusedPrompt(assessmentId, idx) {
                 <p class="prompt-text">${p.text}</p>
                 <div class="resources">
                     <span class="resources-label">Additional resources</span>
-                    <span class="empty">None added yet.</span>
+                    ${renderResources(p.resources)}
                 </div>
             </div>
         </div>
@@ -516,12 +531,17 @@ function renderFocusedAlt(assessmentId) {
     document.getElementById('content-container').innerHTML = `
         <a class="back-link" href="prompts.html#${assessmentId}">← All prompts for ${ASSESSMENT_LABELS[assessmentId]}</a>
         <div class="focused-breadcrumb">${ASSESSMENT_LABELS[assessmentId]} · Critical Analysis Alternative</div>
-        <div class="alt-block">
-            <div class="alt-title">${data.alt.title}</div>
-            <p class="prompt-text">${data.alt.text}</p>
-            <div class="resources">
-                <span class="resources-label">Additional resources</span>
-                <span class="empty">None added yet.</span>
+        <div class="prompt open">
+            <div class="prompt-header" style="cursor: default;">
+                <span class="prompt-number alt-number">${data.prompts.length + 1}</span>
+                <span class="prompt-summary">${data.alt.title}</span>
+            </div>
+            <div class="prompt-body" style="display: block;">
+                <p class="prompt-text">${data.alt.text}</p>
+                <div class="resources">
+                    <span class="resources-label">Additional resources</span>
+                    ${renderResources(data.alt.resources)}
+                </div>
             </div>
         </div>
     `;

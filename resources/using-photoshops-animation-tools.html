@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 — Using Photoshop's Animation Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/content.css">
+</head>
+<body>
+
+<a class="back-link" href="index.html">← All learning resources</a>
+
+<div class="w-banner">
+    <h1>Using Photoshop's Animation Tools</h1>
+    <p class="w-tagline">Two browser-based print tools, plus a Photoshop workflow for altering frames by hand before they get there. Moving between analogue and digital media, and mixing them so they animate — literally and figuratively — each other.</p>
+</div>
+
+<figure class="ref-strip">
+    <div class="ref-strip-imgs">
+        <img src="../assets/images/strip/strip-muybridge-r2.webp" alt="Eadweard Muybridge motion study frame">
+        <img src="../assets/images/strip/strip-4-drawing.webp" alt="Hand-drawn animation frame">
+        <img src="../assets/images/strip/strip-melies-1.webp" alt="Early trick-film still">
+    </div>
+    <figcaption>Muybridge · hand-drawn frames · early trick film</figcaption>
+</figure>
+
+<div id="rendered"></div>
+
+<script type="text/markdown" id="content">
+There's a lot of expressive and aesthetic possibility in moving between analogue and digital media, and in mixing them so they animate — literally and figuratively — each other. This guide covers a set of custom browser tools plus a Photoshop workflow that support that kind of movement.
+
+## The Browser Tools
+
+Two browser-based tools let you take a folder of shot frames and turn them into either a **phenakistoscope** disc or a **flipbook**. Both run entirely client-side — nothing is uploaded anywhere — and both export a print-ready PDF, which you then cut out and assemble by hand. Full toolset: [psychosophonis.github.io/frame-animation-tools](https://psychosophonis.github.io/frame-animation-tools/).
+
+**[The Phenakistoscope Tool](https://psychosophonis.github.io/frame-animation-tools/phenakistoscope-generator.html):**
+Drop in a folder of numbered frames and it lays them out radially around a spinning disc, one wedge per printed page. Click a registration point that should stay fixed across every frame — a pivot, a joint, a fixed point on a rig — set a zoom, and that same crop is applied all the way round. Set how many divisions (segments) the disc has; 8 is the practical minimum for the illusion to read when spun, and there's no fixed maximum. A live preview flags overlapping frames and renders the full assembled disc before you print, and output splits across multiple sheets automatically if the disc is too large for one page — cut out the wedges and assemble around a shared centre point. The tool also has a blank mode: concentric ring templates, each ring with its own division count, for hand-drawing or collage directly onto guide lines with no photos involved. Because a phenakistoscope is viewed through a mirror while spinning, always print and test one wedge before committing a full sheet.
+
+**[The Flipbook Tool](https://psychosophonis.github.io/frame-animation-tools/flipbook-generator.html):**
+Drop in a folder of numbered frames and it imposes them four-up on A4 sheets sized to cut into A6 cards, with crop marks, borders and frame numbers so the stack cuts and reassembles in the right order. As with the disc tool, you pick a registration point that stays fixed across every frame so the flip reads cleanly, and choose between "contain" (whole frame, letterboxed) or "cover" (cropped to fill). A built-in flip-through preview lets you check the sequence reads correctly before printing, and there's an option to reverse play direction or choose bulk stack-cutting vs. cutting one sheet at a time.
+
+If you're making a phenakistoscope, you can also export it as a PNG from the tool and test the spin digitally at [phenaspin.com](https://phenaspin.com), a phenakistoscope simulator.
+
+The phenakistoscope tool also lets you print blank templates — with single or multi-ring guidelines at various sizes — for hand-drawn or collage experiments.
+
+## Photoshop's Timeline Feature
+
+The tools above expect a folder of frames as their starting point. Photoshop's Timeline feature is where you can make those frames in the first place, and — more usefully — where you can alter them by hand before they ever reach a generator. It's a powerful way to experiment with flash and re-animation techniques: import video frames as separate Photoshop layers, then step through those layers in the Animation Timeline, drawing, painting, or erasing on individual frames with the full range of Photoshop's tools — added marks, scratch textures, colour shifts, whatever the piece calls for. You can then export the finished timeline as a video, an animated GIF, or as numbered frames to feed into the Phenakistoscope or Flipbook tool above.
+
+### Importing video as layers
+
+1. Open the Timeline panel: **Window > Timeline**
+2. **File > Import > Video Frames to Layers**
+3. Step through the frames one by one. To paint or draw on a given frame, make sure its corresponding layer is also selected in the Layers panel.
+4. Alter the frame.
+5. Move to the next frame and repeat until complete.
+
+### Exporting your animation
+
+Once you've worked through your frame sequence, you have three export options:
+
+- **As a GIF:** **File > Export > Save for Web**, choose GIF format, and set the animation loop option (bottom of the window) to **Forever**.
+- **As a video:** **File > Export > Render Video**, then choose the appropriate export settings.
+- **As individual frames** (for further manipulation, or for use in the Phenakistoscope or Flipbook tools): **File > Export > Layers to Files**, then choose your options. Photoshop will output all frames as JPGs into a folder.
+
+To bring exported frames into the Phenakistoscope or Flipbook tool, open the tool and point it at that folder.
+</script>
+
+<script src="../assets/content.js"></script>
+</body>
+</html>
