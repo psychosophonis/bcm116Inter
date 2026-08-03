@@ -69,6 +69,13 @@ function renderMarkdown(md) {
             continue;
         }
 
+        const imgMatch = trimmed.match(/^!\[([^\]]*)\]\(([^\s)]+)\)$/);
+        if (imgMatch) {
+            flush();
+            blocks.push({ type: 'img', alt: imgMatch[1], src: imgMatch[2] });
+            continue;
+        }
+
         const ulMatch = trimmed.match(/^[-*]\s+(.*)$/);
         const olMatch = trimmed.match(/^\d+\.\s+(.*)$/);
         const bqMatch = trimmed.match(/^>\s?(.*)$/);
@@ -101,7 +108,7 @@ function renderMarkdown(md) {
     let olCanContinue = false;
 
     for (const block of blocks) {
-        if (block.type !== 'ol' && block.type !== 'ul') {
+        if (block.type !== 'ol' && block.type !== 'ul' && block.type !== 'img') {
             olRunningCount = 0;
             olCanContinue = false;
         }
@@ -127,6 +134,12 @@ function renderMarkdown(md) {
 
         if (block.type === 'hr') {
             html += '<hr>';
+            continue;
+        }
+
+        if (block.type === 'img') {
+            const caption = block.alt ? `<figcaption>${inlineFormat(block.alt)}</figcaption>` : '';
+            html += `<figure class="content-img"><img src="${block.src}" alt="${escapeHTML(block.alt)}" loading="lazy">${caption}</figure>`;
             continue;
         }
 

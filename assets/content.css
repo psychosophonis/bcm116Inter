@@ -115,6 +115,21 @@ a { color: var(--red); }
     margin: 26px 0;
 }
 
+.content-img {
+    margin: 4px 0 20px;
+}
+.content-img img {
+    display: block;
+    max-width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+}
+.content-img figcaption {
+    font-size: 0.8em;
+    color: var(--gray);
+    padding: 6px 2px 0;
+}
+
 .reflect-box {
     background: #f4f6f8;
     border-left: 3px solid #8a97a3;
