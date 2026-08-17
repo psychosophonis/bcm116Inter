@@ -375,15 +375,40 @@ const DATA = {
     a3: {
         intro: "",
         prompts: [
-            { summary: "Reanimating Muybridge", text: "Create a film/visual poem that reanimates Muybridge's motion studies, using their technical abstraction of space and time. Return them to a new space, time, or context — creatively or provocatively." },
+            { summary: "Reanimating Muybridge", text: "Create a film/visual poem that reanimates Muybridge's motion studies, using their technical abstraction of space and time. Return them to a new space, time, or context — creatively or provocatively.",
+              resources: [
+                  { title: "Lecture Two", note: "Muybridge and the Zoopraxiscope, full history, plus the 'successive differences' framing this prompt draws on." },
+                  { title: "Lecture Three", note: "Explicit pointer forward to this prompt — 'this kind of work... could fold into Week 7's Investigation 2, where you'll find explicit prompts exploring Muybridge.'" }
+              ] },
             { summary: "Analog/digital mix", text: "Create a film/visual poem that mixes analog and digital to creative effect — printing and resampling, montage, scratch, material play, stop-motion, animation, time sampling, or photomontage. It should have a clear reason for being: a theme, aesthetic, or idea it addresses." },
-            { summary: "Eisenstein montage study", text: "Produce a creative study of one of Eisenstein's theories of montage (Metric, Rhythmic, Tonal, Overtonal, Intellectual) that communicates an idea or feeling relevant to this time and place." },
-            { summary: "Méliès trick film", text: "Create a trick film that updates Méliès' magic to novel aesthetic or narrative effect. For it to work as magic, it needs to surprise its audience — avoid generic replays of social media phenomena." },
-            { summary: "Continuity editing scene", text: "Investigate the magic of continuity editing by creating a single-scene film with two or three characters, an object, and a space. Use sound, composition, and movement to give the scene dynamism, and Harmon's Story Circle to ensure the character 'returns having changed.'" },
-            { summary: "Discontinuity / misuse of continuity", text: "Use — and misuse — the magic of continuity cinema to build an absurd, surreal, or discontinuous world. Use discontinuity to say something interesting, or to communicate an idea or feeling." },
+            { summary: "Eisenstein montage study", text: "Produce a creative study of one of Eisenstein's theories of montage (Metric, Rhythmic, Tonal, Overtonal, Intellectual) that communicates an idea or feeling relevant to this time and place.",
+              resources: [
+                  { title: "Lecture Two", note: "Full breakdown of Eisenstein's five methods of montage — Metric, Rhythmic, Tonal, Overtonal, Intellectual — with a 'try this' prompt for each." },
+                  { title: "Week 5 post-workshop video", note: "Chloé Zhao's Nomadland worked through as an example of tonal montage through landscape accumulation." }
+              ] },
+            { summary: "Méliès trick film", text: "Create a trick film that updates Méliès' magic to novel aesthetic or narrative effect. For it to work as magic, it needs to surprise its audience — avoid generic replays of social media phenomena.",
+              resources: [
+                  { title: "Lecture Three", note: "Full Méliès history — stop-substitution, multiple exposure, superimposition." },
+                  { title: "Week 3 — Impossible Worlds", url: "workshops/week-03.html", note: "The workshop where you recreate Méliès' techniques directly." },
+                  { title: "Week 5 post-workshop video", note: "Backrooms (2026) and Gondry/HomePod discussed as contemporary, continuity-based extensions of Méliès-style impossible-magic." }
+              ] },
+            { summary: "Continuity editing scene", text: "Investigate the magic of continuity editing by creating a single-scene film with two or three characters, an object, and a space. Use sound, composition, and movement to give the scene dynamism, and Harmon's Story Circle to ensure the character 'returns having changed.'",
+              resources: [
+                  { title: "Week 3 — Impossible Worlds", url: "workshops/week-03.html", note: "Introduces Harmon's Story Circle, the structure this prompt asks you to use." },
+                  { title: "Week 4 — Découpage, Lining, and Blocking", url: "workshops/week-04.html", note: "The planning workshop this prompt builds toward — lining a script and blocking a continuity scene." },
+                  { title: "Week 5 — The Shoot", url: "workshops/week-05.html", note: "Shooting the scene you planned in Week 4; the post-workshop video also covers Copacabana, Adolescence, and HomePod as worked examples of continuity's magic 'played straight.'" }
+              ] },
+            { summary: "Discontinuity / misuse of continuity", text: "Use — and misuse — the magic of continuity cinema to build an absurd, surreal, or discontinuous world. Use discontinuity to say something interesting, or to communicate an idea or feeling.",
+              resources: [
+                  { title: "Week 5 post-workshop video", note: "Named directly as the 'pushed further' version of the continuity-editing prompt — same Copacabana/Adolescence/HomePod territory, continuity deliberately broken. No worked example of the misuse itself yet." }
+              ] },
             { summary: "Sound + stills sci-fi (La Jetée)", text: "Use sound and stills to create a science-fiction film inspired by Chris Marker's <em>La Jetée</em>. You may sample or resample visual media in the style of Soda Jerk, Tracey Moffatt, or Christian Marclay's <em>The Clock</em>, as long as the sound design and narrative/theme are original and substantial." },
             { summary: "Scale reconfiguring time/space", text: "Use scale — visual or aural — to reconfigure our perception of time and space: find new rhythms and aesthetics, or recover forgotten relationships." },
-            { summary: "Sound design horror", text: "Use the techniques of cinematic sound design to turn a familiar or everyday space into an immersive horror film or poem. Generic liminal-space horror already has its defining example — don't remake it. Bonus points if something is thematically at stake." }
+            { summary: "Sound work or walk", text: "Create a sound work or walk that remodulates our experience of space, or of other people within that space. Change how we see a space, or each other, having experienced the work.",
+              resources: [
+                  { title: "Week 5 post-workshop video", note: "Janet Cardiff and George Bures Miller's Alter Bahnhof video walk, discussed as the direct worked example for this prompt." },
+                  { title: "Week 6 — Sound Beyond Cinema", url: "workshops/week-06.html", note: "Fuller treatment of Cardiff and Miller's work, per the subject outline reading list." }
+              ] }
         ],
         alt: {
             title: "Critical Analysis Alternative",
@@ -399,7 +424,11 @@ const DATA = {
             { summary: "Synchrony of light and sound", text: "Create a work that uses synchrony of light and sound to produce immersive projections. Lis Rhodes and Ryoji Ikeda are useful reference points, or combine music and video in the style of Michel Gondry's music videos." },
             { summary: "Camera movement (Daniel Crooks)", text: "Create a single large-screen or projection work that uses camera movement to complicate the relationship between body, screen, and subject, as Daniel Crooks does." },
             { summary: "360° storytelling / poetic montage", text: "Build a piece of storytelling or poetic montage for 360° video, using YouTube 360. Extend the Week 2 technique into 360° space, and use sound to help tell the story." },
-            { summary: "Sound work / walk", text: "Create a sound work or walk that remodulates our experience of space, or of other people within that space. Change how we see a space, or each other, having experienced the work." },
+            { summary: "Sound work / walk", text: "Create a sound work or walk that remodulates our experience of space, or of other people within that space. Change how we see a space, or each other, having experienced the work.",
+              resources: [
+                  { title: "Week 5 post-workshop video", note: "Janet Cardiff and George Bures Miller's Alter Bahnhof video walk, discussed as the direct worked example for this prompt." },
+                  { title: "Week 6 — Sound Beyond Cinema", url: "workshops/week-06.html", note: "Fuller treatment of Cardiff and Miller's work, per the subject outline reading list." }
+              ] },
             { summary: "Two-screen work", text: "Create a two-screen work that tests the relationship between the screens and the viewer's body. Draw on what you've learned about continuity editing and montage, and on how the screen mediates perception — extend those methods across multiple screens, or work the strange non-space between them." },
             { summary: "360° video storytelling across space", text: "Use 360° video to place the viewer at the centre of multiple frames, and tell a story around or across that space. Continuity editing naturalises a fixed viewing position — what techniques does storytelling need across 360° of freedom?" },
             { summary: "Projection ↔ object transformation", text: "Use projection to transform an object, or an object to transform a projection, to generate a novel aesthetic, thematic, or conceptual outcome." },
@@ -460,8 +489,9 @@ function collapseAll() {
 
 function renderResources(list) {
     if (!list || !list.length) return `<span class="empty">None added yet.</span>`;
-    return '<ul>' + list.map(r =>
-        `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a> — ${r.note}</li>`
+    return '<ul>' + list.map(r => r.url
+        ? `<li><a href="${r.url}" target="_blank" rel="noopener">${r.title}</a> — ${r.note}</li>`
+        : `<li><strong>${r.title}</strong> — ${r.note}</li>`
     ).join('') + '</ul>';
 }
 

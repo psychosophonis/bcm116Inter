@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BCM116 — Week 4: Reverse Engineering a Scene</title>
+<title>BCM116 — Week 4: Découpage, Lining, and Blocking</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,8 +14,8 @@
 <a class="back-link" href="index.html">← All workshops</a>
 
 <div class="w-banner">
-    <h1>Week 4 — Reverse Engineering a Scene</h1>
-    <p class="w-tagline">Today we'll investigate how continuity editing works by reconstructing it. Through shot-by-shot remake and comparison, you'll discover how cinema's "invisible" language actually creates immersion.</p>
+    <h1>Week 4 — Découpage, Lining, and Blocking</h1>
+    <p class="w-tagline">By the end of today: a lined script, a written description for every shot, blocking diagrams for the shots that need them, a shot list in actual shooting order, and a printed copy for everyone in your group. Next week you shoot.</p>
 </div>
 
 <figure class="ref-strip">
@@ -31,119 +31,43 @@
 <div id="rendered"></div>
 
 <script type="text/markdown" id="content">
-## Reverse Engineering Process: From Edit to Shot List
+### Step 1 — Watch together
 
-### Step 1: Scene Analysis
+Watch your chosen scene as a full group, start to finish, before anyone starts working individually. This is how you catch every cut, pan, track, or reframe without missing one because someone else assumed it was covered.
 
-**Watch your scene a couple of times.** Start by noting its characteristics:
-- What are the lengths of the cuts?
-- Where are the characters? What size are they in the frame?
-- Where is the light coming from?
-- Where are they looking and why?
-- What type of shot is it? What is the shot doing in the scene?
-- How is it cut with the shot before and after - what motivates each cut?
+### Step 2 — Split the analysis
 
-### Step 2: Location & Camera Position Analysis
+Divide the positions you just identified among the group. Each person duplicates the template slide in the shared Slides deck once per position they're taking, drops in a screenshot, and works through the grid overlay and the four analysis prompts — what's on the intersections, what's in focus, where the other characters and camera sit relative to each other, what reproducing the shot would actually require. Work in parallel, everyone on their own slides at once.
 
-- How many locations are there and what are their characteristics?
-- How many different camera positions are there?
-- Which shots share the same camera placement?
+### Step 3 — Mark cuts and line the script
 
-### Step 3: Build Your Shot List
+In the [découpage app](../resources/decoupage-blocking-toolkit.html), mark where each cut falls — by hand on a printout, or with a `{{...}}` marker inline while you rewatch, purely as a visual aid. Then line the script properly: drag a span over the relevant lines for each shot and give it a label. That drag-and-label action is the lining, not a separate step after it. Overlapping shots — a wide shot with closer inserts layered inside it — are fine and expected.
 
-- Build a list of takes based on location and camera placement
-- Group shots by setup for efficient shooting order
-- Mark coverage requirements: Master, singles, reverses, inserts
-- Number your setups (Setup 1, Setup 2, etc.)
+### Step 4 — Write shot descriptions
 
-### Step 4: Planning & Role Assignment (25 minutes)
+Once a shot's Slides analysis is done, come back to the app and write a one- or two-sentence description for that shot — the compressed version of what you found. This is what a director actually needs on set, not the full analysis.
 
-- Go over your chosen scene with the group
-- Complete reverse engineering process together
-- Build comprehensive shot list from your analysis
-- Assign roles - but ensure everybody gets a go at all technical roles and it's not the same people doing the same things as last week
+### Step 5 — Block what needs blocking
 
-### Step 5: Reconstruction (50 minutes)
+Not every shot needs a blocking diagram. Use it for the ones where actor and camera position genuinely need working out before the shoot. If a shot involves movement — an actor crossing the room, a camera tracking with them — add waypoints to a marker's path rather than just its starting position, plotting the movement itself, not just where it begins.
 
-- Keep diagrams or a copy of the scene close for reference
-- Do your best to emulate every aspect of the original shot focusing on composition, timing, and if possible lighting
-- **The most important elements are the positions of bodies in the frame, timing and relationship between shots**
-- Our aim is to get as close to the original as possible shot for shot in terms of timing and composition
-- Performance, costuming and props is secondary to these other concerns for this exercise
+### Step 6 — Build your shot list
 
-### Step 6: Assembly & Comparison (15 minutes)
+Your shot list compiles automatically from what you've lined and blocked. Reorder it into actual shooting order, grouping shots that share a camera setup, rather than leaving it in script order. This is the whole point of the exercise: discovering that shooting order and story order aren't the same thing.
 
-- Quick edit following original structure
-- Screen reconstructions alongside originals
+### Step 7 — Decide roles, and keep them
+
+Decide now who directs, who's on camera, who's on sound, and confirm your cast. Keep these roles for the shoot itself.
+
+### Step 8 — Print
+
+Export and print the full package — everyone in the group needs their own copy of the script, blocking diagrams, and shot list.
 
 ---
 
-## Location Recording
+## Audio, for next week
 
-This week we're adding location sound recording. We'll record dialogue using a shotgun microphone and boom.
-
-**Signal-to-Noise Ratio:** Our primary concern is maximizing signal while minimizing noise. Once recorded together, they're inseparable - turn up dialogue and you also turn up the noise. We've "locked in" that ratio.
-
-**Microphone Strategy:**
-- Use directional microphones with good "off-axis rejection"
-- Point microphone directly at the speaker's mouth for maximum signal
-- Position environmental noise behind the microphone (off-axis)
-- Get as close to source as possible without entering frame
-
-**Boom Operation Technique:**
-- Position microphone just above the frame line
-- **Communication crucial:** Boom operator asks camera operator to identify top of frame
-- Mark that position by finding distant visual reference that aligns with microphone end
-- For dialogue between characters, move between positions to capture both
-- Find braced position with fully extended arms for stability
-- Alternative: If shot width makes booming difficult, organize separate location recorder, radio lapel, or plan to replace dialogue in post
-
-## Lighting
-
-Lighting is shaped by how large the source is and its position in relation to the object. The sun is a large, strong source that is far away. This makes its light diffuse and its softer. If we were to light a face with a torch light close to a face the other side of the face will be in shadow and the shadows will be quite defined and constrast high. Pay attention to the way a shots lighting creates areas of shadow and therefore gives objects shape. Flood the scene with light and everything becomes flat-looking - paint the shot with light and shadow to give objects shape and texture.
-
----
-
-## Discord Investigation Prompts
-
-**Post your discoveries:**
-- How did analyzing the edit to build a shot list change your understanding of the scene?
-- What camera positions were essential vs. impossible to replicate in your location?
-- Which technical elements were hardest to recreate and why?
-- What did you discover about how lighting/composition/eyelines actually work that you hadn't noticed?
-- What broke when you tried to replicate certain techniques, and what does that reveal?
-
-**Connect to broader investigation:**
-- How might you strategically break these conventions or play with them for creative effect?
-
----
-
-**Final Connection:** Continuity editing emerged from cinema's specific historical constraints - dark theaters with passive audiences, heavy static cameras, commercial entertainment needs. But for your 'Here We Are' projects investigating place and belonging, different approaches become possible:
-
-- **Deep focus** for contemplative spatial exploration where viewers discover relationships within the frame
-- **Kinesthetic camera movement** for investigating your physical relationship to places through choreographed movement
-- **Tonal montage** for building emotional landscapes through textures and atmospheres of place
-- **Intellectual montage** for revealing hidden power relationships about Country through collision between contrasting images
-- **360 video** for surrounding exploration where viewers have agency over what to explore
-- **Multi-screen work** for making internal conflicts about belonging visible across physical space
-
-The question becomes: which of these approaches - or which combination - best serves your specific investigation of place and belonging? Remember, you're not choosing techniques to show off - you're choosing investigative apparatus that can reveal something about your relationship to place that wouldn't be possible otherwise.
-
----
-
-## Materials Needed
-
-- Canon XA70 cameras + tripods (one kit per group)
-- Boom microphones + operators
-- Basic lighting
-- Chosen scene references for comparison
-
-## Learning Objectives
-
-- Experience reverse engineering as method for understanding cinematic construction
-- Learn to analyze editing to build effective shot lists rather than filming sequentially
-- Discover through making how lighting, composition, eyelines, and sound create spatial coherence
-- Identify what camera positions are essential vs. impossible to replicate and why
+Mic straight into the camera via XLR is the default. If a shot's geometry makes that awkward — actor too far from camera, angle puts a boom in frame — use a lapel mic on the actor instead. If a camera has no mic input at all, use a phone or Zoom recorder as backup audio, and clap in frame at the start of each take to sync it in the edit.
 </script>
 
 <script src="../assets/content.js"></script>

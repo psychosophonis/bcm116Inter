@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 — Découpage &amp; Blocking Toolkit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/content.css">
+</head>
+<body>
+
+<a class="back-link" href="index.html">← All learning resources</a>
+
+<div class="w-banner">
+    <h1>Découpage &amp; Blocking Toolkit</h1>
+    <p class="w-tagline">Breaking a scene into shots, planning blocking, and building a shooting-order shot list — using this course's <a href="https://psychosophonis.github.io/decoupage-tool/">découpage app</a>. A general-purpose workflow — useful whenever an Investigation calls for shot planning, not just the workshop it was introduced in.</p>
+</div>
+
+<div id="rendered"></div>
+
+<script type="text/markdown" id="content">
+No fixed pipeline — five screens, used roughly in order, but nothing forces that. The tool tracks your script, your shots, your blocking diagrams, and your shot list as one project, exported as a single `.json` file.
+
+## Script
+
+Import a PDF or type/paste your scene directly. While you rewatch the scene, mark where cuts fall by wrapping a line in `{{...}}` — this is purely a visual cue to help you scan the script later. **It doesn't create a shot on its own.** Naming a cut and lining it are two separate, deliberate acts.
+
+## Lining
+
+Drag a span over the script and label it — that's what actually creates a shot. Both edges are yours to place; nothing is inferred from the `{{...}}` markers. Overlapping shots are expected and supported — a wide shot with closer inserts layered inside it lays out in side-by-side lanes rather than overlapping illegibly.
+
+## Composition analysis (outside the app)
+
+Before writing a shot description, work through composition in your shared Slides deck: one slide per shot position, a screenshot, the grid overlay, and the four analysis prompts — what's on the intersections, what's in focus, where the other characters and camera sit relative to each other, what reproducing the shot would actually require. This step happens in Slides, not in the app; the app is where you land the takeaway.
+
+## Shot descriptions
+
+Once a shot's Slides analysis is done, write a one- or two-sentence description back in the app — the compressed, on-set version of what you found. This is the bridge between the deeper analysis and the object a director actually uses.
+
+## Blocking
+
+One diagram per shot: actor and camera markers on a top-down plane. A marker is static by default — placed once, done. For a shot with movement (an actor crossing the room, a camera tracking alongside them), add waypoints to a marker's path instead of just its starting position. A new camera waypoint inherits the rotation of the one before it, so adding a point never resets your framing to zero. Use this for shots where movement genuinely needs planning, not as a mandatory step for every shot.
+
+## Shot list
+
+Compiles automatically from what you've lined and blocked — you don't build it by hand. Reorder it independently of script order into actual shooting order, grouping shots that share a camera setup. Shooting order and story order aren't the same thing; this is where that becomes concrete.
+
+## Export
+
+Print/PDF export gives you a cover page, the lined script with coloured shot-coverage marks in the margin, blocking diagrams where they exist, and the shot list table — in your chosen shooting order. Everyone in the group should leave with their own copy.
+
+The app autosaves to your browser as you work, but that's convenience only. Export your `.json` project file to actually save or hand off your work — especially before a group session ends.
+</script>
+
+<script src="../assets/content.js"></script>
+</body>
+</html>
