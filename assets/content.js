@@ -158,7 +158,14 @@ function renderMarkdown(md) {
         }
 
         if (block.type === 'aside') {
-            html += `<div class="aside">${inlineFormat(block.lines.join(' '))}</div>`;
+            const paras = [];
+            let para = [];
+            for (const l of block.lines) {
+                if (l === '') { if (para.length) { paras.push(para); para = []; } continue; }
+                para.push(l);
+            }
+            if (para.length) paras.push(para);
+            html += `<div class="aside">${paras.map(p => `<p>${inlineFormat(p.join(' '))}</p>`).join('')}</div>`;
             continue;
         }
 

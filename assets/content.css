@@ -156,6 +156,8 @@ a { color: var(--red); }
     color: #4a4a4a;
 }
 .aside a { color: var(--red); }
+.aside p { margin: 0 0 10px; }
+.aside p:last-child { margin-bottom: 0; }
 
 .print-btn {
     position: fixed;
