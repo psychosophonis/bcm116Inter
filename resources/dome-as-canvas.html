@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 — The Dome as Canvas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/content.css">
+</head>
+<body>
+
+<a class="back-link" href="index.html">← All learning resources</a>
+
+<div class="w-banner">
+    <h1>The Dome as Canvas</h1>
+    <p class="w-tagline">A p5.js teaching tool for making fulldome content — open the <a href="https://psychosophonis.github.io/dome-as-canvas/">live tool</a> and work through its examples directly in the browser, no install needed. An advanced, optional technique — see it framed for this course in <a href="../workshops/week-09.html">Week 9</a>.</p>
+</div>
+
+<div id="rendered"></div>
+
+<script type="text/markdown" id="content">
+A dome master is a square image whose inscribed circle is the whole sky: the centre is straight up, the rim is the floor, distance from the centre is how far down you're looking, and angle around is which way you're facing. Most of what you can do on a dome needs nothing but that, a square canvas and ordinary p5.js. Projection maths only becomes necessary once something needs a real-world *distance*.
+
+The tool's examples are built in that order, working up gradually rather than dropping you straight into the projection code.
+
+## The technique menu
+
+No fixed pipeline. Start wherever suits what you want to make and stop once you have what you need — later units build on earlier ones, so it's worth skimming in order at least once.
+
+- **1. Surface** — the square, the circle, what never gets shown.
+- **2. Radius** — depth. Growing a circle is descending the dome.
+- **3. Angle** — bearing. Two numbers place anything.
+- **4. Repeat** — iteration around the zenith (after Vera Molnár).
+- **5. Frame** — local coordinates, text, the tangential stretch.
+- **6. Grid** — polar arrays, generative pattern (in the spirit of the 10 PRINT program).
+- **7. Field** — continuous functions, noise, standing waves.
+- **9. Depth** — the projection itself: `proj()`, and distance.
+- **10. Object** — classes, and where the drawing choice belongs.
+- **11. Array of objects** — depth sorting without a z-buffer.
+- **12. Kinds** — three ways to meet a dome, and where sorting fails.
+- **13. Image** — images as data (after Knowlton & Harmon).
+- **14. Phenakistoscope** — the frame rate as a shutter.
+- **15. Harmony** — plotter-era methods (Whitney, Nees).
+- **16. Your own** — blank page, the files to create, what to deliver.
+
+## The library
+
+Once projection is actually needed, a small library carries it: `proj()` converts a world position to a point on the file (or `null` if it falls outside frame), `dir()` goes the other way from bearing and zenith angles, `apparentSize()` restores the pixel size `proj()` discards, and helpers for spheres, lines, and arbitrary parametric surfaces. Five functions and two helpers, short enough to read in one sitting.
+
+## Running it
+
+The [live tool](https://psychosophonis.github.io/dome-as-canvas/) runs entirely in-browser — sketch editor, live preview, grid and inside-view toggles, and export, all in one page. That's the easiest way to start.
+
+For anything you want to export long or reliably, clone the [repo](https://github.com/psychosophonis/dome-as-canvas) and run it locally. Export writes frames straight to a folder in Chrome or Edge, no install, no length limit — Safari and Firefox fall back to a capped in-memory ZIP, so use Chrome or Edge for anything long. The `electron/` desktop shell removes the browser question entirely if you need a guarantee.
+
+## Delivering to a dome
+
+One folder: `name-00000.png` upward, zero-padded, no gaps, square, one resolution. Audio separate as 48kHz WAV. A text file stating frame count, fps, resolution, duration, and audio layout — the venue runs its own encoder on that, don't try to produce their container format yourself.
+
+30fps unless told otherwise. 2048 square is comfortable; 4096 if asked. Before rendering anything long, export ten seconds and check it on the actual system you're delivering to — format failures cost dome time, which is the scarce resource.
+</script>
+
+<script src="../assets/content.js"></script>
+</body>
+</html>
