@@ -168,6 +168,28 @@
             font-size: 0.93em;
         }
 
+        .flat-criteria {
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .flat-criterion {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+        }
+        .flat-criterion:last-child { border-bottom: none; }
+        .flat-criterion-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 4px;
+        }
+        .flat-criterion-weight { color: var(--red); flex-shrink: 0; }
+        .flat-criterion-desc { font-size: 0.95em; color: #333; }
+
         .page-break { page-break-before: always; }
 
         /* Controls */
@@ -361,6 +383,7 @@
             <button id="btn-a2" onclick="switchAssessment('a2')">Investigation 1 (Week 3)</button>
             <button id="btn-a3" onclick="switchAssessment('a3')">Investigation 2 (Week 7)</button>
             <button id="btn-a4" onclick="switchAssessment('a4')">Investigation 3 &amp; 4 (Week 13)</button>
+            <button id="btn-ca" onclick="switchAssessment('ca')">Critical Analysis Alternative</button>
         </div>
     </div>
 
@@ -600,6 +623,49 @@
                     }
                 }
             ]
+        },
+
+        ca: {
+            subtitle: "Critical Analysis Alternative — Investigation 2, and Investigations 3 & 4",
+            flat: true,
+            note: "This rubric covers the Critical Analysis Alternative for both Investigation 2 (1800 words, one film) and Investigations 3 & 4 (2500 words, one artist's body of work) — the four criteria and standards are the same for both; only the word count and scope differ. It does not cover Investigation 1's VR critical analysis, which is a separate brief.",
+            criteria: [
+                {
+                    id: "sources",
+                    shortName: "Research and Sources",
+                    fullTitle: "1. Research and Sources",
+                    weight: "25%",
+                    text: "Your engagement with relevant critical and scholarly work, on immersion, and on the film or artist you're writing about. Sources should inform your argument, not decorate it. For Investigation 2, use at least two critical or academic sources, worked into your reading rather than listed alongside it. For Investigations 3 & 4, engage more widely, as suits a longer study of a body of work. The course's own ideas (Crary, and the concepts we've built across the subject) should be visible in how you build your analysis."
+                },
+                {
+                    id: "analysis",
+                    shortName: "Analysis and Argument",
+                    fullTitle: "2. Analysis and Argument",
+                    weight: "25%",
+                    text: "A clear, sustained argument about strategies of immersion, what they are, how they work, and what they reveal. For Investigation 2, argue how your chosen film uses specific strategies. For Investigations 3 & 4, argue what the artist's body of work tells us about immersion itself. We're looking for genuine analytical thinking: following the evidence, testing a claim, and arriving somewhere a reader couldn't have assumed at the outset, not summary or description."
+                },
+                {
+                    id: "reading",
+                    shortName: "Close Reading and Evidence",
+                    fullTitle: "3. Close Reading and Evidence",
+                    weight: "25%",
+                    text: "Precise, specific attention to the actual work. For Investigation 2, close-read the film's techniques and illustrate with frame references. For Investigations 3 & 4, engage with particular works from the artist's catalogue rather than characterising them in general. Ground every claim in what's actually on screen or in the work, not in the abstract."
+                },
+                {
+                    id: "structure",
+                    shortName: "Structure, Clarity & Referencing",
+                    fullTitle: "4. Structure, Clarity, and Referencing",
+                    weight: "25%",
+                    text: "Clear structure, precise writing, and correct Harvard referencing. Integrate your frame references (Investigation 2) or images of the works (Investigations 3 & 4) to support the argument. Write to be read and understood."
+                }
+            ],
+            bands: {
+                hd: "A genuinely insightful argument that tells us something real about immersion, built from precise close reading and confident engagement with scholarship. Sources and the course's ideas are absorbed into your thinking, not reported. Every claim is grounded in specific evidence from the work. Structured, referenced, and written with real command.",
+                d:  "A clear, well-supported argument with strong close reading and solid engagement with relevant sources. Specific and grounded throughout, with only minor lapses into generalisation. Well structured and correctly referenced.",
+                c:  "A sound argument with adequate close reading and use of the required sources, but some claims stay general where they should be specific, or the engagement with scholarship is more dutiful than integrated. Structure and referencing are competent.",
+                p:  "Meets the basic requirements, an argument, the minimum sources, some reference to the actual work, but the analysis stays largely descriptive, the reading is thin or unfocused, or the argument doesn't hold together. Referencing may be inconsistent.",
+                f:  "Does not meet the requirements: no sustained argument, insufficient or absent sources, little genuine engagement with the work itself, or descriptive summary in place of analysis. May be under length, poorly structured, or inadequately referenced."
+            }
         }
     };
 
@@ -609,8 +675,11 @@
         a1: "Discord Contribution",
         a2: "Investigation 1 (Week 3)",
         a3: "Investigation 2 (Week 7)",
-        a4: "Investigation 3 & 4 (Week 13)"
+        a4: "Investigation 3 & 4 (Week 13)",
+        ca: "Critical Analysis Alternative"
     };
+
+    const ASSESSMENT_IDS = ['a1', 'a2', 'a3', 'a4', 'ca'];
 
     let currentAssessment = 'a1';
     let selectedCriteria = new Set();
@@ -619,7 +688,7 @@
     function switchAssessment(id) {
         currentAssessment = id;
         document.body.classList.remove('is-focused');
-        ['a1','a2','a3','a4'].forEach(a => {
+        ASSESSMENT_IDS.forEach(a => {
             document.getElementById('btn-' + a).classList.toggle('active', id === a);
         });
         initializeCriteriaCheckboxes();
@@ -699,6 +768,34 @@
         document.body.className = s === 'normal' ? '' : `font-${s}`;
     }
 
+    function renderFlatContent(data) {
+        const criteriaHTML = data.criteria
+            .filter(c => selectedCriteria.has(c.id))
+            .map(c => `
+                <div class="flat-criterion">
+                    <div class="flat-criterion-head"><span>${c.fullTitle}</span><span class="flat-criterion-weight">${c.weight}</span></div>
+                    <p class="flat-criterion-desc">${c.text}</p>
+                </div>`).join('');
+
+        const bandsHTML = GRADES
+            .filter(g => selectedGrades.has(g.id))
+            .map(g => `
+                <div class="grade-box ${g.id}">
+                    <div class="grade-header">${g.shortName} — ${g.fullName}</div>
+                    <div class="grade-desc">${data.bands[g.id]}</div>
+                </div>`).join('');
+
+        document.getElementById('content-container').innerHTML = `
+            <div class="criterion-section">
+                <h2 class="criterion-title"><span>What you're marked on</span></h2>
+                <div class="flat-criteria">${criteriaHTML}</div>
+            </div>
+            <div class="criterion-section">
+                <h2 class="criterion-title"><span>Grade bands</span></h2>
+                ${bandsHTML}
+            </div>`;
+    }
+
     function renderContent() {
         const data = ASSESSMENTS[currentAssessment];
         document.getElementById('main-subtitle').textContent = data.subtitle;
@@ -706,6 +803,11 @@
         document.getElementById('note-container').innerHTML = data.note
             ? `<div class="assessment-note"><strong>How this is marked</strong>${data.note}</div>`
             : '';
+
+        if (data.flat) {
+            renderFlatContent(data);
+            return;
+        }
 
         const html = data.criteria
             .filter(c => selectedCriteria.has(c.id))
@@ -787,7 +889,7 @@
     // #a2-research opens a stripped-down single view of the Research criterion, all grade bands shown.
     function handleHash() {
         const h = window.location.hash.replace('#', '');
-        const match = h.match(/^(a1|a2|a3|a4)(?:-([a-z]+))?$/);
+        const match = h.match(/^(a1|a2|a3|a4|ca)(?:-([a-z]+))?$/);
         if (!match) {
             document.body.classList.remove('is-focused');
             renderContent();
@@ -797,14 +899,14 @@
         const assessment = match[1];
         const critId = match[2];
         currentAssessment = assessment;
-        ['a1','a2','a3','a4'].forEach(a => {
+        ASSESSMENT_IDS.forEach(a => {
             document.getElementById('btn-' + a).classList.toggle('active', a === assessment);
         });
         initializeCriteriaCheckboxes();
 
         const criterion = critId ? ASSESSMENTS[assessment].criteria.find(c => c.id === critId) : null;
 
-        if (criterion) {
+        if (criterion && criterion.grades) {
             document.body.classList.add('is-focused');
             renderFocusedCriterion(assessment, criterion);
         } else {
