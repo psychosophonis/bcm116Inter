@@ -198,6 +198,39 @@
     .resources a { color: var(--ink); font-weight: 600; }
     .resources a:hover { color: var(--red); }
 
+    .rubric { margin-top: 14px; }
+    .rubric-heading {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.8em;
+        color: #8a7237;
+        margin: 14px 0 6px;
+    }
+    .rubric-heading:first-child { margin-top: 0; }
+    .rubric-criteria, .rubric-bands {
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        overflow: hidden;
+    }
+    .rubric-criterion, .rubric-band {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--line);
+        font-size: 0.85em;
+    }
+    .rubric-criterion:last-child, .rubric-band:last-child { border-bottom: none; }
+    .rubric-criterion-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-weight: 700;
+        color: var(--ink);
+        margin-bottom: 4px;
+    }
+    .rubric-criterion-weight { color: var(--red); flex-shrink: 0; }
+    .rubric-criterion-desc, .rubric-band { color: #444; }
+    .rubric-band-name { font-weight: 700; color: var(--ink); margin-right: 4px; }
+
     .controls {
         position: fixed;
         top: 20px;
@@ -312,6 +345,25 @@
 <div id="content-container"></div>
 
 <script>
+// Shared marking rubric for the Critical Analysis Alternative — Investigation 2 and
+// Investigations 3 & 4 only. Investigation 1's VR critical analysis is a different brief
+// and isn't covered by this rubric.
+const CRITICAL_ANALYSIS_RUBRIC = {
+    criteria: [
+        { name: "Research and Sources", weight: "25%", text: "Your engagement with relevant critical and scholarly work, on immersion, and on the film or artist you're writing about. Sources should inform your argument, not decorate it. For Investigation 2, use at least two critical or academic sources, worked into your reading rather than listed alongside it. For Investigations 3 & 4, engage more widely, as suits a longer study of a body of work. The course's own ideas (Crary, and the concepts we've built across the subject) should be visible in how you build your analysis." },
+        { name: "Analysis and Argument", weight: "25%", text: "A clear, sustained argument about strategies of immersion, what they are, how they work, and what they reveal. For Investigation 2, argue how your chosen film uses specific strategies. For Investigations 3 & 4, argue what the artist's body of work tells us about immersion itself. We're looking for genuine analytical thinking: following the evidence, testing a claim, and arriving somewhere a reader couldn't have assumed at the outset, not summary or description." },
+        { name: "Close Reading and Evidence", weight: "25%", text: "Precise, specific attention to the actual work. For Investigation 2, close-read the film's techniques and illustrate with frame references. For Investigations 3 & 4, engage with particular works from the artist's catalogue rather than characterising them in general. Ground every claim in what's actually on screen or in the work, not in the abstract." },
+        { name: "Structure, Clarity, and Referencing", weight: "25%", text: "Clear structure, precise writing, and correct Harvard referencing. Integrate your frame references (Investigation 2) or images of the works (Investigations 3 & 4) to support the argument. Write to be read and understood." }
+    ],
+    bands: [
+        { name: "High Distinction", range: "85–100", text: "A genuinely insightful argument that tells us something real about immersion, built from precise close reading and confident engagement with scholarship. Sources and the course's ideas are absorbed into your thinking, not reported. Every claim is grounded in specific evidence from the work. Structured, referenced, and written with real command." },
+        { name: "Distinction", range: "75–84", text: "A clear, well-supported argument with strong close reading and solid engagement with relevant sources. Specific and grounded throughout, with only minor lapses into generalisation. Well structured and correctly referenced." },
+        { name: "Credit", range: "65–74", text: "A sound argument with adequate close reading and use of the required sources, but some claims stay general where they should be specific, or the engagement with scholarship is more dutiful than integrated. Structure and referencing are competent." },
+        { name: "Pass", range: "50–64", text: "Meets the basic requirements, an argument, the minimum sources, some reference to the actual work, but the analysis stays largely descriptive, the reading is thin or unfocused, or the argument doesn't hold together. Referencing may be inconsistent." },
+        { name: "Fail", range: "0–49", text: "Does not meet the requirements: no sustained argument, insufficient or absent sources, little genuine engagement with the work itself, or descriptive summary in place of analysis. May be under length, poorly structured, or inadequately referenced." }
+    ]
+};
+
 const DATA = {
     a2: {
         intro: "Choose a non-veridical device — one that produces an experience of motion, depth, or wonder that has no direct correlate in the world, in the tradition of the optical devices Jonathan Crary discusses in <em>Techniques of the Observer</em>. Look at how other creatives have worked with it, then explore its technical affordances creatively: try things, follow what surprises you, make again. Present your work for an audience to experience.<br><br>Include a reflective statement (200–300 words) drawing on <em>Techniques of the Observer</em> to account for what the apparatus revealed through your research and making — in your own words, from your own experience.<br><br>Share your experiments on Discord as you go; this will be considered evidence of creative research practice.",
@@ -430,7 +482,8 @@ const DATA = {
         ],
         alt: {
             title: "Critical Analysis Alternative",
-            text: "Write an 1800-word critical analysis of a film that, in your view, uses interesting strategies of immersion. Close-read the film's use of those strategies and techniques, with reference to at least two critical or academic sources. Illustrate your argument with frame references."
+            text: "Write an 1800-word critical analysis of a film that, in your view, uses interesting strategies of immersion. Close-read the film's use of those strategies and techniques, with reference to at least two critical or academic sources. Illustrate your argument with frame references.",
+            rubric: CRITICAL_ANALYSIS_RUBRIC
         },
         citation: ""
     },
@@ -455,7 +508,8 @@ const DATA = {
         ],
         alt: {
             title: "Critical Analysis Alternative",
-            text: "Write a 2500-word critical analysis of the catalogue or body of work of a contemporary media artist whose practice you identify as immersive. What does this body of work tell us about the quality, or the potential, of immersion?"
+            text: "Write a 2500-word critical analysis of the catalogue or body of work of a contemporary media artist whose practice you identify as immersive. What does this body of work tell us about the quality, or the potential, of immersion?",
+            rubric: CRITICAL_ANALYSIS_RUBRIC
         },
         citation: ""
     }
@@ -513,6 +567,24 @@ function renderResources(list) {
     ).join('') + '</ul>';
 }
 
+function renderRubric(rubric) {
+    if (!rubric) return '';
+    const criteria = rubric.criteria.map(c => `
+        <div class="rubric-criterion">
+            <div class="rubric-criterion-head"><span>${c.name}</span><span class="rubric-criterion-weight">${c.weight}</span></div>
+            <div class="rubric-criterion-desc">${c.text}</div>
+        </div>`).join('');
+    const bands = rubric.bands.map(b => `
+        <div class="rubric-band"><span class="rubric-band-name">${b.name} (${b.range}).</span>${b.text}</div>`).join('');
+    return `
+        <div class="rubric">
+            <div class="rubric-heading">Marking rubric — what you're marked on</div>
+            <div class="rubric-criteria">${criteria}</div>
+            <div class="rubric-heading">Grade bands</div>
+            <div class="rubric-bands">${bands}</div>
+        </div>`;
+}
+
 function render() {
     const data = DATA[current];
 
@@ -556,6 +628,7 @@ function render() {
                     <span class="resources-label">Additional resources</span>
                     ${renderResources(data.alt.resources)}
                 </div>
+                ${renderRubric(data.alt.rubric)}
             </div>
         </div>`;
 
@@ -610,6 +683,7 @@ function renderFocusedAlt(assessmentId) {
                     <span class="resources-label">Additional resources</span>
                     ${renderResources(data.alt.resources)}
                 </div>
+                ${renderRubric(data.alt.rubric)}
             </div>
         </div>
     `;
