@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<!--
+  HOW TO ADD MEDIA
+  Each step has data-m="a-07" (or similar). Put a file with that name in
+  media/ beside this page:
+      media/a-07.mp4   a short silent screen-capture loop (preferred)
+      media/a-07.png   a still, if a loop isn't needed
+  The page tries .mp4 first, then .png. If neither exists, the slot shows
+  the note in data-rec, which says what to capture.
+  Keep loops 5-10 s, no audio, cropped to the part of the screen that matters.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>After Effects as a painterly process — BCM116</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#fff; --ink:#1a1a1e; --dim:#686872; --line:#dddbd6;
+    --accent:#b8531d; --soft:#faf3ee; --warn:#8a5a00; --warnbg:#fdf6e3;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }}
+  :root[data-theme="dark"]{
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }
+  *{box-sizing:border-box}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+  main{max-width:1080px;margin:0 auto;padding:40px 22px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+  .lede{color:var(--dim);max-width:44em;margin:0 0 28px}
+  h2{font-size:21px;margin:56px 0 6px;padding-top:18px;border-top:2px solid var(--ink)}
+  h2 small{display:block;font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.06em;
+           text-transform:uppercase;margin-bottom:4px}
+  .intro{color:var(--dim);max-width:44em;margin:0 0 18px}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:18px 0}
+  .fire{border-left:4px solid var(--accent);background:var(--soft)}
+  .fire b{color:var(--accent)}
+  .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:760px){.parts{grid-template-columns:1fr}}
+  .parts h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .parts ul{margin:0;padding-left:18px}
+  .parts li{margin:3px 0}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+  nav.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+            border-radius:999px;padding:5px 12px;background:var(--panel)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .chunk{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:22px 0;overflow:hidden}
+  .chunk>h3{margin:0;padding:12px 18px;font-size:16px;border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;gap:12px}
+  .chunk>h3 span{color:var(--dim);font-weight:500;font-size:13px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;
+              padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+  ol.steps>li:last-child{border-bottom:0}
+  @media (max-width:760px){ol.steps>li{grid-template-columns:1fr}}
+  .txt{display:flex;gap:12px}
+  .n{flex:none;font:600 13px/1 ui-monospace,Menlo,monospace;color:var(--accent);
+     border:1px solid var(--accent);border-radius:4px;padding:5px 6px;height:max-content;min-width:44px;text-align:center}
+  .txt p{margin:0}
+  .trap{margin-top:8px;font-size:14px;color:var(--warn);background:var(--warnbg);
+        border-radius:4px;padding:7px 10px}
+  .trap b{font-weight:600}
+  table.sizes{border-collapse:collapse;margin:8px 0 2px;font-size:14px}
+  table.sizes td{padding:3px 14px 3px 0;border-bottom:1px solid var(--line)}
+  code,kbd{font:14px ui-monospace,Menlo,monospace;background:var(--soft);border:1px solid var(--line);
+           border-radius:3px;padding:0 4px}
+  .menu{font-weight:600}
+
+  .media{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000;min-height:40px}
+  .media video,.media img{display:block;width:100%;height:auto}
+  .ph{background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 8px,var(--panel) 8px,var(--panel) 16px);
+      color:var(--dim);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px}
+  .ph b{display:block;font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);margin-bottom:4px}
+
+  li.check{background:var(--soft)}
+  li.check .n{background:var(--accent);color:var(--panel)}
+  .swap{border:1px dashed var(--accent)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:18px 0}
+  .gallery figure{margin:0}
+  .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
+  .gallery video{display:block;width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main>
+
+<h1>After Effects as a painterly process</h1>
+<p class="lede">Two worked paths through one set of parts. Follow a path first, then swap parts until the result is yours. Everything here is made in a square frame, which works on the dome and can be placed on a screen later.</p>
+
+<div class="box fire">
+  <b>Be sceptical of fireworks.</b> Some combinations produce impressive emergent effects with no effort — instant symmetry, endless spirals. They are spectacular and limited as a means of individual expression. For anything you make, ask: <i>could someone else have got this from the same settings?</i> If yes, it is fireworks. What keeps a piece yours is almost always the source: the mark you painted, the thing you found, the footage you shot.
+</div>
+
+<div class="box">
+  <div class="parts">
+    <div><h3>Sources</h3><ul>
+      <li>Watercolour — translucent; layers build colour</li>
+      <li>Found object on white — opaque; silhouette and structure</li>
+      <li>Shape or pen tool — clean geometry</li>
+      <li>Your own video — movement and time</li></ul></div>
+    <div><h3>Operations</h3><ul>
+      <li>Animate rotation, scale or position</li>
+      <li>Duplicate around a circle</li>
+      <li>Repeater</li></ul></div>
+    <div><h3>Combinations</h3><ul>
+      <li>Multiply — translucent layers build</li>
+      <li>Track matte — one source becomes a window onto another</li>
+      <li>CC Kaleida — instant symmetry. Test it against the fireworks question</li></ul></div>
+  </div>
+  <p style="margin:14px 0 0">Pick one from each column. Path A and Path B below are two ways through.</p>
+  <nav class="toc">
+    <a href="#a">A · Watercolour and repetition</a>
+    <a href="#b">B · Repeater and track matte</a>
+    <a href="#export">Export</a>
+    <a href="#examples">Examples</a>
+    <a href="#swap">Keep going</a>
+    <a href="#dome">Check it on the dome</a>
+  </nav>
+</div>
+
+<!-- ================================================================= A -->
+<h2 id="a"><small>Path A</small>Watercolour and repetition</h2>
+<p class="intro">A watercolour mark, repeated around a centre. Where copies overlap, the colour builds.</p>
+
+<section class="chunk">
+  <h3>A1 · Make and capture <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-01</div><div>
+      <p>Paint three patterns on white paper: one of nested shapes of colour, one of vertical lines, one of radial lines extending from a point.</p>
+      <div class="trap"><b>Light washes work well.</b> Multiply keeps them as painted, and where copies overlap they deepen.</div>
+    </div></div><div class="media" data-m="a-01" data-rec="Three finished paintings on one sheet."></div></li>
+    <li><div class="txt"><div class="n">A-02</div><div>
+      <p>Photograph them with your phone held parallel to the paper, in even light, with no shadow falling across the sheet. One photo of the whole sheet is fine.</p>
+    </div></div><div class="media" data-m="a-02" data-rec="Phone held flat over a painting, near a window."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>A2 · Set up <span>3 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-03</div><div>
+      <p>Get the photo onto your computer. Open After Effects — the app itself, not <i>After Effects Render Engine</i>, which installs alongside it. Choose <b>New Project</b>.</p>
+    </div></div><div class="media" data-m="a-03" data-rec="Opening After Effects; New Project."></div></li>
+    <li><div class="txt"><div class="n">A-04</div><div>
+      <p>Click the <b>New Composition</b> button in the middle of the screen. Set Width <code>2048</code>, Height <code>2048</code>, <code>30</code> fps, duration <code>10</code> s.</p>
+      <p style="margin-top:8px">A square fits the dome as it is, and can be placed inside a wide screen frame later.</p>
+    </div></div><div class="media" data-m="a-04" data-rec="New Composition button in the centre of the empty project; settings filled in: 2048 × 2048, 30 fps, 10 s."></div></li>
+    <li><div class="txt"><div class="n">A-05</div><div>
+      <p>Add a background: <span class="menu">Layer → New → Solid</span>, comp size, <b>white</b>.</p>
+    </div></div><div class="media" data-m="a-05" data-rec="New Solid dialog; white solid fills the comp."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>A3 · Bring in the mark <span>5 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-06</div><div>
+      <p>Drag your photo from Finder straight into the timeline, above the solid.</p>
+    </div></div><div class="media" data-m="a-06" data-rec="Photo dragged from Finder into the timeline, above the solid."></div></li>
+
+    <li><div class="txt"><div class="n">A-07</div><div>
+      <p>Move and scale. With the Selection tool, drag the photo so the mark you want to work with sits in the <b>top half</b> of the frame. Then in the <b>Properties</b> panel (<span class="menu">Window → Properties</span> if it isn't showing) drag <b>Scale</b> down until that mark takes up a quarter of the frame at most.</p>
+      <div class="trap"><b>Properties panel to set a value; the Transform twirl in the timeline to animate one.</b> You'll use both.</div>
+      <div class="trap"><b>This may take some back and forth.</b> The mark drifts a little as you scale. It doesn't need to be precise — it will work anyway.</div>
+      <div class="trap"><b>Why the top half.</b> Copies will turn around the centre of the frame, so a mark sitting at the centre just spins in place.</div>
+      <div class="trap"><b>Why small.</b> The mark is about to be copied round a circle. Too big and the copies merge into one blob.</div>
+    </div></div><div class="media" data-m="a-07" data-rec="Photo dragged so the chosen mark sits in the top half; Scale dragged down; a little back and forth."></div></li>
+    <li><div class="txt"><div class="n">A-08</div><div>
+      <p>Make the paper white. On the photo layer: <span class="menu">Effect → Color Correction → Levels</span>. Drag the white input marker left, watching the comp, until the edge of the photo disappears into the white background.</p>
+      <p style="margin-top:8px">Keep going a little further, and choose a setting that gives your paint some luminous transparency. Stop before the colour washes out.</p>
+    </div></div><div class="media" data-m="a-08" data-rec="Dragging the Levels white marker; the photo edge vanishes, then the paint turns luminous."></div></li>
+    <li><div class="txt"><div class="n">A-09</div><div>
+      <p>Isolate one mark. With the photo layer <b>selected</b>, pick the Rectangle tool and drag a box around one mark. The box becomes a mask: only what's inside it shows. It doesn't need to be tight.</p>
+      <div class="trap"><b>The layer must be selected.</b> With nothing selected, the Rectangle tool makes a new shape layer instead of a mask.</div>
+    </div></div><div class="media" data-m="a-09" data-rec="Photo layer selected; box dragged around one mark; the other two disappear."></div></li>
+    <li><div class="txt"><div class="n">A-10</div><div>
+      <p>Put the anchor point on the mark: <span class="menu">Layer → Transform → Center Anchor Point in Layer Content</span>. Check the small cross lands on your mark.</p>
+      <div class="trap"><b>Why.</b> A layer rotates and scales around its anchor point, which starts at the centre of the whole photo. Leave it there and the mark swings in an arc instead of spinning.</div>
+    </div></div><div class="media" data-m="a-10" data-rec="Menu command; the anchor cross jumps to the middle of the mark."></div></li>
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> One mark on the white background, spinning point on the mark, no visible edge of the photo.</p>
+    </div></div><div class="media" data-m="a-check-1" data-rec="A single clean mark on white."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>A4 · A simple rotation <span>1 step</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-11</div><div>
+      <p>To animate, twirl open the layer's <b>Transform</b> in the timeline. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set Rotation to <code>360</code>. Press the spacebar to play: the mark spins in place.</p>
+    </div></div><div class="media" data-m="a-11" data-rec="Transform twirled open in the timeline; Rotation stopwatch at frame 0; 360 at the last frame; playing, the mark spins in place."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>A5 · Pre-compose: a strategy <span>1 step</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-12</div><div>
+      <p>Select the mark's layer. <span class="menu">Layer → Pre-compose</span>, and choose <b>Move all attributes into the new composition</b>.</p>
+      <p style="margin-top:8px">Your spinning mark is now a single layer. Inside it, nothing has changed. Outside, you can treat it as material: copy it, turn it, scale it — without touching the animation. Change the animation once, inside, and every copy updates.</p>
+      <p style="margin-top:8px">This is called <b>nesting</b>: a composition used as a layer inside another. Use it whenever something works and you want more of it.</p>
+      <div class="trap"><b>Why it matters here.</b> Each copy in the ring needs two rotations: its own spin, and a different turn around the centre. A layer can hold only one Rotation. Nesting puts the spin inside and leaves the pre-comp layer free to be turned.</div>
+    </div></div><div class="media" data-m="a-12" data-rec="Pre-compose dialog; the mark becomes one pre-comp layer, still spinning."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>A6 · Around a centre <span>3 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-13</div><div>
+      <p>Select the pre-comp layer and <span class="menu">Edit → Duplicate</span> (or <kbd>⌘D</kbd>) until you have <b>12</b> copies.</p>
+    </div></div><div class="media" data-m="a-13" data-rec="Duplicating the pre-comp layer; twelve layers in the timeline."></div></li>
+    <li><div class="txt"><div class="n">A-14</div><div>
+      <p>Select each copy in turn and set its <b>Rotation</b> in the Properties panel, <code>0</code>, <code>30</code>, <code>60</code>, <code>90</code>, <code>120</code>, <code>150</code>, <code>180</code>, <code>210</code>, <code>240</code>, <code>270</code>, <code>300</code>, <code>330</code>. Each is 30° further round — 360 ÷ 12.</p>
+      <div class="trap"><b>Copy cut off at the edge?</b> The mark has moved outside the pre-comp's frame. Open the pre-comp and bring it back in, or make the pre-comp larger in <span class="menu">Composition → Composition Settings</span>.</div>
+    </div></div><div class="media" data-m="a-14" data-rec="Typing rotation per copy; copies fan out round the centre."></div></li>
+    <li><div class="txt"><div class="n">A-15</div><div>
+      <p>Look where copies overlap: each one's white paper covers the marks beneath it. Select <b>all</b> the copies and set their mode to <b>Multiply</b>. If you can't see a Mode column, right-click any column heading in the timeline and tick <b>Modes</b>.</p>
+      <p style="margin-top:8px">The paper disappears and the overlaps build colour instead.</p>
+      <div class="trap"><b>What Multiply does.</b> It combines each layer with what's beneath it, darkening only. White changes nothing, so the paper vanishes; pigment over pigment gets denser.</div>
+    </div></div><div class="media" data-m="a-15" data-rec="Copies covering each other; all selected; Multiply set; overlaps clear and colour builds."></div></li>
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> Copies arranged round the centre. Where they overlap, the colour gets denser.</p>
+    </div></div><div class="media" data-m="a-check-2" data-rec="Finished ring, playing."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>A7 · Kaleidoscope behind <span>4 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">A-16</div><div>
+      <p>Select all 12 copies — not the white solid. <span class="menu">Layer → Pre-compose</span>, <b>Move all attributes into the new composition</b>. The whole ring is now one layer.</p>
+      <p style="margin-top:8px">Set the new layer's mode to <b>Multiply</b>.</p>
+      <div class="trap"><b>Leave the solid out.</b> If it goes inside, the ring comes back as a white square.</div>
+    </div></div><div class="media" data-m="a-16" data-rec="Selecting the twelve copies; Pre-compose; the ring becomes one layer set to Multiply."></div></li>
+
+    <li><div class="txt"><div class="n">A-17</div><div>
+      <p>Select the ring layer and <span class="menu">Edit → Duplicate</span> (or <kbd>⌘D</kbd>). You now have two identical rings, both on Multiply.</p>
+    </div></div><div class="media" data-m="a-17" data-rec="Ring layer duplicated; two ring layers in the timeline."></div></li>
+
+    <li><div class="txt"><div class="n">A-18</div><div>
+      <p>Select the <b>lower</b> ring layer — the one behind. <span class="menu">Effect → Stylize → CC Kaleida</span>. Change <b>Mirroring</b> until you like the pattern.</p>
+    </div></div><div class="media" data-m="a-18" data-rec="CC Kaleida on the lower ring; cycling Mirroring; pattern fills the background."></div></li>
+
+    <li><div class="txt"><div class="n">A-19</div><div>
+      <p>In the Properties panel, adjust <b>Opacity</b> on both layers until each is readable: your ring in front, the kaleidoscope as a ground behind it.</p>
+      <div class="trap"><b>Kaleida works better behind than alone.</b> On its own it makes anything look impressive and nothing look like yours. Behind your ring, it becomes texture for your mark.</div>
+    </div></div><div class="media" data-m="a-19" data-rec="Adjusting opacity on both layers; ring readable over the kaleidoscope."></div></li>
+
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> Your ring clearly in front, a softer kaleidoscope behind it, both moving.</p>
+    </div></div><div class="media" data-m="a-check-3" data-rec="Finished piece playing: ring over kaleidoscope."></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= B -->
+<h2 id="b"><small>Path B</small>Repeater and track matte</h2>
+<p class="intro">A drawn shape, multiplied by the Repeater, used as a window onto video. The shape alone is fireworks. The footage is where the piece becomes yours — shoot your own.</p>
+
+<section class="chunk">
+  <h3>B1 · A spinning square <span>5 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">B-01</div><div>
+      <p><span class="menu">Composition → New Composition</span>. Width <code>2048</code>, Height <code>2048</code>, <code>30</code> fps, duration <code>10</code> s.</p>
+    </div></div><div class="media" data-m="b-01" data-rec="Composition Settings: 2048 × 2048, 30 fps, 10 s."></div></li>
+
+    <li><div class="txt"><div class="n">B-02</div><div>
+      <p>Add a background: <span class="menu">Layer → New → Solid</span>, comp size, <b>black</b>.</p>
+    </div></div><div class="media" data-m="b-02" data-rec="New Solid dialog; black solid fills the comp."></div></li>
+
+    <li><div class="txt"><div class="n">B-03</div><div>
+      <p>Click the empty grey area below the layers in the timeline, so nothing is selected. Select the Rectangle tool (or another shape tool). Change <b>Fill</b> and <b>Stroke</b> to white in the toolbar. Draw a small rectangle just above the centre of the screen. A <b>Shape Layer 1</b> appears.</p>
+      <div class="trap"><b>Nothing selected, or you'll get a mask.</b> With the solid selected, the shape tool cuts a mask into it instead of making a new shape layer.</div>
+    </div></div><div class="media" data-m="b-03" data-rec="Clicking empty timeline space; Rectangle tool; Fill and Stroke set to white; small rectangle drawn just above the centre."></div></li>
+
+    <li><div class="txt"><div class="n">B-04</div><div>
+      <p>Put the anchor point on the square: <span class="menu">Layer → Transform → Center Anchor Point in Layer Content</span>. Check the small cross lands on the square.</p>
+      <div class="trap"><b>Why.</b> The square turns around its anchor point. Leave it where it is and the square swings in an arc instead of spinning.</div>
+    </div></div><div class="media" data-m="b-04" data-rec="Menu command; the anchor cross jumps to the middle of the square."></div></li>
+
+    <li><div class="txt"><div class="n">B-05</div><div>
+      <p>Spin the square. Twirl open <b>Shape Layer 1 → Contents → Rectangle 1 → Transform: Rectangle 1</b>. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set it to <code>360</code>.</p>
+      <div class="trap"><b>Every copy will carry this spin.</b> The Repeater copies the square as it is, so every square in the ring turns on the spot.</div>
+    </div></div><div class="media" data-m="b-05" data-rec="Transform: Rectangle 1 twirled open; Rotation keyframed 0 to 360; the square spins in place."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>B2 · Repeaters <span>4 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">B-06</div><div>
+      <p>On the <b>Contents</b> row, click <b>Add → Repeater</b>. Set Copies to <code>30</code>.</p>
+    </div></div><div class="media" data-m="b-06" data-rec="Add menu; Repeater added; copies set to 30."></div></li>
+
+    <li><div class="txt"><div class="n">B-07</div><div>
+      <p>Open <b>Repeater 1 → Transform: Repeater</b>. Set Position to <code>0, 0</code> and Rotation to <code>12</code>.</p>
+      <div class="trap"><b>Position must be 0, 0 for a ring.</b> Any other value and the copies march off in a line.</div>
+    </div></div><div class="media" data-m="b-07" data-rec="Setting Repeater position and rotation; ring forms."></div></li>
+
+    <li><div class="txt"><div class="n">B-08</div><div>
+      <p>Centre and scale the ring. With Shape Layer 1 selected: <span class="menu">Layer → Transform → Center Anchor Point in Layer Content</span>. Then in the <b>Properties</b> panel set <b>Position</b> to <code>1024, 1024</code>, and drag <b>Scale</b> down until the ring sits small and tight around the centre.</p>
+    </div></div><div class="media" data-m="b-08" data-rec="Center Anchor Point in Layer Content; Position 1024, 1024; Scale dragged down until the ring is small around the centre."></div></li>
+
+    <li><div class="txt"><div class="n">B-09</div><div>
+      <p>On the <b>Contents</b> row, click <b>Add → Repeater</b> again. Open <b>Repeater 2 → Transform: Repeater</b>. Set Copies <code>16</code> and Position <code>0, 0</code>.</p>
+      <p style="margin-top:8px">Play with <b>Scale</b> until the rings are spaced out across the frame. Then play with <b>Rotation</b> to offset each ring from the one inside it.</p>
+      <div class="trap"><b>A Repeater copies everything above it.</b> Repeater 1 copies the square into a ring. Repeater 2 sits below it, so it copies the whole ring — each copy scaled and turned a little more than the last.</div>
+    </div></div><div class="media" data-m="b-09" data-rec="Repeater 2; 16 copies; Scale adjusted until rings are spaced out; Rotation adjusted to offset them."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>B3 · A loop <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">B-10</div><div>
+      <p>Rotate the whole array. Twirl open <b>Shape Layer 1 → Transform</b> in the timeline. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set it to <code>360</code>. Press the spacebar to play: the whole array turns on its centre.</p>
+    </div></div><div class="media" data-m="b-10" data-rec="Layer Transform twirled open; Rotation keyframed 0 to 360; the whole array turning on its centre."></div></li>
+
+    <li><div class="txt"><div class="n">B-11</div><div>
+      <p>Make it flow. Open <b>Repeater 2</b>. At frame 0, click the stopwatch next to <b>Offset</b> (it reads <code>0</code>). Go to the last frame and set Offset to <code>1</code>. Play it.</p>
+      <div class="trap"><b>What Offset does.</b> It slides every copy along to the next copy's place. From 0 to 1, each ring grows into the one outside it, so the last frame matches the first and the loop runs forever — whatever scale and spacing you chose.</div>
+      <div class="trap"><b>A ring pops in at the centre on the loop?</b> The innermost ring is too big to hide the join. Scale the ring smaller at B-08.</div>
+    </div></div><div class="media" data-m="b-11" data-rec="Repeater 2 Offset keyframed 0 to 1; playing, the rings flow outward and loop without a jump."></div></li>
+
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> A dense array of rings from the centre to the edge, turning and flowing outward, looping without a jump.</p>
+    </div></div><div class="media" data-m="b-check-1" data-rec="The loop playing twice through: no jump at the join."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>B4 · Video through the pattern <span>6 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">B-12</div><div>
+      <p>Import your video and drag it into the timeline <b>directly below</b> the shape layer.</p>
+    </div></div><div class="media" data-m="b-12" data-rec="Video placed under the shape layer."></div></li>
+
+    <li><div class="txt"><div class="n">B-13</div><div>
+      <p>Zoom the first video. With it selected, drag <b>Scale</b> up in the <b>Properties</b> panel until the video fills the square frame.</p>
+    </div></div><div class="media" data-m="b-13" data-rec="First video selected; Scale dragged up until it fills the square."></div></li>
+    <li><div class="txt"><div class="n">B-14</div><div>
+      <p>Select the <b>video</b> layer. <span class="menu">Layer → Track Matte → Matte with Layer Above → Alpha Matte</span>. The video now shows only through the pattern.</p>
+      <div class="trap"><b>Still seeing all the video?</b> The shape layer's eye should have switched off by itself. If it's still on, the matte isn't applied.</div>
+    </div></div><div class="media" data-m="b-14" data-rec="Video layer selected; Layer → Track Matte → Matte with Layer Above → Alpha Matte; video shows only through the pattern."></div></li>
+
+    <li><div class="txt"><div class="n">B-15</div><div>
+      <p>If the video is shorter than the rotation, select the matted video layer and duplicate it (<kbd>⌘D</kbd>). Drag the duplicate along the timeline so it follows on from the first, until video covers the whole rotation.</p>
+    </div></div><div class="media" data-m="b-15" data-rec="Matted video duplicated; the duplicate dragged along so video covers the whole rotation."></div></li>
+
+    <li><div class="txt"><div class="n">B-16</div><div>
+      <p>Import a second, related video and put it just above the black solid. Then zoom it: with it selected, drag <b>Scale</b> up in the <b>Properties</b> panel until it fills the square frame. Now the pattern is a window from one video onto another.</p>
+    </div></div><div class="media" data-m="b-16" data-rec="Second video placed above the black solid; Scale dragged up until it fills the square."></div></li>
+
+    <li><div class="txt"><div class="n">B-17</div><div>
+      <p>If the second video is shorter than the rotation, select it and duplicate it (<kbd>⌘D</kbd>). Drag the duplicate along the timeline so it follows on from the first, until video covers the whole rotation.</p>
+    </div></div><div class="media" data-m="b-17" data-rec="Second video duplicated; the duplicate dragged along so it covers the whole rotation."></div></li>
+
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> One video seen through the spinning ring, another around it.</p>
+    </div></div><div class="media" data-m="b-check-2" data-rec="Finished composite, playing."></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= export -->
+<h2 id="export"><small>Finish</small>Export</h2>
+<p class="intro">The same for either path. The square is ready for the dome as it is. For a screen, place it inside a wide frame first.</p>
+
+<section class="chunk">
+  <h3>E1 · Render the square <span>4 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">E-01</div><div>
+      <p>With your main composition open: <span class="menu">Composition → Add to Render Queue</span>. The Render Queue panel opens.</p>
+      <div class="trap"><b>Render the main composition,</b> not a pre-comp. If you're looking inside a pre-comp, click the main composition's tab at the top of the timeline first.</div>
+    </div></div><div class="media" data-m="e-01" data-rec="Composition → Add to Render Queue; the Render Queue panel opens."></div></li>
+
+    <li><div class="txt"><div class="n">E-02</div><div>
+      <p>Click the blue text next to <b>Output Module</b>. Set <b>Format</b> to <b>H.264</b>. Click OK.</p>
+    </div></div><div class="media" data-m="e-02" data-rec="Output Module dialog; Format set to H.264."></div></li>
+
+    <li><div class="txt"><div class="n">E-03</div><div>
+      <p>Click the blue text next to <b>Output To</b>. Name the file and choose where to save it.</p>
+    </div></div><div class="media" data-m="e-03" data-rec="Output To dialog; naming the file and choosing a folder."></div></li>
+
+    <li><div class="txt"><div class="n">E-04</div><div>
+      <p>Click <b>Render</b>. Wait for the bar to finish.</p>
+      <div class="trap"><b>It renders the work area.</b> That's the bar across the top of the timeline. If you've shortened it, drag it back out to the full 10 seconds, or the loop will be cut short.</div>
+    </div></div><div class="media" data-m="e-04" data-rec="Render button; progress bar completes."></div></li>
+
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> Open the file and set it to loop. It plays round without a jump.</p>
+    </div></div><div class="media" data-m="e-check-1" data-rec="The exported file looping in QuickTime."></div></li>
+  </ol>
+</section>
+
+<section class="chunk">
+  <h3>E2 · For a screen <span>3 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">E-05</div><div>
+      <p><span class="menu">Composition → New Composition</span>. Width <code>1920</code>, Height <code>1080</code>, <code>30</code> fps, duration <code>10</code> s. Add a solid the same colour as your background: <span class="menu">Layer → New → Solid</span>.</p>
+    </div></div><div class="media" data-m="e-05" data-rec="New 1920 × 1080 composition; solid matching the background colour."></div></li>
+
+    <li><div class="txt"><div class="n">E-06</div><div>
+      <p>Drag your square composition from the Project panel into the timeline, above the solid. In the <b>Properties</b> panel, drag <b>Scale</b> down until the whole square fits top to bottom.</p>
+      <div class="trap"><b>Your square is now a layer.</b> The same nesting as pre-composing: the whole piece, animation and all, placed in a new frame.</div>
+    </div></div><div class="media" data-m="e-06" data-rec="Square composition dragged into the wide comp; scaled down to fit the height."></div></li>
+
+    <li><div class="txt"><div class="n">E-07</div><div>
+      <p>Render it as in E-01 to E-04, with this wide composition open.</p>
+    </div></div><div class="media" data-m="e-07" data-rec="Wide composition added to the Render Queue and rendered."></div></li>
+
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Checkpoint.</b> A wide file with your square piece centred in it, looping without a jump.</p>
+    </div></div><div class="media" data-m="e-check-2" data-rec="The wide export looping."></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= examples -->
+<h2 id="examples"><small>Made this way</small>Examples</h2>
+<p class="intro">Finished pieces from the same two processes.</p>
+<!-- Captions: one line each. Drafted, not Mat's words — edit freely. -->
+<div class="gallery">
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-1.mp4"></video></div>
+    <figcaption>Nested shapes of colour, repeated around the centre.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-2.mp4"></video></div>
+    <figcaption>Vertical lines, repeated around the centre.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-3.mp4"></video></div>
+    <figcaption>Radial lines from a point, repeated around the centre.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-2-kaleidoscope.mp4"></video></div>
+    <figcaption>The same ring with CC Kaleida underneath, filling the background.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/eucalypt.mp4"></video></div>
+    <figcaption>The same process on a photograph of leaves instead of a painted mark.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/repeater-video.mp4"></video></div>
+    <figcaption>Path B: the repeater pattern used as a track matte over video.</figcaption>
+  </figure>
+</div>
+
+<!-- ================================================================= swap -->
+<h2 id="swap"><small>Then</small>Keep going</h2>
+<div class="box swap">
+  <p style="margin:0">Apply these processes to anything: found material, video, any material at all. Combine them and remix them. Can you make a grid instead of a radial composition?</p>
+</div>
+
+<!-- ================================================================= dome -->
+<h2 id="dome"><small>Check</small>See it on the dome</h2>
+<p class="intro">Render one frame: <span class="menu">Composition → Save Frame As → File</span>, PNG. Drop it into a dome simulator and look up.</p>
+<div class="box">
+  <ul style="margin:0">
+    <li><a href="https://claude.ai/code/artifact/0e4c8b18-4bf2-4463-9b5e-c3a948470d89">Dome viewer</a> — stills. The camera stays at the dome's centre, so what you see is what the dome does.</li>
+  </ul>
+  <p style="margin-bottom:0">Before you look: the centre of your square is straight up, and distance from the centre is how far down the dome. Marks near the edge stretch — that's the dome, not an error. Keep important things within about half the radius. For the planetarium itself, check what they want delivered — often a numbered image sequence rather than a video, which is set in the same Output Module under Format.</p>
+</div>
+
+<footer>BCM116 · Relevant to Investigation prompt 9: repetition, procedural generation and difference across frames arrayed in space or time.</footer>
+</main>
+
+<script>
+// Try media/<name>.mp4, then .png; otherwise show what to record.
+document.querySelectorAll('.media[data-m]').forEach(slot => {
+  const name = slot.dataset.m;
+  const placeholder = () => {
+    slot.style.background = 'transparent';
+    slot.style.border = '0';
+    slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+      (slot.dataset.rec || '') + '</div>';
+  };
+  const tryImg = () => {
+    const img = new Image();
+    img.alt = name;
+    img.loading = 'lazy';
+    img.onload = () => { slot.innerHTML = ''; slot.appendChild(img); };
+    img.onerror = placeholder;
+    img.src = 'media/' + name + '.png';
+  };
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  v.preload = 'metadata';
+  v.onloadeddata = () => { slot.innerHTML = ''; slot.appendChild(v); v.play().catch(()=>{}); };
+  v.onerror = tryImg;
+  v.src = 'media/' + name + '.mp4';
+});
+
+// Gallery: only fetch a render once it is near the viewport, and only let it
+// play while it is on screen. The five files are large; this keeps the page
+// from pulling all of them at load.
+(() => {
+  const shots = document.querySelectorAll('.gallery video[data-src]');
+  if (!shots.length) return;
+  const start = v => {
+    if (!v.src) v.src = v.dataset.src;
+    v.play().catch(() => {});
+  };
+  if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) start(e.target);
+      else if (e.target.src) e.target.pause();
+    });
+  }, { rootMargin: '200px' });
+  shots.forEach(v => io.observe(v));
+})();
+</script>
+</body>
+</html>

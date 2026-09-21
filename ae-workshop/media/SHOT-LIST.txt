@@ -1,0 +1,52 @@
+Record these. Name each file exactly as below, .mp4 (silent loop, 5-10 s) or .png.
+
+a-01         Three finished paintings on one sheet.
+a-02         Phone held flat over a painting, near a window.
+a-03         Opening After Effects; New Project.
+a-04         New Composition button in the centre of the empty project; settings filled in: 2048 × 2048, 30 fps, 10 s.
+a-05         New Solid dialog; white solid fills the comp.
+a-06         Photo dragged from Finder into the timeline, above the solid.
+a-07         Photo dragged so the chosen mark sits in the top half; Scale dragged down; a little back and forth.
+a-08         Dragging the Levels white marker; the photo edge vanishes, then the paint turns luminous.
+a-09         Photo layer selected; box dragged around one mark; the other two disappear.
+a-10         Menu command; the anchor cross jumps to the middle of the mark.
+a-check-1    A single clean mark on white.
+a-11         Transform twirled open in the timeline; Rotation stopwatch at frame 0; 360 at the last frame; playing, the mark spins in place.
+a-12         Pre-compose dialog; the mark becomes one pre-comp layer, still spinning.
+a-13         Duplicating the pre-comp layer; twelve layers in the timeline.
+a-14         Typing rotation per copy; copies fan out round the centre.
+a-15         Copies covering each other; all selected; Multiply set; overlaps clear and colour builds.
+a-check-2    Finished ring, playing.
+a-16         Selecting the twelve copies; Pre-compose; the ring becomes one layer set to Multiply.
+a-17         Ring layer duplicated; two ring layers in the timeline.
+a-18         CC Kaleida on the lower ring; cycling Mirroring; pattern fills the background.
+a-19         Adjusting opacity on both layers; ring readable over the kaleidoscope.
+a-check-3    Finished piece playing: ring over kaleidoscope.
+b-01         Composition Settings: 2048 × 2048, 30 fps, 10 s.
+b-02         New Solid dialog; black solid fills the comp.
+b-03         Clicking empty timeline space; Rectangle tool; Fill and Stroke set to white; small rectangle drawn just above the centre.
+b-04         Menu command; the anchor cross jumps to the middle of the square.
+b-05         Transform: Rectangle 1 twirled open; Rotation keyframed 0 to 360; the square spins in place.
+b-06         Add menu; Repeater added; copies set to 30.
+b-07         Setting Repeater position and rotation; ring forms.
+b-08         Center Anchor Point in Layer Content; Position 1024, 1024; Scale dragged down until the ring is small around the centre.
+b-09         Repeater 2; 16 copies; Scale adjusted until rings are spaced out; Rotation adjusted to offset them.
+b-10         Layer Transform twirled open; Rotation keyframed 0 to 360; the whole array turning on its centre.
+b-11         Repeater 2 Offset keyframed 0 to 1; playing, the rings flow outward and loop without a jump.
+b-check-1    The loop playing twice through: no jump at the join.
+b-12         Video placed under the shape layer.
+b-13         First video selected; Scale dragged up until it fills the square.
+b-14         Video layer selected; Layer → Track Matte → Matte with Layer Above → Alpha Matte; video shows only through the pattern.
+b-15         Matted video duplicated; the duplicate dragged along so video covers the whole rotation.
+b-16         Second video placed above the black solid; Scale dragged up until it fills the square.
+b-17         Second video duplicated; the duplicate dragged along so it covers the whole rotation.
+b-check-2    Finished composite, playing.
+e-01         Composition → Add to Render Queue; the Render Queue panel opens.
+e-02         Output Module dialog; Format set to H.264.
+e-03         Output To dialog; naming the file and choosing a folder.
+e-04         Render button; progress bar completes.
+e-check-1    The exported file looping in QuickTime.
+e-05         New 1920 × 1080 composition; solid matching the background colour.
+e-06         Square composition dragged into the wide comp; scaled down to fit the height.
+e-07         Wide composition added to the Render Queue and rendered.
+e-check-2    The wide export looping.
