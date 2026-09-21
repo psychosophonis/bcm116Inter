@@ -86,6 +86,27 @@
   .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
   .gallery video{display:block;width:100%;height:100%;object-fit:cover}
   .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+
+  /* Click any clip to open it full size. */
+  .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
+        position:relative;line-height:0;font:inherit;color:inherit}
+  .mbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mzoom{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;
+         font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;
+         padding:5px 7px;border-radius:4px;pointer-events:none}
+  .mbtn:hover .mzoom{background:var(--accent)}
+  .gallery .shot .mbtn,.gallery .shot .mbtn video{height:100%}
+
+  .lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;padding:30px}
+  .lb[hidden]{display:none}
+  .lb video,.lb img{display:block;width:auto;height:auto;background:#000;border-radius:4px;
+                    max-width:min(1600px,95vw);max-height:88vh}
+  .lbclose{position:absolute;top:14px;right:16px;background:var(--panel);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;cursor:pointer;
+           font:600 14px/1 inherit;padding:10px 14px}
+  .lbcap{position:absolute;left:0;right:0;bottom:16px;text-align:center;padding:0 24px;
+         color:#d6d6d6;font:13px/1.5 ui-monospace,Menlo,monospace}
   footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
   a{color:var(--accent)}
 </style>
@@ -474,44 +495,158 @@
 </main>
 
 <script>
-// Try media/<name>.mp4, then .png; otherwise show what to record.
-document.querySelectorAll('.media[data-m]').forEach(slot => {
-  const name = slot.dataset.m;
-  const placeholder = () => {
-    slot.style.background = 'transparent';
-    slot.style.border = '0';
-    slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
-      (slot.dataset.rec || '') + '</div>';
-  };
-  const tryImg = () => {
-    const img = new Image();
-    img.alt = name;
-    img.loading = 'lazy';
-    img.onload = () => { slot.innerHTML = ''; slot.appendChild(img); };
-    img.onerror = placeholder;
-    img.src = 'media/' + name + '.png';
-  };
-  const v = document.createElement('video');
-  v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
-  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
-  v.preload = 'metadata';
-  v.onloadeddata = () => { slot.innerHTML = ''; slot.appendChild(v); v.play().catch(()=>{}); };
-  v.onerror = tryImg;
-  v.src = 'media/' + name + '.mp4';
+// ---------------------------------------------------------------- lightbox
+// Clips are small in the page. Clicking one opens it full size.
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.hidden = true;
+lb.innerHTML = '<button class="lbclose" type="button">Close ✕</button>' +
+               '<div class="lbstage"></div><div class="lbcap"></div>';
+document.body.appendChild(lb);
+const lbStage = lb.querySelector('.lbstage');
+const lbCap = lb.querySelector('.lbcap');
+let lbReturn = null;
+
+const closeLb = () => {
+  lb.hidden = true;
+  lbStage.innerHTML = '';
+  if (lbReturn) { lbReturn.focus(); lbReturn = null; }
+};
+const openLb = (src, kind, caption, opener) => {
+  lbReturn = opener || null;
+  lbStage.innerHTML = '';
+  let el;
+  if (kind === 'img') {
+    el = new Image();
+    el.src = src;
+    el.alt = caption || '';
+  } else {
+    el = document.createElement('video');
+    el.src = src;
+    el.muted = true; el.loop = true; el.controls = true;
+    el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+    el.playsInline = true;
+    el.play().catch(() => {});
+  }
+  lbStage.appendChild(el);
+  lbCap.textContent = caption || '';
+  lb.hidden = false;
+  lb.querySelector('.lbclose').focus();
+};
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+lb.querySelector('.lbclose').addEventListener('click', closeLb);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+
+// Wrap a loaded element so clicking it opens the lightbox.
+const makeExpandable = (slot, el, src, kind, caption) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mbtn';
+  btn.setAttribute('aria-label', 'Open ' + caption + ' full size');
+  const tag = document.createElement('span');
+  tag.className = 'mzoom';
+  tag.textContent = '⤢ full size';
+  btn.appendChild(el);
+  btn.appendChild(tag);
+  btn.addEventListener('click', () => openLb(src, kind, caption, btn));
+  slot.innerHTML = '';
+  slot.appendChild(btn);
+  return btn;
+};
+
+// ------------------------------------------------------------- step media
+// Resolve media/<name>.mp4, then .png, then fall back to the note in
+// data-rec. A <video> does not reliably fire `error` on a 404, so ask the
+// server directly instead of relying on that. Nothing loads until the slot
+// is near the viewport, and clips show a still frame rather than autoplaying.
+const exists = async url => {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch (e) {
+    return null;          // file:// or blocked — caller falls back
+  }
+};
+
+const showPlaceholder = (slot, name) => {
+  slot.style.background = 'transparent';
+  slot.style.border = '0';
+  slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+    (slot.dataset.rec || '') + '</div>';
+};
+
+const showImg = (slot, name) => new Promise(res => {
+  const img = new Image();
+  img.alt = slot.dataset.rec || name;
+  img.onload = () => { makeExpandable(slot, img, img.src, 'img', name); res(true); };
+  img.onerror = () => res(false);
+  img.src = 'media/' + name + '.png';
 });
 
-// Gallery: only fetch a render once it is near the viewport, and only let it
-// play while it is on screen. The five files are large; this keeps the page
-// from pulling all of them at load.
+const showVideo = (slot, name, confirmed) => new Promise(res => {
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  let settled = false;
+  const done = ok => { if (settled) return; settled = true; res(ok); };
+  v.onloadedmetadata = () => {
+    // Park on a middle frame: the first frame of a screen capture is
+    // usually the app sitting still, which says nothing about the step.
+    try { v.currentTime = Math.min(v.duration / 2, v.duration - 0.1); } catch (e) {}
+    if (!confirmed) { makeExpandable(slot, v, v.src, 'video', name); done(true); }
+  };
+  v.onerror = () => { if (!confirmed) done(false); };
+  v.src = 'media/' + name + '.mp4';
+  if (confirmed) {
+    // The server already said this file is there, so show it now rather than
+    // waiting on metadata — a codec the browser dislikes must not leave the
+    // slot blank. The seek above still runs when metadata arrives.
+    makeExpandable(slot, v, v.src, 'video', name);
+    done(true);
+  } else {
+    setTimeout(() => done(false), 6000);
+  }
+});
+
+const loadSlot = async slot => {
+  const name = slot.dataset.m;
+  const hasMp4 = await exists('media/' + name + '.mp4');
+  if (hasMp4 === true)  { if (await showVideo(slot, name, true)) return; }
+  if (hasMp4 === false) { if (await showImg(slot, name)) return; showPlaceholder(slot, name); return; }
+  // HEAD unavailable: try each in turn.
+  if (await showVideo(slot, name, false)) return;
+  if (await showImg(slot, name)) return;
+  showPlaceholder(slot, name);
+};
+
+const slots = document.querySelectorAll('.media[data-m]');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      loadSlot(e.target);
+    });
+  }, { rootMargin: '400px' });
+  slots.forEach(s => io.observe(s));
+} else {
+  slots.forEach(loadSlot);
+}
+
+// ---------------------------------------------------------------- gallery
+// Six finished renders. These are the point of the section, so they do play
+// in place once scrolled to — but only then, and they pause when they leave.
 (() => {
   const shots = document.querySelectorAll('.gallery video[data-src]');
-  if (!shots.length) return;
-  const start = v => {
-    if (!v.src) v.src = v.dataset.src;
-    v.play().catch(() => {});
-  };
+  shots.forEach(v => {
+    const cap = v.closest('figure').querySelector('figcaption');
+    const btn = makeExpandable(v.closest('.shot'), v, v.dataset.src,
+                               'video', (cap && cap.textContent.trim()) || 'render');
+    btn.setAttribute('aria-label', 'Open this render full size');
+  });
+  const start = v => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
   if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
-  const io = new IntersectionObserver((entries) => {
+  const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) start(e.target);
       else if (e.target.src) e.target.pause();
