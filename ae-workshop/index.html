@@ -86,6 +86,14 @@
   .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
   .gallery video{display:block;width:100%;height:100%;object-fit:cover}
   .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  .gallery.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.g1{grid-template-columns:minmax(0,1fr);max-width:520px}
+  @media (max-width:760px){.gallery.g3,.gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.gallery.g3,.gallery.g2{grid-template-columns:minmax(0,1fr)}}
+  h3.exh{font-size:15px;margin:30px 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .exnote{color:var(--dim);max-width:44em;margin:0 0 12px;font-size:15px}
+  p.seealso{margin:-8px 0 18px;font-size:14px;color:var(--dim)}
 
   /* Click any clip to open it full size. */
   .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
@@ -135,6 +143,7 @@
 <!-- ================================================================= A -->
 <h2 id="a"><small>Path A</small>Watercolour and repetition</h2>
 <p class="intro">A watercolour mark, repeated around a centre. Where copies overlap, the colour builds.</p>
+<p class="seealso">Finished this way: <a href="#ex-triptych">a three-screen work</a>, <a href="#ex-found">the same process on a found object</a>, and <a href="#ex-kaleida">a kaleidoscope variation</a>.</p>
 
 <section class="chunk">
   <h3>A1 · Make and capture <span>2 steps</span></h3>
@@ -270,6 +279,7 @@
 <!-- ================================================================= B -->
 <h2 id="b"><small>Path B</small>Repeater and track matte</h2>
 <p class="intro">A drawn shape, multiplied by the Repeater, used as a window onto video. The shape alone is fireworks. The footage is where the piece becomes yours — shoot your own.</p>
+<p class="seealso">Finished this way: <a href="#ex-pathb">squares over video</a>.</p>
 
 <section class="chunk">
   <h3>B1 · A spinning square <span>5 steps</span></h3>
@@ -432,7 +442,10 @@
 <h2 id="examples"><small>Made this way</small>Examples</h2>
 <p class="intro">Finished pieces from the same two processes.</p>
 <!-- Captions: one line each. Drafted, not Mat's words — edit freely. -->
-<div class="gallery">
+
+<h3 class="exh" id="ex-triptych">A three-screen work</h3>
+<p class="exnote">Three painted marks — nested shapes, vertical lines, radial lines from a point — each put through Path A. They loop together as one work across three screens.</p>
+<div class="gallery g3">
   <figure>
     <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-1.mp4"></video></div>
     <figcaption>Nested shapes of colour, repeated around the centre.</figcaption>
@@ -445,15 +458,24 @@
     <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-3.mp4"></video></div>
     <figcaption>Radial lines from a point, repeated around the centre.</figcaption>
   </figure>
-  <figure>
-    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-2-kaleidoscope.mp4"></video></div>
-    <figcaption>The same ring with CC Kaleida underneath, filling the background.</figcaption>
-  </figure>
+</div>
+
+<h3 class="exh" id="ex-found">A found object, same process</h3>
+<p class="exnote">The mark does not have to be painted. This is Path A run on a photograph of leaves and gumnuts laid on white — opaque where watercolour is translucent, so it builds silhouette and structure instead of colour.</p>
+<div class="gallery g1">
   <figure>
     <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/eucalypt.mp4"></video></div>
     <figcaption>The same process on a photograph of leaves instead of a painted mark.</figcaption>
   </figure>
-  <figure>
+</div>
+
+<h3 class="exh">Variations</h3>
+<div class="gallery g2">
+  <figure id="ex-kaleida">
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/comp-2-kaleidoscope.mp4"></video></div>
+    <figcaption>The same ring with CC Kaleida underneath, filling the background.</figcaption>
+  </figure>
+  <figure id="ex-pathb">
     <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/repeater-video.mp4"></video></div>
     <figcaption>Path B: the repeater pattern used as a track matte over video.</figcaption>
   </figure>
@@ -463,6 +485,7 @@
 <h2 id="swap"><small>Then</small>Keep going</h2>
 <div class="box swap">
   <p style="margin:0">Apply these processes to anything: found material, video, any material at all. Combine them and remix them. Can you make a grid instead of a radial composition?</p>
+  <p class="seealso" style="margin:10px 0 0">Found material, worked exactly this way: <a href="#ex-found">leaves and gumnuts on white</a>.</p>
 </div>
 
 <!-- ================================================================= dome -->
