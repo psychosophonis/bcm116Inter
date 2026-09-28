@@ -63,17 +63,15 @@
         .assessment-switcher {
             display: flex;
             flex-wrap: wrap;
-            gap: 0;
-            border: 1px solid var(--ink);
-            overflow: hidden;
+            gap: 8px;
             width: fit-content;
-            background: white;
         }
 
         .assessment-switcher button {
             font-family: 'Inter', sans-serif;
             padding: 8px 14px;
-            border: none;
+            border: 1px solid var(--ink);
+            border-radius: 3px;
             background: white;
             color: var(--ink);
             font-size: 0.82em;
@@ -86,10 +84,6 @@
         .assessment-switcher button.active {
             background: var(--ink);
             color: white;
-        }
-
-        .assessment-switcher button:not(:last-child) {
-            border-right: 1px solid var(--ink);
         }
 
         .assessment-note {
@@ -167,28 +161,6 @@
             font-style: italic;
             font-size: 0.93em;
         }
-
-        .flat-criteria {
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .flat-criterion {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--line);
-        }
-        .flat-criterion:last-child { border-bottom: none; }
-        .flat-criterion-head {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            font-weight: 700;
-            color: var(--ink);
-            margin-bottom: 4px;
-        }
-        .flat-criterion-weight { color: var(--red); flex-shrink: 0; }
-        .flat-criterion-desc { font-size: 0.95em; color: #333; }
 
         .page-break { page-break-before: always; }
 
@@ -627,45 +599,66 @@
 
         ca: {
             subtitle: "Critical Analysis Alternative — Investigation 2, and Investigations 3 & 4",
-            flat: true,
-            note: "This rubric covers the Critical Analysis Alternative for both Investigation 2 (1800 words, one film) and Investigations 3 & 4 (2500 words, one artist's body of work) — the four criteria and standards are the same for both; only the word count and scope differ. It does not cover Investigation 1's VR critical analysis, which is a separate brief.",
+            noteLabel: "Scope",
+            note: "One rubric for both alternatives. Investigation 2: 1800 words, a close analysis of one film that uses interesting strategies of immersion, with at least two critical or academic sources and frame references. Investigations 3 &amp; 4: 2500 words, an analysis of a contemporary media artist's body of work, addressing what it tells us about the quality or potential of immersion. The four criteria and standards are the same; only word count and scope differ. It does not cover Investigation 1's VR critical analysis, which is a separate brief.",
             criteria: [
                 {
                     id: "sources",
                     shortName: "Research and Sources",
                     fullTitle: "1. Research and Sources",
-                    weight: "25%",
-                    text: "Your engagement with relevant critical and scholarly work, on immersion, and on the film or artist you're writing about. Sources should inform your argument, not decorate it. For Investigation 2, use at least two critical or academic sources, worked into your reading rather than listed alongside it. For Investigations 3 & 4, engage more widely, as suits a longer study of a body of work. The course's own ideas (Crary, and the concepts we've built across the subject) should be visible in how you build your analysis."
+                    slo: "25%",
+                    outline: "Critical Analysis Rubric: \u201cYour engagement with relevant critical and scholarly work, on immersion, and on the film or artist you're writing about. Sources should inform your argument, not decorate it.\u201d",
+                    grades: {
+                        hd: { desc: "Sources and the course's ideas are absorbed into your thinking. Your own position on the scholarship is visible: you extend a source, disagree with it, or reframe it, and arrive at something the sources don't say.", threshold: null },
+                        d:  { desc: "At least one source is taken up and put to work: developed, tested, or qualified against what the film or artist's work actually does. Course ideas (Crary and the concepts built across the subject) are applied at several points in the analysis. For Investigations 3 & 4, the sources range widely enough to suit a body of work.", threshold: "What lifts this to D is that a source changes or sharpens a claim, so the argument reads differently with that source removed." },
+                        c:  { desc: "The required sources (at least two for Investigation 2) are cited in support of specific claims, and a course idea is named and applied at least once. For Investigations 3 & 4, the sources go beyond the minimum.", threshold: "What lifts this to C is that each source is attached to a claim it actually bears on." },
+                        p:  { desc: "The minimum number of sources is present, but they sit alongside the argument. Any of them could be removed without a claim changing.", threshold: "What lifts this to P is that the required sources are there and relevant to the topic." },
+                        f:  { desc: "Sources are insufficient or absent, or the course's ideas do not appear.", threshold: null }
+                    }
                 },
                 {
                     id: "analysis",
                     shortName: "Analysis and Argument",
                     fullTitle: "2. Analysis and Argument",
-                    weight: "25%",
-                    text: "A clear, sustained argument about strategies of immersion, what they are, how they work, and what they reveal. For Investigation 2, argue how your chosen film uses specific strategies. For Investigations 3 & 4, argue what the artist's body of work tells us about immersion itself. We're looking for genuine analytical thinking: following the evidence, testing a claim, and arriving somewhere a reader couldn't have assumed at the outset, not summary or description."
+                    slo: "25%",
+                    outline: "Critical Analysis Rubric: \u201cA clear, sustained argument about strategies of immersion, what they are, how they work, and what they reveal.\u201d",
+                    grades: {
+                        hd: { desc: "The argument arrives somewhere a reader couldn't have assumed at the outset, and tells us something real about immersion. For Investigations 3 & 4, it says something about immersion itself, drawn from the body of work.", threshold: null },
+                        d:  { desc: "The argument is tested on the page: at least one complication, counter-case, or limit is raised and answered, and the conclusion follows from the evidence presented.", threshold: "What lifts this to D is that you can point to the place where the argument meets resistance and responds." },
+                        c:  { desc: "A clear argument about strategies of immersion is stated early, and each section addresses it. For Investigation 2, it argues how the chosen film uses specific strategies. For Investigations 3 & 4, it argues what the artist's body of work tells us about immersion.", threshold: "What lifts this to C is that there is a stated argument and the sections stay with it." },
+                        p:  { desc: "An argument is stated, but the analysis stays largely descriptive, or the sections do not hold together around it.", threshold: "What lifts this to P is that an argument is present." },
+                        f:  { desc: "No sustained argument. Summary or description stands in for analysis.", threshold: null }
+                    }
                 },
                 {
                     id: "reading",
                     shortName: "Close Reading and Evidence",
                     fullTitle: "3. Close Reading and Evidence",
-                    weight: "25%",
-                    text: "Precise, specific attention to the actual work. For Investigation 2, close-read the film's techniques and illustrate with frame references. For Investigations 3 & 4, engage with particular works from the artist's catalogue rather than characterising them in general. Ground every claim in what's actually on screen or in the work, not in the abstract."
+                    slo: "25%",
+                    outline: "Critical Analysis Rubric: \u201cPrecise, specific attention to the actual work... Ground every claim in what's actually on screen or in the work, not in the abstract.\u201d",
+                    grades: {
+                        hd: { desc: "The close reading turns up something a first viewing wouldn't show, and the argument is built from it. The evidence produces the insight.", threshold: null },
+                        d:  { desc: "Every major claim is tied to a specific instance. Each instance is described precisely, in words or with a frame or image, so the technique is visible to a reader: what is on screen or in the work (framing, sound, movement, interface, scale), the technique, and the effect it produces. For Investigation 2, the instances are scenes from the film. For Investigations 3 & 4, they are particular works from the catalogue.", threshold: "What lifts this to D is that for each claim you can find the description, the technique, and the effect." },
+                        c:  { desc: "Each scene or work discussed is identified, and what is on screen that supports the claim is described or shown in a frame or image. For a claim about depth of field, that means what is in focus and what is not. A reader who hasn't seen the work can check the claim. Most claims rest on a specific instance. Some passages stay general.", threshold: "What lifts this to C is that a reader can check each claim against a description or an image of the work." },
+                        p:  { desc: "There is some reference to the actual work, but claims about technique (depth of field, framing, sound) are stated with no description or image of what is on screen that shows it. A reader who hasn't seen the work can't check the claim. Claims are mostly general.", threshold: "What lifts this to P is that the work itself is referred to." },
+                        f:  { desc: "Little or no engagement with the work itself.", threshold: null }
+                    }
                 },
                 {
                     id: "structure",
-                    shortName: "Structure, Clarity & Referencing",
+                    shortName: "Structure, Clarity, Referencing",
                     fullTitle: "4. Structure, Clarity, and Referencing",
-                    weight: "25%",
-                    text: "Clear structure, precise writing, and correct Harvard referencing. Integrate your frame references (Investigation 2) or images of the works (Investigations 3 & 4) to support the argument. Write to be read and understood."
+                    slo: "25%",
+                    outline: "Critical Analysis Rubric: \u201cClear structure, precise writing, and correct Harvard referencing. Integrate your frame references (Investigation 2) or images of the works (Investigations 3 & 4)... Write to be read and understood.\u201d",
+                    grades: {
+                        hd: { desc: "The order of the writing builds the argument: each section depends on the one before it. The prose is exact and economical throughout, and referencing is correct.", threshold: null },
+                        d:  { desc: "Each paragraph advances the argument. Frame references or images are discussed in the text at the point they support a claim. Harvard referencing is correct throughout.", threshold: "What lifts this to D is that every image is discussed where it is used and the referencing has no errors." },
+                        c:  { desc: "The writing has a clear introduction, body, and conclusion. Frame references or images are included and labelled. Harvard referencing is mostly correct.", threshold: "What lifts this to C is a clear overall structure with images included and referencing in order." },
+                        p:  { desc: "A structure can be discerned, but it is unclear in places. Referencing is inconsistent, or images are included without discussion.", threshold: "What lifts this to P is that the essay has a discernible structure." },
+                        f:  { desc: "The work is poorly structured or inadequately referenced. It may be under length.", threshold: null }
+                    }
                 }
-            ],
-            bands: {
-                hd: "A genuinely insightful argument that tells us something real about immersion, built from precise close reading and confident engagement with scholarship. Sources and the course's ideas are absorbed into your thinking, not reported. Every claim is grounded in specific evidence from the work. Structured, referenced, and written with real command.",
-                d:  "A clear, well-supported argument with strong close reading and solid engagement with relevant sources. Specific and grounded throughout, with only minor lapses into generalisation. Well structured and correctly referenced.",
-                c:  "A sound argument with adequate close reading and use of the required sources, but some claims stay general where they should be specific, or the engagement with scholarship is more dutiful than integrated. Structure and referencing are competent.",
-                p:  "Meets the basic requirements, an argument, the minimum sources, some reference to the actual work, but the analysis stays largely descriptive, the reading is thin or unfocused, or the argument doesn't hold together. Referencing may be inconsistent.",
-                f:  "Does not meet the requirements: no sustained argument, insufficient or absent sources, little genuine engagement with the work itself, or descriptive summary in place of analysis. May be under length, poorly structured, or inadequately referenced."
-            }
+            ]
         }
     };
 
@@ -768,46 +761,14 @@
         document.body.className = s === 'normal' ? '' : `font-${s}`;
     }
 
-    function renderFlatContent(data) {
-        const criteriaHTML = data.criteria
-            .filter(c => selectedCriteria.has(c.id))
-            .map(c => `
-                <div class="flat-criterion">
-                    <div class="flat-criterion-head"><span>${c.fullTitle}</span><span class="flat-criterion-weight">${c.weight}</span></div>
-                    <p class="flat-criterion-desc">${c.text}</p>
-                </div>`).join('');
-
-        const bandsHTML = GRADES
-            .filter(g => selectedGrades.has(g.id))
-            .map(g => `
-                <div class="grade-box ${g.id}">
-                    <div class="grade-header">${g.shortName} — ${g.fullName}</div>
-                    <div class="grade-desc">${data.bands[g.id]}</div>
-                </div>`).join('');
-
-        document.getElementById('content-container').innerHTML = `
-            <div class="criterion-section">
-                <h2 class="criterion-title"><span>What you're marked on</span></h2>
-                <div class="flat-criteria">${criteriaHTML}</div>
-            </div>
-            <div class="criterion-section">
-                <h2 class="criterion-title"><span>Grade bands</span></h2>
-                ${bandsHTML}
-            </div>`;
-    }
-
     function renderContent() {
         const data = ASSESSMENTS[currentAssessment];
         document.getElementById('main-subtitle').textContent = data.subtitle;
 
         document.getElementById('note-container').innerHTML = data.note
-            ? `<div class="assessment-note"><strong>How this is marked</strong>${data.note}</div>`
+            ? `<div class="assessment-note"><strong>${data.noteLabel || 'How this is marked'}</strong>${data.note}</div>`
             : '';
 
-        if (data.flat) {
-            renderFlatContent(data);
-            return;
-        }
 
         const html = data.criteria
             .filter(c => selectedCriteria.has(c.id))
