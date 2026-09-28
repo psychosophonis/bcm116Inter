@@ -61,10 +61,9 @@
         }
 
         .assessment-switcher {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
-            width: fit-content;
         }
 
         .assessment-switcher button {
@@ -77,7 +76,8 @@
             font-size: 0.82em;
             font-weight: 500;
             cursor: pointer;
-            white-space: nowrap;
+            line-height: 1.3;
+            text-wrap: balance;
             transition: background 0.15s, color 0.15s;
         }
 
@@ -273,6 +273,7 @@
         body.font-large .grade-header { font-size: 1.1em; }
 
         @media (max-width: 600px) {
+            .assessment-switcher { grid-template-columns: 1fr 1fr; }
             .controls { position: static; max-width: none; margin-bottom: 24px; }
         }
 
@@ -352,9 +353,9 @@
 
         <div class="assessment-switcher">
             <button id="btn-a1" class="active" onclick="switchAssessment('a1')">Discord Contribution (Ongoing)</button>
-            <button id="btn-a2" onclick="switchAssessment('a2')">Investigation 1 (Week 3)</button>
-            <button id="btn-a3" onclick="switchAssessment('a3')">Investigation 2 (Week 7)</button>
-            <button id="btn-a4" onclick="switchAssessment('a4')">Investigation 3 &amp; 4 (Week 13)</button>
+            <button id="btn-a2" onclick="switchAssessment('a2')">Investigation&nbsp;1 (Week&nbsp;3)</button>
+            <button id="btn-a3" onclick="switchAssessment('a3')">Investigation&nbsp;2 (Week&nbsp;7)</button>
+            <button id="btn-a4" onclick="switchAssessment('a4')">Investigation&nbsp;3&nbsp;&amp;&nbsp;4 (Week&nbsp;13)</button>
             <button id="btn-ca" onclick="switchAssessment('ca')">Critical Analysis Alternative</button>
         </div>
     </div>
@@ -507,12 +508,13 @@
                     fullTitle: "3. Presentation and Experience",
                     slo: "SLO 3 · 30%",
                     outline: "Subject Outline, Assessment 3: \u201cPresentation and Experience (30%) \u2014 Quality and finish as media art: the work is gallery-ready, and its finish and presentation shape how an audience encounters and experiences it.\u201d",
+                    brief: "Gallery-ready means the work plays through without technical faults (picture, sound, sync, format), as it would be screened in a gallery or festival. For an object or installation, the video documentation shows how a visitor would encounter it.",
                     grades: {
-                        hd: { desc: "The work treats a viewer's perceptual and temporal experience — attention, rhythm, continuity or its disruption — as material it investigates, not just an effect it produces. The maker has tested how editing or sound shapes that experience and let what they found direct a specific formal decision.", threshold: "What lifts this to HD is that the shaping of perception is itself something the work explores." },
-                        d:  { desc: "The work demonstrates clear, deliberate control of rhythm, continuity, or sound to shape a viewer's temporal experience, executed with precision and finished to a gallery-ready standard.", threshold: "What lifts this to D is precise, intentional control of the viewer's perceptual experience through editing or sound." },
-                        c:  { desc: "The work shows evident care for how a viewer experiences its rhythm, timing, or sound, and is presented to a gallery-ready standard.", threshold: "What lifts this to C is visible evidence the maker considered the viewer's experience of time and continuity, not just the work's completion." },
-                        p:  { desc: "The work is complete and gallery-ready, without clear evidence that the viewer's perceptual or temporal experience was considered.", threshold: "What lifts this to P is a finished, presentable piece." },
-                        f:  { desc: "The work is not in a state that can be meaningfully experienced by an audience.", threshold: null }
+                        hd: { desc: "The work treats the viewer's perceptual and temporal experience (attention, rhythm, continuity, or their disruption) as material it investigates. The maker has tested how editing or sound shapes that experience, and what they found directed a formal decision in the final piece.", threshold: "What lifts this to HD is that the shaping of perception is itself something the work explores." },
+                        d:  { desc: "The work is gallery-ready, and decisions about rhythm, continuity, sound or scale shape the viewer's experience from start to finish. You can find no stretch where timing or sound is left at default.", threshold: "What lifts this to D is that no stretch of the work is left at default." },
+                        c:  { desc: "The work is gallery-ready, and at least one decision about rhythm, continuity, sound or scale shapes the viewer's experience. You can point to it: a held shot, a cut, a silence, a change of scale.", threshold: "What lifts this to C is gallery-ready finish plus at least one decision you can point to." },
+                        p:  { desc: "The work is complete but falls short of one part of the standard. Either technical faults interrupt the experience (for example clipped sound, sync errors, a wrong aspect ratio), or no decision about rhythm, continuity, sound or scale can be pointed to that shapes how a viewer experiences it.", threshold: "What lifts this to P is a complete work that plays through." },
+                        f:  { desc: "The work can't be experienced: the link fails, the file doesn't play, or there is no work to encounter.", threshold: null }
                     }
                 },
                 {
@@ -521,13 +523,13 @@
                     fullTitle: "4. Didactic Panel / Program Note",
                     slo: "SLO 3 · 10%",
                     outline: "Subject Outline, Assessment 3: \u201cDidactic Panel/Program Note (10%) \u2014 Tells a gallery visitor what your work was investigating \u2014 a question, a material, an idea, an aesthetic \u2014 and what the making set out to explore. Clear and precise, written for the public in the gallery, not for assessment.\u201d",
-                    brief: "150 words, present tense, appropriate to the presentation context of the work.",
+                    brief: "150 words, written for a visitor standing in front of the work, not for a marker.",
                     grades: {
-                        hd: { desc: "Informs the visitor's experience of the work in a way that enhances it — orienting them to what's there to be encountered without delimiting what they might find in it.", threshold: "What lifts this to HD is that the panel expands the visitor's experience of the work rather than narrowing it to one reading." },
-                        d:  { desc: "Clearly and precisely informs the visitor about what the work investigates, in present tense and gallery voice, without narrowing how it might be experienced.", threshold: "What lifts this to D is precision without narrowing the experience." },
-                        c:  { desc: "Names what the work investigates, addressed to a visitor rather than a marker.", threshold: "What lifts this to C is a legible, gallery-voiced account of subject matter." },
-                        p:  { desc: "States what the work is about, though it may lapse into assessment register.", threshold: "What lifts this to P is a legible statement of subject matter." },
-                        f:  { desc: "No panel provided, or it fails to orient a visitor to the work.", threshold: null }
+                        hd: { desc: "The panel changes what a visitor will notice in the work. It gives a detail, a context or a way of attending that opens the work up, and it leaves the meaning to the visitor.", threshold: null },
+                        d:  { desc: "The panel is written for a visitor, names what the work investigates, and tells the visitor how to approach the work: what to look or listen for, or where to stand.", threshold: "What lifts this to D is a sentence telling the visitor how to approach the work." },
+                        c:  { desc: "The panel is written for a visitor and names what the work investigates: a question, a material, an idea or an aesthetic.", threshold: "What lifts this to C is that the panel is addressed to a visitor and names what the work investigates." },
+                        p:  { desc: "The panel says what the work is about but is written for a marker. It refers to the brief, the assessment or the making process (for example \u201cfor this assignment I...\u201d).", threshold: "What lifts this to P is a legible statement of what the work is about." },
+                        f:  { desc: "No panel, or nothing in it orients a visitor to the work.", threshold: null }
                     }
                 }
             ]
@@ -652,8 +654,8 @@
                     outline: "Critical Analysis Rubric: \u201cClear structure, precise writing, and correct Harvard referencing. Integrate your frame references (Investigation 2) or images of the works (Investigations 3 & 4)... Write to be read and understood.\u201d",
                     grades: {
                         hd: { desc: "The order of the writing builds the argument: each section depends on the one before it. The prose is exact and economical throughout, and referencing is correct.", threshold: null },
-                        d:  { desc: "Each paragraph advances the argument. Frame references or images are discussed in the text at the point they support a claim. Harvard referencing is correct throughout.", threshold: "What lifts this to D is that every image is discussed where it is used and the referencing has no errors." },
-                        c:  { desc: "The writing has a clear introduction, body, and conclusion. Frame references or images are included and labelled. Harvard referencing is mostly correct.", threshold: "What lifts this to C is a clear overall structure with images included and referencing in order." },
+                        d:  { desc: "Each paragraph advances the argument, so the topic sentences read in order give the argument. Any frame or image is discussed where it is used. Harvard referencing is correct throughout.", threshold: "What lifts this to D is that the topic sentences, read in order, give the argument." },
+                        c:  { desc: "The writing has a clear introduction, body and conclusion. Where a frame or image supports a claim, it is included and labelled. Harvard referencing is mostly correct.", threshold: "What lifts this to C is a clear overall structure with referencing in order." },
                         p:  { desc: "A structure can be discerned, but it is unclear in places. Referencing is inconsistent, or images are included without discussion.", threshold: "What lifts this to P is that the essay has a discernible structure." },
                         f:  { desc: "The work is poorly structured or inadequately referenced. It may be under length.", threshold: null }
                     }
