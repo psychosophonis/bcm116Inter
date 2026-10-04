@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<!--
+  HOW TO ADD MEDIA
+  Each step has data-m="a-07" (or similar). Put a file with that name in
+  media/ beside this page:
+      media/a-07.mp4   a short silent screen-capture loop (preferred)
+      media/a-07.png   a still, if a loop isn't needed
+  The page tries .mp4 first, then .png. If neither exists, the slot shows
+  the note in data-rec, which says what to capture.
+  Keep loops 5-10 s, no audio, cropped to the part of the screen that matters.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Multipanel on one screen — BCM116</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#fff; --ink:#1a1a1e; --dim:#686872; --line:#dddbd6;
+    --accent:#b8531d; --soft:#faf3ee; --warn:#8a5a00; --warnbg:#fdf6e3;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }}
+  :root[data-theme="dark"]{
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }
+  *{box-sizing:border-box}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+  main{max-width:1080px;margin:0 auto;padding:40px 22px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+  .lede{color:var(--dim);max-width:44em;margin:0 0 28px}
+  h2{font-size:21px;margin:56px 0 6px;padding-top:18px;border-top:2px solid var(--ink)}
+  h2 small{display:block;font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.06em;
+           text-transform:uppercase;margin-bottom:4px}
+  .intro{color:var(--dim);max-width:44em;margin:0 0 18px}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:18px 0}
+  .fire{border-left:4px solid var(--accent);background:var(--soft)}
+  .fire b{color:var(--accent)}
+  .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:760px){.parts{grid-template-columns:1fr}}
+  .parts h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .parts ul{margin:0;padding-left:18px}
+  .parts li{margin:3px 0}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+  nav.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+            border-radius:999px;padding:5px 12px;background:var(--panel)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .chunk{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:22px 0;overflow:hidden}
+  .chunk>h3{margin:0;padding:12px 18px;font-size:16px;border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;gap:12px}
+  .chunk>h3 span{color:var(--dim);font-weight:500;font-size:13px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;
+              padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+  ol.steps>li:last-child{border-bottom:0}
+  @media (max-width:760px){ol.steps>li{grid-template-columns:1fr}}
+  .txt{display:flex;gap:12px}
+  .n{flex:none;font:600 13px/1 ui-monospace,Menlo,monospace;color:var(--accent);
+     border:1px solid var(--accent);border-radius:4px;padding:5px 6px;height:max-content;min-width:44px;text-align:center}
+  .txt p{margin:0}
+  .trap{margin-top:8px;font-size:14px;color:var(--warn);background:var(--warnbg);
+        border-radius:4px;padding:7px 10px}
+  .trap b{font-weight:600}
+  table.sizes{border-collapse:collapse;margin:8px 0 2px;font-size:14px}
+  table.sizes td{padding:3px 14px 3px 0;border-bottom:1px solid var(--line)}
+  code,kbd{font:14px ui-monospace,Menlo,monospace;background:var(--soft);border:1px solid var(--line);
+           border-radius:3px;padding:0 4px}
+  .menu{font-weight:600}
+
+  .media{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000;min-height:40px}
+  .media video,.media img{display:block;width:100%;height:auto}
+  .ph{background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 8px,var(--panel) 8px,var(--panel) 16px);
+      color:var(--dim);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px}
+  .ph b{display:block;font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);margin-bottom:4px}
+
+  li.check{background:var(--soft)}
+  li.check .n{background:var(--accent);color:var(--panel)}
+  .swap{border:1px dashed var(--accent)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:18px 0}
+  .gallery figure{margin:0}
+  .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
+  .gallery video{display:block;width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  .gallery.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.g1{grid-template-columns:minmax(0,1fr);max-width:520px}
+  @media (max-width:760px){.gallery.g3,.gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.gallery.g3,.gallery.g2{grid-template-columns:minmax(0,1fr)}}
+  h3.exh{font-size:15px;margin:34px 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .exnote{color:var(--dim);max-width:44em;margin:0 0 12px;font-size:15px}
+  p.seealso{margin:-8px 0 18px;font-size:14px;color:var(--dim)}
+
+  /* Click any clip to open it full size. */
+  .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
+        position:relative;line-height:0;font:inherit;color:inherit}
+  .mbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mzoom{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;
+         font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;
+         padding:5px 7px;border-radius:4px;pointer-events:none}
+  .mbtn:hover .mzoom{background:var(--accent)}
+  .gallery .shot .mbtn,.gallery .shot .mbtn video{height:100%}
+
+  .lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;padding:30px}
+  .lb[hidden]{display:none}
+  .lb video,.lb img{display:block;width:auto;height:auto;background:#000;border-radius:4px;
+                    max-width:min(1600px,95vw);max-height:88vh}
+  .lbclose{position:absolute;top:14px;right:16px;background:var(--panel);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;cursor:pointer;
+           font:600 14px/1 inherit;padding:10px 14px}
+  .lbcap{position:absolute;left:0;right:0;bottom:16px;text-align:center;padding:0 24px;
+         color:#d6d6d6;font:13px/1.5 ui-monospace,Menlo,monospace}
+  footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--accent)}
+
+  /* Added for the arrays cards (Claude): wide previews and screen bezels. */
+  .lede p{margin:0}
+  .lede b{color:var(--ink)}
+  .gallery.wide{max-width:none}
+  .gallery.wide .shot{aspect-ratio:auto}
+  .gallery.bleed{width:100vw;margin-left:calc(50% - 50vw);padding:0 16px}
+  .bezels{position:relative}
+  /* Side-by-side comparison: a strip of page background down the middle, so the two halves read as two pictures. */
+  .split{position:relative}
+  .split::after{content:"";position:absolute;top:-1px;bottom:-1px;left:50%;width:24px;transform:translateX(-50%);background:var(--bg);pointer-events:none}
+  .bezels::before,.bezels::after{content:"";position:absolute;top:0;bottom:0;width:2px;
+    background:var(--accent);opacity:.8;pointer-events:none;z-index:1}
+  .bezels::before{left:33.333%}
+  .bezels::after{left:66.667%}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Multipanel on one screen</h1>
+<!-- DRAFT: Claude, in Mat's style. Columns and grid merged (Mat, 2026-10-04): assembly here; remixing has its own card. -->
+<div class="lede">
+  <p><b>Here’s what you’ll make.</b> An HD video for one screen with several shots playing at once, side by side in a row or stacked in a grid.</p>
+  <p style="margin-top:8px"><b>Why we’re doing this.</b> Put shots next to each other and they start talking to each other: the same action in different places, or the same shot starting at different moments. The screen becomes one picture made of many.</p>
+  <p style="margin-top:8px"><b>What you’ll come away with.</b> How to scale, place and time a stack of clips in Premiere: drag them into place, then tidy them up with numbers.</p>
+</div>
+
+<h3 class="exh" id="students">What students have made</h3>
+<!-- DRAFT: Claude. Title and rule from the group's "Walk this way" instruction sheet. Tutorial exercise; no attribution needed (Mat). -->
+<section class="chunk">
+  <ol class="steps">
+    <li><div class="txt"><div class="n">2025</div><div>
+      <p><b><i>Walk this way</i>, a tutorial exercise.</b> Everyone in the group filmed twenty seconds of their own feet walking on a surface they were drawn to. They held their phones at waist height, with their feet at the bottom of the frame. Five walks run side by side as strips, and the surfaces keep changing: tactile paving, timber, brick, sand and water.</p>
+      <div class="trap">Every shot was framed the same way, with the phone at the waist and the feet at the bottom of the frame. That’s why five different walks still read as one picture.</div>
+    </div></div><div class="media" data-m="c-student-walk" data-rec="12-second excerpt of Walk this way."></div></li>
+  </ol>
+</section>
+<div class="gallery g1 wide">
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/walk-grid.mp4"></video></div>
+    <figcaption>The same walks as a grid. Upright clips keep their shape: two rows of six, each half the screen’s height. The top row walks up, the bottom row walks down.</figcaption>
+  </figure>
+</div>
+
+<div class="box">
+  <!-- DRAFT: Claude -->
+  <p style="margin:0">This card is useful for prompt 9 (procedural generation / repetition). Want to cut one shot apart in time instead? See <a href="../r-remix/">Remix time and space</a>.</p>
+  <nav class="toc">
+    <a href="#students">Student work</a>
+    <a href="#c1">Part 1 · Assemble your shots</a>
+    <a href="#export">Part 2 · Export</a>
+  </nav>
+</div>
+
+<!-- ================================================================= assembly -->
+<h2 id="c1"><small>Part 1</small>Assemble your shots in Premiere</h2>
+<!-- DRAFT: Claude, in Mat's style. Moved from After Effects to Premiere (Mat, 2026-10-04). Drag first, then tidy up with numbers. -->
+<p class="intro">Shoot or find several clips, or use one clip several times. Shoot them the same way, like <i>Walk this way</i>, and different shots still read as one picture. The numbers below are for phone video at HD (1080 × 1920 upright, 1920 × 1080 sideways). The steps are in Premiere, but the same numbers work in any editor that lets you type position and scale.</p>
+
+<section class="chunk">
+  <h3>C1 · Set up and bring your shots in <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">C-01</div><div>
+      <p>Open Premiere Pro and make a new project. In the New Project dialog, tick <b>Skip import mode</b> and click Create. In the Project panel, double-click where it says to import media (or choose <span class="menu">File → Import</span>) and bring in your clips.</p>
+    </div></div><div class="media" data-m="c-01" data-rec="New Project with Skip import mode; File → Import of several clips."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">C-02</div><div>
+      <p>Choose <span class="menu">File → New → Sequence</span>. On the <b>Settings</b> tab, set Editing Mode to <b>Custom</b>, Frame Size to <code>1920</code> × <code>1080</code> and Pixel Aspect Ratio to <b>Square Pixels</b>.</p>
+      <div class="trap"><b>Why HD rather than 4K?</b> The screens scale HD up to fill themselves, so you don’t need to work at 4K.</div>
+    </div></div><div class="media" data-m="c-02" data-rec="New Sequence, Settings tab: Custom, 1920 × 1080, Square Pixels."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="c2">
+  <h3>C2 · Drag, drop and scale <span>1 step</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude; recorded by Mat as one step (2026-10-04) --><div class="txt"><div class="n">C-03</div><div>
+      <p>Drag each clip into the sequence on its own track, stacked up: the first on V1, the next on V2, and so on. If you run out of tracks, drop the clip in the empty space above the top one and Premiere adds a track.</p>
+      <p style="margin-top:8px">Then click a clip in the Program Monitor. Drag it around, and drag one of its corner handles to make it smaller or bigger. This is how to arrange anything by eye. The next two parts give you exact numbers for a clean layout.</p>
+    </div></div><div class="media" data-m="c-03" data-rec="Clips dragged onto stacked tracks; a clip clicked in the Program Monitor, dragged and scaled with its corner handles."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="c3">
+  <h3>C3 · Columns: five upright clips side by side <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude. Upright clips scaled to a fifth of the width and set edge to edge (Mat, 2026-10-04). --><div class="txt"><div class="n">C-04</div><div>
+      <p>Turn on snapping: click the spanner icon at the bottom right of the Program Monitor and choose <b>Snap in Program Monitor</b>. Now clips snap to the edges of the screen and to each other as you drag them.</p>
+      <p style="margin-top:8px">Select the first clip. Open <b>Effect Controls</b>. Click the small arrow to the left of <b>Motion</b> to show its settings, and type Scale <code>35.6</code>. Drag the clip to the left edge of the screen; to make it exact, type Position <code>192</code>, <code>540</code> there too.</p>
+      <div class="trap"><b>Use Effect Controls for the numbers.</b> The Properties panel rounds Scale to whole numbers; Effect Controls keeps the decimal.</div>
+      <div class="trap"><b>Where does 35.6% come from?</b> The screen is 1920 wide, so five columns are 1920 ÷ 5 = 384 wide each. Upright phone video is 1080 wide, so the Scale is 384 ÷ 1080 × 100 = 35.6%. On a calculator: <code>1920 ÷ 5 ÷ 1080 × 100</code>. Want a different number of columns? Change the 5. Shot in 4K? Use 2160 instead of 1080.</div>
+    </div></div><div class="media" data-m="c-04" data-rec="Spanner icon → Snap in Program Monitor; Effect Controls → Motion: Scale 35.6; clip dragged to the left edge; Position 192, 540."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">C-05</div><div>
+      <p>Select the second clip, type the same Scale in Effect Controls, and drag it so its left edge meets the first clip’s right edge. To make it exact, type Position <code>576</code>, <code>540</code>.</p>
+      <p style="margin-top:8px">Keep going: each clip goes 384 further right. The third is at <code>960</code>, the fourth at <code>1344</code> and the fifth at <code>1728</code>.</p>
+      <div class="trap"><b>Shot sideways?</b> A sideways clip scaled to 384 wide is only 216 tall. To make tall strips from sideways clips, leave them at full size and crop instead: under <b>Crop</b>, the first clip gets Right <code>80</code>%, the second Left <code>20</code>% and Right <code>60</code>%, and so on, Left going up by 20 and Right going down by 20.</div>
+    </div></div><div class="media" data-m="c-05" data-rec="Second clip: same Scale, dragged edge to edge; Position 576, 540; then the rest."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="c4">
+  <h3>C4 · Grid: two rows of upright clips <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude. Upright grid, 2 rows of 6 (Mat, 2026-10-04). --><div class="txt"><div class="n">C-06</div><div>
+      <p>For a grid instead, select the first clip. In <b>Effect Controls → Motion</b>, type Scale <code>28.1</code> and drag it to the top-left corner. To make it exact, type Position <code>200</code>, <code>270</code>.</p>
+      <div class="trap"><b>Where does 28.1% come from?</b> Two rows means each clip is half the screen’s height: 1080 ÷ 2 = 540 tall. Upright phone video is 1920 tall, so the Scale is 540 ÷ 1920 × 100 = 28.1%. On a calculator: <code>1080 ÷ 2 ÷ 1920 × 100</code>. Want three rows? Change the 2. Each clip comes out 304 wide, so six fit across.</div>
+    </div></div><div class="media" data-m="c-06" data-rec="Effect Controls → Motion: Scale 28.1; clip dragged to the top-left; Position 200, 270."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">C-07</div><div>
+      <p>Select the second clip, type the same Scale in Effect Controls, and drag it so its left edge meets the first clip’s right edge. To make it exact, type Position <code>504</code>, <code>270</code>.</p>
+      <p style="margin-top:8px">Keep going: each clip goes 304 further right, six across: <code>808</code>, <code>1112</code>, <code>1416</code>, <code>1720</code>. Then do the second row the same way at a height of <code>810</code>.</p>
+      <div class="trap"><b>Clip lands in the wrong place when you type its Position?</b> Its <b>Anchor Point</b> has moved, which happens if you drag the small crosshair in the middle of the clip instead of the clip itself. In Effect Controls, set Anchor Point back to <code>540</code>, <code>960</code>, the centre of an upright clip.</div>
+      <div class="trap"><b>Shot sideways?</b> Use three rows of three instead: Scale <code>33.3</code>% (1080 ÷ 3 ÷ 1080 × 100), with centres at <code>320</code>, <code>960</code>, <code>1600</code> across and <code>180</code>, <code>540</code>, <code>900</code> down.</div>
+    </div></div><div class="media" data-m="c-07" data-rec="Second clip at 504, 270; then the rest of the top row and the second row."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="c5">
+  <h3>C5 · Stagger and repeat them <span>1 step</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">C-08</div><div>
+      <p>Stagger the clips so they don’t all start together. On each track except the first, drag the clip’s left edge to the right by a different amount (1 second on the second track, 2 on the third, and so on), then drag the clip back to the start of the sequence.</p>
+      <p style="margin-top:8px">Then make each clip run longer by repeating it. Select it, press <kbd>⌘C</kbd>, press <kbd>↓</kbd> to jump to the end of the clip, and press <kbd>⌘V</kbd> to paste a copy straight after. Keep pressing <kbd>↓</kbd> then <kbd>⌘V</kbd> until it’s as long as you want. Trim the ends so all the tracks finish together.</p>
+      <div class="trap"><b>Why stagger them?</b> Every copy jumps back to the start of the clip. If all the tracks jump at the same moment, the whole screen jumps at once. Staggered, each panel restarts at its own time and the cuts ripple across the screen.</div>
+      <div class="trap"><b>Pasting onto the wrong track?</b> ⌘V pastes onto the highlighted track (the track name on the left of the timeline). Click the clip’s own track name first.</div>
+      <div class="trap"><b>One clip, many times.</b> Use the same clip in every panel and start each one a little later than the last. A pattern moves across the screen that no single copy has on its own.</div>
+    </div></div><div class="media" data-m="c-08" data-rec="Dragging each track’s left edge in by a different amount, sliding it back to the start; ⌘C, ↓, ⌘V repeats; ends trimmed level."></div></li>
+    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you go on.</b> Press the spacebar and watch it as one picture.</p>
+    </div></div><div class="media" data-m="c-check-1" data-rec="The columns or grid playing together."></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= export -->
+<h2 id="export"><small>Part 2</small>Export for the screen</h2>
+
+<section class="chunk">
+  <h3>E1 · Export as H.264 <span>1 step</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude --><div class="txt"><div class="n">C-09</div><div>
+      <p>Choose <span class="menu">File → Export → Media</span>, set Format to <b>H.264</b>, and export.</p>
+    </div></div></li>
+    <li class="check" style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check that it works.</b> Open the file and play it full screen.</p>
+    </div></div></li>
+  </ol>
+</section>
+
+<footer>BCM116 · Relevant to Investigation prompt 9.</footer>
+</main>
+
+
+<script>
+// ---------------------------------------------------------------- lightbox
+// Clips are small in the page. Clicking one opens it full size.
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.hidden = true;
+lb.innerHTML = '<button class="lbclose" type="button">Close ✕</button>' +
+               '<div class="lbstage"></div><div class="lbcap"></div>';
+document.body.appendChild(lb);
+const lbStage = lb.querySelector('.lbstage');
+const lbCap = lb.querySelector('.lbcap');
+let lbReturn = null;
+
+const closeLb = () => {
+  lb.hidden = true;
+  lbStage.innerHTML = '';
+  if (lbReturn) { lbReturn.focus(); lbReturn = null; }
+};
+const openLb = (src, kind, caption, opener) => {
+  lbReturn = opener || null;
+  lbStage.innerHTML = '';
+  let el;
+  if (kind === 'img') {
+    el = new Image();
+    el.src = src;
+    el.alt = caption || '';
+  } else {
+    el = document.createElement('video');
+    el.src = src;
+    el.muted = true; el.loop = true; el.controls = true;
+    el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+    el.playsInline = true;
+    el.play().catch(() => {});
+  }
+  lbStage.appendChild(el);
+  lbCap.textContent = caption || '';
+  lb.hidden = false;
+  lb.querySelector('.lbclose').focus();
+};
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+lb.querySelector('.lbclose').addEventListener('click', closeLb);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+
+// Wrap a loaded element so clicking it opens the lightbox.
+const makeExpandable = (slot, el, src, kind, caption) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mbtn';
+  btn.setAttribute('aria-label', 'Open ' + caption + ' full size');
+  const tag = document.createElement('span');
+  tag.className = 'mzoom';
+  tag.textContent = '⤢ full size';
+  btn.appendChild(el);
+  btn.appendChild(tag);
+  btn.addEventListener('click', () => openLb(src, kind, caption, btn));
+  slot.innerHTML = '';
+  slot.appendChild(btn);
+  return btn;
+};
+
+// ------------------------------------------------------------- step media
+// Resolve media/<name>.mp4, then .png, then fall back to the note in
+// data-rec. A <video> does not reliably fire `error` on a 404, so ask the
+// server directly instead of relying on that. Nothing loads until the slot
+// is near the viewport, and clips show a still frame rather than autoplaying.
+const exists = async url => {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch (e) {
+    return null;          // file:// or blocked — caller falls back
+  }
+};
+
+const showPlaceholder = (slot, name) => {
+  slot.style.background = 'transparent';
+  slot.style.border = '0';
+  slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+    (slot.dataset.rec || '') + '</div>';
+};
+
+const showImg = (slot, name) => new Promise(res => {
+  const img = new Image();
+  img.alt = slot.dataset.rec || name;
+  img.onload = () => { makeExpandable(slot, img, img.src, 'img', name); res(true); };
+  img.onerror = () => res(false);
+  img.src = 'media/' + name + '.png';
+});
+
+const showVideo = (slot, name, confirmed) => new Promise(res => {
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  let settled = false;
+  const done = ok => { if (settled) return; settled = true; res(ok); };
+  v.onloadedmetadata = () => {
+    // Park on a middle frame: the first frame of a screen capture is
+    // usually the app sitting still, which says nothing about the step.
+    try { v.currentTime = Math.min(v.duration / 2, v.duration - 0.1); } catch (e) {}
+    if (!confirmed) { makeExpandable(slot, v, v.src, 'video', name); done(true); }
+  };
+  v.onerror = () => { if (!confirmed) done(false); };
+  v.src = 'media/' + name + '.mp4';
+  if (confirmed) {
+    // The server already said this file is there, so show it now rather than
+    // waiting on metadata — a codec the browser dislikes must not leave the
+    // slot blank. The seek above still runs when metadata arrives.
+    makeExpandable(slot, v, v.src, 'video', name);
+    done(true);
+  } else {
+    setTimeout(() => done(false), 6000);
+  }
+});
+
+const loadSlot = async slot => {
+  const name = slot.dataset.m;
+  const hasMp4 = await exists('media/' + name + '.mp4');
+  if (hasMp4 === true)  { if (await showVideo(slot, name, true)) return; }
+  if (hasMp4 === false) { if (await showImg(slot, name)) return; showPlaceholder(slot, name); return; }
+  // HEAD unavailable: try each in turn.
+  if (await showVideo(slot, name, false)) return;
+  if (await showImg(slot, name)) return;
+  showPlaceholder(slot, name);
+};
+
+const slots = document.querySelectorAll('.media[data-m]');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      loadSlot(e.target);
+    });
+  }, { rootMargin: '400px' });
+  slots.forEach(s => io.observe(s));
+} else {
+  slots.forEach(loadSlot);
+}
+
+// ---------------------------------------------------------------- gallery
+// Six finished renders. These are the point of the section, so they do play
+// in place once scrolled to — but only then, and they pause when they leave.
+(() => {
+  const shots = document.querySelectorAll('.gallery video[data-src]');
+  shots.forEach(v => {
+    const cap = v.closest('figure').querySelector('figcaption');
+    const btn = makeExpandable(v.closest('.shot'), v, v.dataset.src,
+                               'video', (cap && cap.textContent.trim()) || 'render');
+    btn.setAttribute('aria-label', 'Open this render full size');
+  });
+  const start = v => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) start(e.target);
+      else if (e.target.src) e.target.pause();
+    });
+  }, { rootMargin: '200px' });
+  shots.forEach(v => io.observe(v));
+})();
+</script>
+</body>
+</html>

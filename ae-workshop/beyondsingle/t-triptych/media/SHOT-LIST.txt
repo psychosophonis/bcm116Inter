@@ -1,0 +1,11 @@
+Record these. Name each file exactly as below, .mp4 (silent loop, 5-10 s) or .png.
+
+t-01         New Project with Skip import mode; File → Import of the videos.
+t-02         New Sequence: Custom, 1920 × 1080, Square Pixels; named Screen 1.
+t-03         New Item → Color Matte; white; dragged onto V1 and out to the full length.
+t-04         Project panel: Screen 1 duplicated twice; renamed Screen 2 and Screen 3.
+t-05         Opening Screen 1; video on V2 above the white background; dragging and resizing it.
+t-06         New Sequence: Custom, 5760 × 1080; named Master.
+t-07         Snap on; Screen 1–3 dragged into Master on V1–V3; dragged edge to edge; Positions 960, 2880, 4800.
+t-check-1    The Master sequence playing: three screens edge to edge.
+t-check-2    Photo of the three screens playing.

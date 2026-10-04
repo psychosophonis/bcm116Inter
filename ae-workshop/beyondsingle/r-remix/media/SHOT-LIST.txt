@@ -1,0 +1,23 @@
+Record these. Name each file exactly as below, .mp4 (silent loop, 5-10 s) or .png.
+
+r-01         New Project; importing the shot; dragging it onto the New Composition button.
+r-02         Composition Settings: width 1920, height follows to 1080 with Lock Aspect Ratio on.
+r-03         Interpret Footage dialog: Loop 2 times.
+r-04         Shot selected in the timeline; Fit to Comp Width; it fills the width of the frame.
+r-05         Pre-compose dialog: Move all attributes; Open New Composition unticked; the layer becomes a comp the size of the screen.
+r-check-comp Composition navigator bar: clicking the main composition’s name to go back.
+r-06         Dragging a mask over the left fifth; Mask Shape: 0, 1080, 0, 384.
+r-07         Clicking the layer name in the timeline; ⌘D four times; five layers.
+r-08         Mask Shape on each layer in turn, typing sums like 384*3 into Left and Right; the five strips fill the frame.
+r-check-1    The full picture, made of five strips.
+r-09         Dragging layer bars left; then typing In times; the strips fall out of step.
+r-check-2    Playing: the picture breaks along the strip edges.
+r-10         Time indicator to the last strip’s start, B; to the first strip’s end, N; Composition → Trim Comp to Work Area.
+r-check-3    Playing the trimmed comp: all five strips full from start to end.
+r-13         Selecting one strip; Pre-compose with Leave all attributes; double-clicking into it; scaling the layer inside; back to the main composition.
+r-14         Project panel: main composition duplicated; the copy opened.
+r-15         Mask Shape: Reset To Ellipse; typing 960-270, 960+270, 540-270, 540+270.
+r-16         Layer → Mask → New Mask; Mask Shape ellipse for the hole; mask mode changed from Add to Subtract; a ring appears.
+r-check-4    The rings composition playing: a centre circle, three rings and the outside, each at a different moment.
+r-17         Layer → Time → Time Stretch; Stretch Factor set; strips drifting in and out of step.
+r-18         Pre-compose a ring; inside, stopwatch on Rotation at the start; 1x+0° at the end; the ring turning.

@@ -1,0 +1,12 @@
+Record these. Name each file exactly as below, .mp4 (silent loop, 5-10 s) or .png.
+
+c-student-walk 12-second excerpt of Walk this way.
+c-01         New Project with Skip import mode; File → Import of several clips.
+c-02         New Sequence, Settings tab: Custom, 1920 × 1080, Square Pixels.
+c-03         Clips dragged onto stacked tracks; a clip clicked in the Program Monitor, dragged and scaled with its corner handles.
+c-04         Spanner icon → Snap in Program Monitor; Effect Controls → Motion: Scale 35.6; clip dragged to the left edge; Position 192, 540.
+c-05         Second clip: same Scale, dragged edge to edge; Position 576, 540; then the rest.
+c-06         Effect Controls → Motion: Scale 28.1; clip dragged to the top-left; Position 200, 270.
+c-07         Second clip at 504, 270; then the rest of the top row and the second row.
+c-08         Dragging each track’s left edge in by a different amount, sliding it back to the start; ⌘C, ↓, ⌘V repeats; ends trimmed level.
+c-check-1    The columns or grid playing together.

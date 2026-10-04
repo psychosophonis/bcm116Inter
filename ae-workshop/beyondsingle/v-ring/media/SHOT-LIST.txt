@@ -1,0 +1,7 @@
+Record these. Name each file exactly as below, .mp4 (silent loop, 5-10 s) or .png.
+
+v-01         New Project with Skip import mode; New Sequence: Settings tab (Custom, 6000 × 3000, Square Pixels); VR Video tab (Equirectangular, Monoscopic).
+v-02         File → Import of the loops; one dragged onto V1; it appears in the middle of the black canvas.
+v-03         Clips dragged onto V2, V3, V4… stacked in the timeline.
+v-04         Spanner → Snap in Program Monitor; clicking a clip in the Program Monitor, dragging it along the middle line, resizing with a corner handle; black left at both edges.
+v-05         Spanner → VR Video → Enable; dragging to look from panel to panel.

@@ -200,7 +200,7 @@
 
     <li><div class="txt"><div class="n">A-07</div><div>
       <p>Move and scale. With the Selection tool, drag the photo so the mark you want to work with sits in the <b>top half</b> of the frame. Then in the <b>Properties</b> panel (<span class="menu">Window → Properties</span> if it isn't showing) drag <b>Scale</b> down until that mark takes up a quarter of the frame at most.</p>
-      <div class="trap"><b>Properties panel to set a value; the Transform twirl in the timeline to animate one.</b> You'll use both.</div>
+      <div class="trap"><b>Properties panel to set a value; the Transform settings in the timeline to animate one.</b> To show them, click the small arrow to the left of the layer’s name, then the one next to <b>Transform</b>. You'll use both.</div>
       <div class="trap"><b>This may take some back and forth.</b> The mark drifts a little as you scale. It doesn't need to be precise — it will work anyway.</div>
       <div class="trap"><b>Why the top half.</b> Copies will turn around the centre of the frame, so a mark sitting at the centre just spins in place.</div>
       <div class="trap"><b>Why small.</b> The mark is about to be copied round a circle. Too big and the copies merge into one blob.</div>
@@ -227,8 +227,8 @@
   <h3>A4 · A simple rotation <span>1 step</span></h3>
   <ol class="steps">
     <li><div class="txt"><div class="n">A-11</div><div>
-      <p>To animate, twirl open the layer's <b>Transform</b> in the timeline. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set Rotation to <code>360</code>. Press the spacebar to play: the mark spins in place.</p>
-    </div></div><div class="media" data-m="a-11" data-rec="Transform twirled open in the timeline; Rotation stopwatch at frame 0; 360 at the last frame; playing, the mark spins in place."></div></li>
+      <p>To animate, click the small arrow to the left of the layer’s name in the timeline, then the arrow next to <b>Transform</b>, to show its settings. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set Rotation to <code>360</code>. Press the spacebar to play: the mark spins in place.</p>
+    </div></div><div class="media" data-m="a-11" data-rec="Transform opened in the timeline; Rotation stopwatch at frame 0; 360 at the last frame; playing, the mark spins in place."></div></li>
   </ol>
 </section>
 
@@ -236,11 +236,14 @@
   <h3>A5 · Pre-compose: a strategy <span>1 step</span></h3>
   <ol class="steps">
     <li><div class="txt"><div class="n">A-12</div><div>
-      <p>Select the mark's layer. <span class="menu">Layer → Pre-compose</span>, and choose <b>Move all attributes into the new composition</b>.</p>
+      <p>Select the mark's layer. <span class="menu">Layer → Pre-compose</span>, choose <b>Move all attributes into the new composition</b>, and untick <b>Open New Composition</b> so you stay where you are.</p>
       <p style="margin-top:8px">Your spinning mark is now a single layer. Inside it, nothing has changed. Outside, you can treat it as material: copy it, turn it, scale it — without touching the animation. Change the animation once, inside, and every copy updates.</p>
       <p style="margin-top:8px">This is called <b>nesting</b>: a composition used as a layer inside another. Use it whenever something works and you want more of it.</p>
       <div class="trap"><b>Why it matters here.</b> Each copy in the ring needs two rotations: its own spin, and a different turn around the centre. A layer can hold only one Rotation. Nesting puts the spin inside and leaves the pre-comp layer free to be turned.</div>
     </div></div><div class="media" data-m="a-12" data-rec="Pre-compose dialog; the mark becomes one pre-comp layer, still spinning."></div></li>
+    <li class="check"><!-- Added 2026-10-04 (Mat): shared clip, same file in every check-comp slot --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Make sure you’re in your main composition.</b> Look at the top left of the Composition window, just under its tab. You’ll see your compositions named in a row. Your main composition is the one on the far left: click its name. You’re in the right place when the timeline shows the pre-comp as a single layer.</p>
+    </div></div><div class="media" data-m="a-check-comp-1" data-rec="Composition navigator bar: clicking the main composition’s name to go back."></div></li>
   </ol>
 </section>
 
@@ -255,7 +258,7 @@
       <div class="trap"><b>Copy cut off at the edge?</b> The mark has moved outside the pre-comp's frame. Open the pre-comp and bring it back in, or make the pre-comp larger in <span class="menu">Composition → Composition Settings</span>.</div>
     </div></div><div class="media" data-m="a-14" data-rec="Typing rotation per copy; copies fan out round the centre."></div></li>
     <li><div class="txt"><div class="n">A-15</div><div>
-      <p>Look where copies overlap: each one's white paper covers the marks beneath it. Select <b>all</b> the copies and set their mode to <b>Multiply</b>. If you can't see a Mode column, right-click any column heading in the timeline and tick <b>Modes</b>.</p>
+      <p>Look where copies overlap: each one's white paper covers the marks beneath it. Select <b>all</b> the copies and set their mode to <b>Multiply</b>. If you can't see a Mode column, right-click (or Control-click) the heading <b>Source Name</b>, above the names of your layers on the left of the timeline, and tick <b>Modes</b>.</p>
       <p style="margin-top:8px">The paper disappears and the overlaps build colour instead.</p>
       <div class="trap"><b>What Multiply does.</b> It combines each layer with what's beneath it, darkening only. White changes nothing, so the paper vanishes; pigment over pigment gets denser.</div>
     </div></div><div class="media" data-m="a-15" data-rec="Copies covering each other; all selected; Multiply set; overlaps clear and colour builds."></div></li>
@@ -269,10 +272,13 @@
   <h3>A7 · Kaleidoscope behind <span>4 steps</span></h3>
   <ol class="steps">
     <li><div class="txt"><div class="n">A-16</div><div>
-      <p>Select all 12 copies — not the white solid. <span class="menu">Layer → Pre-compose</span>, <b>Move all attributes into the new composition</b>. The whole ring is now one layer.</p>
+      <p>Select all 12 copies — not the white solid. <span class="menu">Layer → Pre-compose</span>, <b>Move all attributes into the new composition</b>, and untick <b>Open New Composition</b>. The whole ring is now one layer.</p>
       <p style="margin-top:8px">Set the new layer's mode to <b>Multiply</b>.</p>
       <div class="trap"><b>Leave the solid out.</b> If it goes inside, the ring comes back as a white square.</div>
     </div></div><div class="media" data-m="a-16" data-rec="Selecting the twelve copies; Pre-compose; the ring becomes one layer set to Multiply."></div></li>
+    <li class="check"><!-- Added 2026-10-04 (Mat): shared clip, same file in every check-comp slot --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Make sure you’re in your main composition.</b> Look at the top left of the Composition window, just under its tab. You’ll see your compositions named in a row. Your main composition is the one on the far left: click its name. You’re in the right place when the timeline shows the pre-comp as a single layer.</p>
+    </div></div><div class="media" data-m="a-check-comp-2" data-rec="Composition navigator bar: clicking the main composition’s name to go back."></div></li>
 
     <li><div class="txt"><div class="n">A-17</div><div>
       <p>Select the ring layer and <span class="menu">Edit → Duplicate</span> (or <kbd>⌘D</kbd>). You now have two identical rings, both on Multiply.</p>
@@ -320,9 +326,9 @@
     </div></div><div class="media" data-m="b-04" data-rec="Menu command; the anchor cross jumps to the middle of the square."></div></li>
 
     <li><div class="txt"><div class="n">B-05</div><div>
-      <p>Spin the square. Twirl open <b>Shape Layer 1 → Contents → Rectangle 1 → Transform: Rectangle 1</b>. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set it to <code>360</code>.</p>
+      <p>Spin the square. In the timeline, click the small arrows to open <b>Shape Layer 1</b>, then <b>Contents</b>, then <b>Rectangle 1</b>, then <b>Transform: Rectangle 1</b>. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set it to <code>360</code>.</p>
       <div class="trap"><b>Every copy will carry this spin.</b> The Repeater copies the square as it is, so every square in the ring turns on the spot.</div>
-    </div></div><div class="media" data-m="b-05" data-rec="Transform: Rectangle 1 twirled open; Rotation keyframed 0 to 360; the square spins in place."></div></li>
+    </div></div><div class="media" data-m="b-05" data-rec="Transform: Rectangle 1 opened; Rotation keyframed 0 to 360; the square spins in place."></div></li>
   </ol>
 </section>
 
@@ -354,8 +360,8 @@
   <h3>B3 · A loop <span>2 steps</span></h3>
   <ol class="steps">
     <li><div class="txt"><div class="n">B-10</div><div>
-      <p>Rotate the whole array. Twirl open <b>Shape Layer 1 → Transform</b> in the timeline. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set it to <code>360</code>. Press the spacebar to play: the whole array turns on its centre.</p>
-    </div></div><div class="media" data-m="b-10" data-rec="Layer Transform twirled open; Rotation keyframed 0 to 360; the whole array turning on its centre."></div></li>
+      <p>Rotate the whole array. In the timeline, click the small arrow to open <b>Shape Layer 1</b>, then the one next to <b>Transform</b>. At frame 0, click the stopwatch next to <b>Rotation</b>. Go to the last frame and set it to <code>360</code>. Press the spacebar to play: the whole array turns on its centre.</p>
+    </div></div><div class="media" data-m="b-10" data-rec="Layer Transform opened; Rotation keyframed 0 to 360; the whole array turning on its centre."></div></li>
 
     <li><div class="txt"><div class="n">B-11</div><div>
       <p>Make it flow. Open <b>Repeater 2</b>. At frame 0, click the stopwatch next to <b>Offset</b> (it reads <code>0</code>). Go to the last frame and set Offset to <code>1</code>. Play it.</p>
@@ -503,6 +509,7 @@
 <div class="box swap">
   <p style="margin:0">Apply these processes to anything: found material, video, any material at all. Combine them and remix them. Can you make a grid instead of a radial composition?</p>
   <p class="seealso" style="margin:10px 0 0">Found material, worked exactly this way: <a href="#ex-found">leaves and gumnuts on white</a>.</p>
+  <p class="seealso" style="margin:6px 0 0">Next, take your loops beyond the single screen: <a href="beyondsingle/">panels in 360°, multipanel, remixing time and space, and work across the screen array</a>.</p>
 </div>
 
 <!-- ================================================================= dome -->

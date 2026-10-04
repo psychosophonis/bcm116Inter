@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<!--
+  HOW TO ADD MEDIA
+  Each step has data-m="a-07" (or similar). Put a file with that name in
+  media/ beside this page:
+      media/a-07.mp4   a short silent screen-capture loop (preferred)
+      media/a-07.png   a still, if a loop isn't needed
+  The page tries .mp4 first, then .png. If neither exists, the slot shows
+  the note in data-rec, which says what to capture.
+  Keep loops 5-10 s, no audio, cropped to the part of the screen that matters.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Remix time and space — BCM116</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#fff; --ink:#1a1a1e; --dim:#686872; --line:#dddbd6;
+    --accent:#b8531d; --soft:#faf3ee; --warn:#8a5a00; --warnbg:#fdf6e3;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }}
+  :root[data-theme="dark"]{
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }
+  *{box-sizing:border-box}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+  main{max-width:1080px;margin:0 auto;padding:40px 22px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+  .lede{color:var(--dim);max-width:44em;margin:0 0 28px}
+  h2{font-size:21px;margin:56px 0 6px;padding-top:18px;border-top:2px solid var(--ink)}
+  h2 small{display:block;font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.06em;
+           text-transform:uppercase;margin-bottom:4px}
+  .intro{color:var(--dim);max-width:44em;margin:0 0 18px}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:18px 0}
+  .fire{border-left:4px solid var(--accent);background:var(--soft)}
+  .fire b{color:var(--accent)}
+  .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:760px){.parts{grid-template-columns:1fr}}
+  .parts h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .parts ul{margin:0;padding-left:18px}
+  .parts li{margin:3px 0}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+  nav.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+            border-radius:999px;padding:5px 12px;background:var(--panel)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .chunk{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:22px 0;overflow:hidden}
+  .chunk>h3{margin:0;padding:12px 18px;font-size:16px;border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;gap:12px}
+  .chunk>h3 span{color:var(--dim);font-weight:500;font-size:13px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;
+              padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+  ol.steps>li:last-child{border-bottom:0}
+  @media (max-width:760px){ol.steps>li{grid-template-columns:1fr}}
+  .txt{display:flex;gap:12px}
+  .n{flex:none;font:600 13px/1 ui-monospace,Menlo,monospace;color:var(--accent);
+     border:1px solid var(--accent);border-radius:4px;padding:5px 6px;height:max-content;min-width:44px;text-align:center}
+  .txt p{margin:0}
+  .trap{margin-top:8px;font-size:14px;color:var(--warn);background:var(--warnbg);
+        border-radius:4px;padding:7px 10px}
+  .trap b{font-weight:600}
+  table.sizes{border-collapse:collapse;margin:8px 0 2px;font-size:14px}
+  table.sizes td{padding:3px 14px 3px 0;border-bottom:1px solid var(--line)}
+  code,kbd{font:14px ui-monospace,Menlo,monospace;background:var(--soft);border:1px solid var(--line);
+           border-radius:3px;padding:0 4px}
+  .menu{font-weight:600}
+
+  .media{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000;min-height:40px}
+  .media video,.media img{display:block;width:100%;height:auto}
+  .ph{background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 8px,var(--panel) 8px,var(--panel) 16px);
+      color:var(--dim);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px}
+  .ph b{display:block;font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);margin-bottom:4px}
+
+  li.check{background:var(--soft)}
+  li.check .n{background:var(--accent);color:var(--panel)}
+  .swap{border:1px dashed var(--accent)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:18px 0}
+  .gallery figure{margin:0}
+  .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
+  .gallery video{display:block;width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  .gallery.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.g1{grid-template-columns:minmax(0,1fr);max-width:520px}
+  @media (max-width:760px){.gallery.g3,.gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.gallery.g3,.gallery.g2{grid-template-columns:minmax(0,1fr)}}
+  h3.exh{font-size:15px;margin:34px 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .exnote{color:var(--dim);max-width:44em;margin:0 0 12px;font-size:15px}
+  p.seealso{margin:-8px 0 18px;font-size:14px;color:var(--dim)}
+
+  /* Click any clip to open it full size. */
+  .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
+        position:relative;line-height:0;font:inherit;color:inherit}
+  .mbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mzoom{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;
+         font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;
+         padding:5px 7px;border-radius:4px;pointer-events:none}
+  .mbtn:hover .mzoom{background:var(--accent)}
+  .gallery .shot .mbtn,.gallery .shot .mbtn video{height:100%}
+
+  .lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;padding:30px}
+  .lb[hidden]{display:none}
+  .lb video,.lb img{display:block;width:auto;height:auto;background:#000;border-radius:4px;
+                    max-width:min(1600px,95vw);max-height:88vh}
+  .lbclose{position:absolute;top:14px;right:16px;background:var(--panel);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;cursor:pointer;
+           font:600 14px/1 inherit;padding:10px 14px}
+  .lbcap{position:absolute;left:0;right:0;bottom:16px;text-align:center;padding:0 24px;
+         color:#d6d6d6;font:13px/1.5 ui-monospace,Menlo,monospace}
+  footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--accent)}
+
+  /* Added for the arrays cards (Claude): wide previews and screen bezels. */
+  .lede p{margin:0}
+  .lede b{color:var(--ink)}
+  .gallery.wide{max-width:none}
+  .gallery.wide .shot{aspect-ratio:auto}
+  .gallery.bleed{width:100vw;margin-left:calc(50% - 50vw);padding:0 16px}
+  .bezels{position:relative}
+  /* Side-by-side comparison: a strip of page background down the middle, so the two halves read as two pictures. */
+  .split{position:relative}
+  .split::after{content:"";position:absolute;top:-1px;bottom:-1px;left:50%;width:24px;transform:translateX(-50%);background:var(--bg);pointer-events:none}
+  .bezels::before,.bezels::after{content:"";position:absolute;top:0;bottom:0;width:2px;
+    background:var(--accent);opacity:.8;pointer-events:none;z-index:1}
+  .bezels::before{left:33.333%}
+  .bezels::after{left:66.667%}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Remix time and space</h1>
+<!-- DRAFT: Claude. Hero: locked-off street (Pixabay, adapted) beside the same clip cut into strips with mixed zoom and offset (proofs/phasing.py). -->
+<div class="gallery g1 wide">
+  <figure>
+    <div class="shot split"><video muted loop playsinline preload="none" data-src="media/examples/street-hero.mp4"></video></div>
+    <figcaption>Left, the original: one locked-off shot of a street at night. Right, the same clip cut into five strips, each starting at a different moment and zoomed in by a different amount.</figcaption>
+  </figure>
+</div>
+
+<!-- DRAFT: Claude, in Mat's style -->
+<div class="lede">
+  <p><b>Here’s what you’ll make.</b> A video for one screen, made from one shot. You cut the shot into five vertical strips with masks and start each strip a couple of seconds later than the one beside it. Anything that moves across the frame breaks where the strips meet.</p>
+  <p style="margin-top:8px"><b>Why we’re doing this.</b> It’s a simple way to start working with time inside a single image. Artists like Daniel Crooks take this a long way further; this is a method for getting started.</p>
+  <p style="margin-top:8px"><b>What you’ll come away with.</b> How to cut a layer into strips with masks, how to start each strip at a different moment, and five more things to try: speed, zoom, rings, slow rotation and turning against the motion.</p>
+</div>
+
+<div class="box">
+  <!-- DRAFT: Claude -->
+  <p style="margin:0">This card is useful for prompt 3 (camera movement, Daniel Crooks) and prompt 9 (procedural generation / repetition). Want several shots side by side instead? See <a href="../c-columns/">Multipanel on one screen</a>.</p>
+  <nav class="toc">
+    <a href="#r1">Part 1 · Cut into strips</a>
+    <a href="#r2">Part 2 · Offset in time</a>
+    <a href="#r4">Set the loop</a>
+    <a href="#r5">Play with it</a>
+    <a href="#export">Part 3 · Export</a>
+    <a href="#ways">Part 4 · Ways to remix</a>
+  </nav>
+</div>
+
+<!-- ================================================================= R1 -->
+<h2 id="r1"><small>Part 1</small>Cut one shot into strips</h2>
+<!-- DRAFT: Claude, in Mat's style -->
+<p class="intro">You need one video clip, at least 20 seconds long: footage you shot, a clip from <a href="https://pixabay.com/videos/">Pixabay</a> (free to use), or a loop you made in the <a href="../../">After Effects workshop</a>. It works best with the camera on a tripod and something moving across the frame, like people walking or cars passing. Pick something different from the people around you, so you can compare results.</p>
+
+<section class="chunk">
+  <h3>R1 · Fill the screen with your shot <span>5 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude. Comp made from the clip so it matches its frame rate and length (Mat, 2026-10-04). --><div class="txt"><div class="n">R-01</div><div>
+      <p>Open After Effects and make a new project: click <b>New Project</b> on the start screen, or choose <span class="menu">File → New → New Project</span>. Import your shot, then drag it from the Project panel onto the big <b>New Composition</b> button in the empty Composition panel.</p>
+      <div class="trap"><b>Why make the composition from the clip?</b> It gets the clip’s own frame rate and length, so nothing stutters and nothing is cut short.</div>
+    </div></div><div class="media" data-m="r-01" data-rec="New Project; importing the shot; dragging it onto the New Composition button."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-02</div><div>
+      <p>Choose <span class="menu">Composition → Composition Settings</span>. Type <code>1920</code> as the width. Most video is 16:9, so with <b>Lock Aspect Ratio</b> ticked the height becomes <code>1080</code> by itself. If it doesn’t, untick Lock Aspect Ratio and type <code>1080</code>.</p>
+    </div></div><div class="media" data-m="r-02" data-rec="Composition Settings: width 1920, height follows to 1080 with Lock Aspect Ratio on."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-03</div><div>
+      <p>In the Project panel, right-click (or Control-click) your shot and choose <span class="menu">Interpret Footage → Main</span>. Under <b>Other Options</b>, set <b>Loop</b> to <code>2</code> times.</p>
+      <div class="trap"><b>What does this do?</b> Interpret Footage is where After Effects keeps its settings for how to read a file. Loop 2 times makes it treat your shot as if it were joined to itself end to end, so it’s twice as long. In Part 2 you’ll slide each strip so it starts partway into the shot; without the loop, a strip that starts 8 seconds in would run out 8 seconds before the end and go black.</div>
+    </div></div><div class="media" data-m="r-03" data-rec="Interpret Footage dialog: Loop 2 times."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-04</div><div>
+      <p>Select the shot in the timeline and choose <span class="menu">Layer → Transform → Fit to Comp Width</span>. It fills the screen from side to side, whatever size it started.</p>
+      <div class="trap"><b>A square loop sticks out top and bottom.</b> That’s fine: only what’s inside the frame shows.</div>
+    </div></div><div class="media" data-m="r-04" data-rec="Shot selected in the timeline; Fit to Comp Width; it fills the width of the frame."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-05</div><div>
+      <p>Choose <span class="menu">Layer → Pre-compose</span>, pick <b>Move all attributes into the new composition</b>, untick <b>Open New Composition</b>, and click OK.</p>
+      <div class="trap"><b>Why pre-compose?</b> Your shot is now inside a layer exactly the size of the screen, 1920 × 1080, whatever you started with. So the mask numbers below work for everyone.</div>
+    </div></div><div class="media" data-m="r-05" data-rec="Pre-compose dialog: Move all attributes; Open New Composition unticked; the layer becomes a comp the size of the screen."></div></li>
+    <li class="check"><!-- Added 2026-10-04 (Mat): shared clip, same file in every check-comp slot --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Make sure you’re in your main composition.</b> Look at the top left of the Composition window, just under its tab. You’ll see your compositions named in a row. Your main composition is the one on the far left: click its name. You’re in the right place when the timeline shows the pre-comp as a single layer.</p>
+    </div></div><div class="media" data-m="r-check-comp" data-rec="Composition navigator bar: clicking the main composition’s name to go back."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="r1b">
+  <h3>R2 · Cut it into five vertical strips <span>3 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-06</div><div>
+      <p>With the layer selected, pick the Rectangle tool and drag a tall box over the left fifth of the picture. The box becomes a mask. Then tidy it up: choose <span class="menu">Layer → Mask → Mask Shape</span>, set Units to <b>Pixels</b>, and type Top <code>0</code>, Bottom <code>1080</code>, Left <code>0</code>, Right <code>384</code>.</p>
+      <div class="trap"><b>Check that the layer is selected first.</b> If nothing is selected, the Rectangle tool makes a new shape layer instead of a mask.</div>
+      <div class="trap"><b>Box bigger than the picture?</b> That’s fine: anything outside the frame doesn’t show. Mask Shape tidies it to the frame. 1920 ÷ 5 is 384, so each strip is 384 pixels wide.</div>
+    </div></div><div class="media" data-m="r-06" data-rec="Dragging a mask over the left fifth; Mask Shape: 0, 1080, 0, 384."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-07</div><div>
+      <p>Click the layer’s name in the timeline once, so the whole layer is selected rather than its mask. A double-click opens the pre-comp instead, so check you’re still in your main composition: its name is on the far left of the bar at the top left of the Composition window. Then choose <span class="menu">Edit → Duplicate</span> (or press <kbd>⌘D</kbd>) until you have <b>5</b> layers.</p>
+      <div class="trap"><b>Got a Mask 2 instead of a new layer?</b> The mask was still selected, so After Effects copied the mask. Press <kbd>⌘Z</kbd> to undo, click the layer’s name, and duplicate again.</div>
+    </div></div><div class="media" data-m="r-07" data-rec="Clicking the layer name in the timeline; ⌘D four times; five layers."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-08</div><div>
+      <p>Select the second layer and choose <span class="menu">Layer → Mask → Mask Shape</span>. Change only Left and Right: Left <code>384</code>, Right <code>384*2</code>. Then do the third layer: Left <code>384*2</code>, Right <code>384*3</code>. Keep going until the fifth layer’s Right is <code>384*5</code>, the full 1920.</p>
+      <div class="trap"><b>You can type sums.</b> After Effects works out anything you type into a number box: <code>384*3</code>, or <code>768+384</code>, both give 1152. Each strip starts where the last one ended, so its Left is the last one’s Right.</div>
+    </div></div><div class="media" data-m="r-08" data-rec="Mask Shape on each layer in turn, typing sums like 384*3 into Left and Right; the five strips fill the frame."></div></li>
+    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you go on.</b> The whole picture should be back, with no gaps or overlaps between the strips.</p>
+    </div></div><div class="media" data-m="r-check-1" data-rec="The full picture, made of five strips."></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= R2 -->
+<h2 id="r2"><small>Part 2</small>Start each strip at a different moment</h2>
+
+<section class="chunk">
+  <h3>R3 · Offset the strips in time <span>1 step</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-09</div><div>
+      <p>Drag each strip’s bar left in the timeline so it starts a little further into the shot than the strip to its left. Then tidy it up: right-click (or Control-click) the heading <b>Source Name</b>, above the names of your layers on the left of the timeline, and choose <span class="menu">Columns → In</span>. Then type In times from left to right: <code>0:00:00:00</code>, <code>-0:00:02:00</code>, <code>-0:00:04:00</code>, <code>-0:00:06:00</code>, <code>-0:00:08:00</code>.</p>
+      <div class="trap"><b>It won’t loop perfectly.</b> Each strip jumps back to the start of its shot at a different moment. A hard cut is fine.</div>
+    </div></div><div class="media" data-m="r-09" data-rec="Dragging layer bars left; then typing In times; the strips fall out of step."></div></li>
+    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you go on.</b> Press the spacebar. Anything moving should break where the strips meet.</p>
+    </div></div><div class="media" data-m="r-check-2" data-rec="Playing: the picture breaks along the strip edges."></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= export -->
+<section class="chunk" id="r4">
+  <h3>R4 · Set the loop where every strip is playing <span>1 step</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude, from Mat's note (2026-10-04) --><div class="txt"><div class="n">R-10</div><div>
+      <p>Find the stretch where every strip has footage in it, and make that the whole composition.</p>
+      <p style="margin-top:8px">Move the time indicator to where the <b>last</b> strip’s bar starts and press <kbd>B</kbd>. Move it to where the <b>first</b> strip’s bar ends and press <kbd>N</kbd>. Then choose <span class="menu">Composition → Trim Comp to Work Area</span>.</p>
+      <div class="trap"><b>What are B and N doing?</b> The <b>work area</b> is the light grey bar along the top of the timeline: it’s the part of the composition After Effects plays and exports. <kbd>B</kbd> sets where the work area <b>begins</b>, <kbd>N</kbd> sets where it e<b>n</b>ds, each at the time indicator. Trim Comp to Work Area then cuts the composition down to just that part.</div>
+      <div class="trap"><b>Why?</b> At the start and end, some strips have nothing in them yet, so the picture pops up one strip at a time. Trimmed to the stretch where they’re all running, your loop plays with every strip full, all the way round.</div>
+    </div></div><div class="media" data-m="r-10" data-rec="Time indicator to the last strip’s start, B; to the first strip’s end, N; Composition → Trim Comp to Work Area."></div></li>
+    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you go on.</b> Play it from the start. Every strip should have footage in it the whole way through.</p>
+    </div></div><div class="media" data-m="r-check-3" data-rec="Playing the trimmed comp: all five strips full from start to end."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="r5">
+  <h3>R5 · Play with it <span>1 step</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude, from Mat's list (2026-10-04) --><div class="txt"><div class="n">R-11</div><div>
+      <p>Now change things and watch what happens. Try one at a time:</p>
+      <ul style="margin:8px 0 0 18px;padding:0">
+        <li><b>Mix up the order.</b> Swap the In times between strips, so the delays don’t step evenly from left to right.</li>
+        <li style="margin-top:6px"><b>Try different offsets.</b> Bigger gaps (4 seconds apart), smaller ones (half a second), or uneven ones.</li>
+        <li style="margin-top:6px"><b>Try different sized strips.</b> Change the Left and Right numbers in Mask Shape so some strips are narrow and some are wide. Each strip’s Left is still the last one’s Right, and the last Right is still 1920.</li>
+      </ul>
+      <div class="trap"><b>Changed the offsets?</b> The stretch where every strip is playing moves too. Do R-10 again before you export.</div>
+    </div></div></li>
+  </ol>
+</section>
+
+<h2 id="export"><small>Part 3</small>Export for the screen</h2>
+
+<section class="chunk">
+  <h3>E1 · Render as H.264 <span>1 step</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude --><div class="txt"><div class="n">R-12</div><div>
+      <p>Render the 1920 × 1080 composition as H.264, the same way you did in the After Effects workshop (E-01 to E-04).</p>
+    </div></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= ways -->
+<h2 id="ways"><small>Part 4</small>Ways to remix</h2>
+<!-- DRAFT: Claude, in Mat's style. Clips rendered with proofs/phasing.py from royalty-free Pixabay footage. Picks and reasons from Mat's reviews (2026-10-03). AE methods from Adobe documentation, unverified. -->
+<p class="intro">These start from the pieces you just made: strips here, rings in some, but try them on a grid or any shape you like. Each one works for a different reason, and each needs the right kind of shot.</p>
+
+<section class="chunk" id="r6">
+  <h3>R6 · Give a strip its own wrapper, for zoom and rotation <span>1 step</span></h3>
+  <ol class="steps">
+    <li><!-- Mat's video (2026-10-04) --><div class="txt"><div class="n">R-13</div><div>
+      <p>All five strips share the pre-comp from R-05, so changing anything inside it changes every strip. To zoom or turn one strip on its own:</p>
+      <ol style="margin:8px 0 0 18px;padding:0">
+        <li>In your main composition, click one strip’s layer name once.</li>
+        <li style="margin-top:6px">Choose <span class="menu">Layer → Pre-compose</span>, pick <b>Leave all attributes</b>, and click OK.</li>
+        <li style="margin-top:6px">Double-click the new layer to go inside it. Select the one layer in there and change its Scale or Rotation.</li>
+        <li style="margin-top:6px">Click your main composition’s name, on the far left of the bar at the top left of the Composition window, to go back. Repeat for the next strip.</li>
+      </ol>
+      <div class="trap"><b>Strip changed size or moved?</b> The Pre-compose dialog remembers your last choice, Move all attributes. Undo, and pick <b>Leave all attributes</b>.</div>
+    </div></div><div class="media" data-m="r-13" data-rec="Selecting one strip; Pre-compose with Leave all attributes; double-clicking into it; scaling the layer inside; back to the main composition."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="r7">
+  <h3>R7 · Rings instead of strips <span>3 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-14</div><div>
+      <p>In the Project panel, select your main composition and choose <span class="menu">Edit → Duplicate</span> (or press <kbd>⌘D</kbd>). Double-click the copy to open it. It has your five layers and their offsets already in it.</p>
+    </div></div><div class="media" data-m="r-14" data-rec="Project panel: main composition duplicated; the copy opened."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-15</div><div>
+      <p>Turn each strip into a circle. Select a layer, choose <span class="menu">Layer → Mask → Mask Shape</span>, tick <b>Reset To</b> and choose <b>Ellipse</b>. Then type its box. Every circle is centred on the middle of the frame (960, 540), so for a circle of radius r the box is Left <code>960-r</code>, Right <code>960+r</code>, Top <code>540-r</code>, Bottom <code>540+r</code>. Type the sums straight in.</p>
+      <table class="sizes">
+        <tr><td>Layer 1, the centre</td><td>r = <code>135</code></td></tr>
+        <tr><td>Layer 2</td><td>r = <code>270</code></td></tr>
+        <tr><td>Layer 3</td><td>r = <code>405</code></td></tr>
+        <tr><td>Layers 4 and 5</td><td>r = <code>540</code></td></tr>
+      </table>
+      <div class="trap"><b>Why those numbers?</b> 540 is half the height of the frame, so the biggest circle just touches the top and bottom. Each ring is 135 wider than the last.</div>
+    </div></div><div class="media" data-m="r-15" data-rec="Mask Shape: Reset To Ellipse; typing 960-270, 960+270, 540-270, 540+270."></div></li>
+    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">R-16</div><div>
+      <p>Cut the hole in each ring. On layer 2, choose <span class="menu">Layer → Mask → New Mask</span>, then open Mask Shape for the new mask, choose <b>Ellipse</b> and give it the radius of the ring inside it (<code>135</code>). In the timeline, open the layer’s <b>Masks</b> with the small arrow and change the new mask from <b>Add</b> to <b>Subtract</b>. Do the same on layer 3 (hole <code>270</code>) and layer 4 (hole <code>405</code>).</p>
+      <p style="margin-top:8px">Layer 5 is everything outside the rings: change its only mask from <b>Add</b> to <b>Subtract</b>.</p>
+      <div class="trap"><b>Add and Subtract.</b> An Add mask shows what’s inside it. A Subtract mask cuts away what’s inside it. A big Add circle with a smaller Subtract circle in the middle leaves a ring.</div>
+    </div></div><div class="media" data-m="r-16" data-rec="Layer → Mask → New Mask; Mask Shape ellipse for the hole; mask mode changed from Add to Subtract; a ring appears."></div></li>
+    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you go on.</b> The whole picture should be back, as a centre circle, three rings and the outside, with no gaps. Press the spacebar: each ring should be at a different moment. For rotation, give each ring its own wrapper as in R-13.</p>
+    </div></div><div class="media" data-m="r-check-4" data-rec="The rings composition playing: a centre circle, three rings and the outside, each at a different moment."></div></li>
+  </ol>
+</section>
+
+<section class="chunk" id="r8">
+  <h3>R8 · Change the speed and turn the rings <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><!-- From Mat's video (2026-10-04) --><div class="txt"><div class="n">R-17</div><div>
+      <p>To change a strip’s speed, select it in your main composition and choose <span class="menu">Layer → Time → Time Stretch</span>. Set the Stretch Factor: <code>200</code>% plays it at half speed, <code>50</code>% at double speed. Give each strip its own speed and they drift in and out of step.</p>
+      <div class="trap"><b>Keep to real time or slower.</b> Fast walking looks comical. If a slow strip looks jerky, choose <span class="menu">Layer → Frame Blending → Pixel Motion</span>.</div>
+    </div></div><div class="media" data-m="r-17" data-rec="Layer → Time → Time Stretch; Stretch Factor set; strips drifting in and out of step."></div></li>
+    <li><!-- From Mat's video (2026-10-04) --><div class="txt"><div class="n">R-18</div><div>
+      <p>To turn a ring, give it its own wrapper (R-13) and go inside. Select the layer in there. Move the time indicator to the start and click the stopwatch next to <b>Rotation</b> in the Properties panel. Move the time indicator to the end and set Rotation to <code>1x+0°</code>: one full turn. Do the same on the other rings with different amounts, some turning the other way (<code>-1x</code>).</p>
+      <div class="trap"><b>How fast is that?</b> One full turn over the whole composition. In a 30-second composition that’s 360 ÷ 30 = 12° a second. Keep it slow: fast spinning gets in the way of what’s in the footage. Scale the layer up a little so its corners never show.</div>
+    </div></div><div class="media" data-m="r-18" data-rec="Pre-compose a ring; inside, stopwatch on Rotation at the start; 1x+0° at the end; the ring turning."></div></li>
+  </ol>
+</section>
+
+<div class="gallery g2 wide">
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/street-offset.mp4"></video></div>
+    <figcaption><b>1 · Offset.</b> What you just made. The street holds still, so it lines up across the strips; the people move, so they break at the edges.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/roundabout-offset.mp4"></video></div>
+    <figcaption><b>1 · Offset, from above.</b> The road runs on unbroken from strip to strip, so the cars vanish at one edge and turn up at the next.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/street-speed.mp4"></video></div>
+    <figcaption><b>2 · Speed.</b> Each strip plays at its own speed, so they drift out of step and back in. How: R-17.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/train-zoom.mp4"></video></div>
+    <figcaption><b>3 · Zoom.</b> Each strip zoomed in by a different amount, mixed up rather than small to big. The train becomes fragments at different scales. How: R-13. Past about 2× the footage goes soft unless you shot in 4K.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/station-rings.mp4"></video></div>
+    <figcaption><b>4 · Rings.</b> Offset in circles instead of strips. Seen from above, people disappear as they cross a ring and reappear at a different moment.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/street-rotate.mp4"></video></div>
+    <figcaption><b>5 · Slow rotation.</b> Each ring turns slowly at its own rate, some one way and some the other. How: R-18.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/roundabout-still.mp4"></video></div>
+    <figcaption><b>6 · Turn against the motion.</b> Turn the ring with the road in it the opposite way to the traffic (R-18), and change the amount until the cars stop. The cars hold still and the roundabout turns under them.</figcaption>
+  </figure>
+</div>
+<p class="seealso">Footage: Pixabay (royalty free), adapted.</p>
+
+<div class="box fire">
+  <!-- DRAFT: Claude, in Mat's style -->
+  <p style="margin:0"><b>Now shoot your own.</b> Content matters: what goes in is what comes out. Look at what made your test shot work, and at what worked for the people around you, then go and find that. Most of these have a camera on a tripod, strong lines and colour, and something moving across the frame.</p>
+</div>
+
+<footer>BCM116 · Relevant to Investigation prompts 3 and 9.</footer>
+</main>
+
+
+<script>
+// ---------------------------------------------------------------- lightbox
+// Clips are small in the page. Clicking one opens it full size.
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.hidden = true;
+lb.innerHTML = '<button class="lbclose" type="button">Close ✕</button>' +
+               '<div class="lbstage"></div><div class="lbcap"></div>';
+document.body.appendChild(lb);
+const lbStage = lb.querySelector('.lbstage');
+const lbCap = lb.querySelector('.lbcap');
+let lbReturn = null;
+
+const closeLb = () => {
+  lb.hidden = true;
+  lbStage.innerHTML = '';
+  if (lbReturn) { lbReturn.focus(); lbReturn = null; }
+};
+const openLb = (src, kind, caption, opener) => {
+  lbReturn = opener || null;
+  lbStage.innerHTML = '';
+  let el;
+  if (kind === 'img') {
+    el = new Image();
+    el.src = src;
+    el.alt = caption || '';
+  } else {
+    el = document.createElement('video');
+    el.src = src;
+    el.muted = true; el.loop = true; el.controls = true;
+    el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+    el.playsInline = true;
+    el.play().catch(() => {});
+  }
+  lbStage.appendChild(el);
+  lbCap.textContent = caption || '';
+  lb.hidden = false;
+  lb.querySelector('.lbclose').focus();
+};
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+lb.querySelector('.lbclose').addEventListener('click', closeLb);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+
+// Wrap a loaded element so clicking it opens the lightbox.
+const makeExpandable = (slot, el, src, kind, caption) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mbtn';
+  btn.setAttribute('aria-label', 'Open ' + caption + ' full size');
+  const tag = document.createElement('span');
+  tag.className = 'mzoom';
+  tag.textContent = '⤢ full size';
+  btn.appendChild(el);
+  btn.appendChild(tag);
+  btn.addEventListener('click', () => openLb(src, kind, caption, btn));
+  slot.innerHTML = '';
+  slot.appendChild(btn);
+  return btn;
+};
+
+// ------------------------------------------------------------- step media
+// Resolve media/<name>.mp4, then .png, then fall back to the note in
+// data-rec. A <video> does not reliably fire `error` on a 404, so ask the
+// server directly instead of relying on that. Nothing loads until the slot
+// is near the viewport, and clips show a still frame rather than autoplaying.
+const exists = async url => {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch (e) {
+    return null;          // file:// or blocked — caller falls back
+  }
+};
+
+const showPlaceholder = (slot, name) => {
+  slot.style.background = 'transparent';
+  slot.style.border = '0';
+  slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+    (slot.dataset.rec || '') + '</div>';
+};
+
+const showImg = (slot, name) => new Promise(res => {
+  const img = new Image();
+  img.alt = slot.dataset.rec || name;
+  img.onload = () => { makeExpandable(slot, img, img.src, 'img', name); res(true); };
+  img.onerror = () => res(false);
+  img.src = 'media/' + name + '.png';
+});
+
+const showVideo = (slot, name, confirmed) => new Promise(res => {
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  let settled = false;
+  const done = ok => { if (settled) return; settled = true; res(ok); };
+  v.onloadedmetadata = () => {
+    // Park on a middle frame: the first frame of a screen capture is
+    // usually the app sitting still, which says nothing about the step.
+    try { v.currentTime = Math.min(v.duration / 2, v.duration - 0.1); } catch (e) {}
+    if (!confirmed) { makeExpandable(slot, v, v.src, 'video', name); done(true); }
+  };
+  v.onerror = () => { if (!confirmed) done(false); };
+  v.src = 'media/' + name + '.mp4';
+  if (confirmed) {
+    // The server already said this file is there, so show it now rather than
+    // waiting on metadata — a codec the browser dislikes must not leave the
+    // slot blank. The seek above still runs when metadata arrives.
+    makeExpandable(slot, v, v.src, 'video', name);
+    done(true);
+  } else {
+    setTimeout(() => done(false), 6000);
+  }
+});
+
+const loadSlot = async slot => {
+  const name = slot.dataset.m;
+  const hasMp4 = await exists('media/' + name + '.mp4');
+  if (hasMp4 === true)  { if (await showVideo(slot, name, true)) return; }
+  if (hasMp4 === false) { if (await showImg(slot, name)) return; showPlaceholder(slot, name); return; }
+  // HEAD unavailable: try each in turn.
+  if (await showVideo(slot, name, false)) return;
+  if (await showImg(slot, name)) return;
+  showPlaceholder(slot, name);
+};
+
+const slots = document.querySelectorAll('.media[data-m]');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      loadSlot(e.target);
+    });
+  }, { rootMargin: '400px' });
+  slots.forEach(s => io.observe(s));
+} else {
+  slots.forEach(loadSlot);
+}
+
+// ---------------------------------------------------------------- gallery
+// Six finished renders. These are the point of the section, so they do play
+// in place once scrolled to — but only then, and they pause when they leave.
+(() => {
+  const shots = document.querySelectorAll('.gallery video[data-src]');
+  shots.forEach(v => {
+    const cap = v.closest('figure').querySelector('figcaption');
+    const btn = makeExpandable(v.closest('.shot'), v, v.dataset.src,
+                               'video', (cap && cap.textContent.trim()) || 'render');
+    btn.setAttribute('aria-label', 'Open this render full size');
+  });
+  const start = v => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) start(e.target);
+      else if (e.target.src) e.target.pause();
+    });
+  }, { rootMargin: '200px' });
+  shots.forEach(v => io.observe(v));
+})();
+</script>
+</body>
+</html>

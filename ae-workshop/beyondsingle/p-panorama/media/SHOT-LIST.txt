@@ -1,0 +1,13 @@
+Record these. Name each file exactly as below, .mp4 (silent loop, 5-10 s) or .png.
+
+p-01         New Project dialog: Skip import mode; File → Import of the Hockney; it appears in the Project panel.
+p-02         New Sequence: Settings tab (Custom, 6000 × 3000, Square Pixels); VR Video tab (Equirectangular, Monoscopic).
+p-03         Hockney dragged into the sequence; clip dragged out to 2:00.
+p-05         Program Monitor spanner → VR Video → Enable; dragging to pan around the Hockney.
+p-06         Export settings: H.264; Video section, More folded down; Video is VR ticked; Frame Layout Monoscopic; Export.
+p-09         Window → Effects; Video Effects folder; Ultra Key dragged onto the clip.
+p-10         Effect Controls: Key Color eyedropper on the green; the background disappears.
+p-11         Clip dragged and scaled onto the horizon, VR preview off.
+p-14         Image Processor: folder chosen; JPEG quality 8; Resize to Fit 2000 × 2000; Run.
+p-15         Photomerge dialog: Auto; stitched result; Merge Visible.
+p-16         New 6000 × 3000 doc; pasted panorama; ⌘T scaling to meet both edges; Export As PNG.

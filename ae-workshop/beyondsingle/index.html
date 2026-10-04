@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<!--
+  HOW TO ADD MEDIA
+  Each step has data-m="a-07" (or similar). Put a file with that name in
+  media/ beside this page:
+      media/a-07.mp4   a short silent screen-capture loop (preferred)
+      media/a-07.png   a still, if a loop isn't needed
+  The page tries .mp4 first, then .png. If neither exists, the slot shows
+  the note in data-rec, which says what to capture.
+  Keep loops 5-10 s, no audio, cropped to the part of the screen that matters.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Beyond the single screen — BCM116</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#fff; --ink:#1a1a1e; --dim:#686872; --line:#dddbd6;
+    --accent:#b8531d; --soft:#faf3ee; --warn:#8a5a00; --warnbg:#fdf6e3;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }}
+  :root[data-theme="dark"]{
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }
+  *{box-sizing:border-box}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+  main{max-width:1080px;margin:0 auto;padding:40px 22px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+  .lede{color:var(--dim);max-width:44em;margin:0 0 28px}
+  h2{font-size:21px;margin:56px 0 6px;padding-top:18px;border-top:2px solid var(--ink)}
+  h2 small{display:block;font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.06em;
+           text-transform:uppercase;margin-bottom:4px}
+  .intro{color:var(--dim);max-width:44em;margin:0 0 18px}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:18px 0}
+  .fire{border-left:4px solid var(--accent);background:var(--soft)}
+  .fire b{color:var(--accent)}
+  .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:760px){.parts{grid-template-columns:1fr}}
+  .parts h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .parts ul{margin:0;padding-left:18px}
+  .parts li{margin:3px 0}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+  nav.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+            border-radius:999px;padding:5px 12px;background:var(--panel)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .chunk{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:22px 0;overflow:hidden}
+  .chunk>h3{margin:0;padding:12px 18px;font-size:16px;border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;gap:12px}
+  .chunk>h3 span{color:var(--dim);font-weight:500;font-size:13px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;
+              padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+  ol.steps>li:last-child{border-bottom:0}
+  @media (max-width:760px){ol.steps>li{grid-template-columns:1fr}}
+  .txt{display:flex;gap:12px}
+  .n{flex:none;font:600 13px/1 ui-monospace,Menlo,monospace;color:var(--accent);
+     border:1px solid var(--accent);border-radius:4px;padding:5px 6px;height:max-content;min-width:44px;text-align:center}
+  .txt p{margin:0}
+  .trap{margin-top:8px;font-size:14px;color:var(--warn);background:var(--warnbg);
+        border-radius:4px;padding:7px 10px}
+  .trap b{font-weight:600}
+  table.sizes{border-collapse:collapse;margin:8px 0 2px;font-size:14px}
+  table.sizes td{padding:3px 14px 3px 0;border-bottom:1px solid var(--line)}
+  code,kbd{font:14px ui-monospace,Menlo,monospace;background:var(--soft);border:1px solid var(--line);
+           border-radius:3px;padding:0 4px}
+  .menu{font-weight:600}
+
+  .media{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000;min-height:40px}
+  .media video,.media img{display:block;width:100%;height:auto}
+  .ph{background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 8px,var(--panel) 8px,var(--panel) 16px);
+      color:var(--dim);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px}
+  .ph b{display:block;font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);margin-bottom:4px}
+
+  li.check{background:var(--soft)}
+  li.check .n{background:var(--accent);color:var(--panel)}
+  .swap{border:1px dashed var(--accent)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:18px 0}
+  .gallery figure{margin:0}
+  .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
+  .gallery video{display:block;width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  .gallery.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.g1{grid-template-columns:minmax(0,1fr);max-width:520px}
+  @media (max-width:760px){.gallery.g3,.gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.gallery.g3,.gallery.g2{grid-template-columns:minmax(0,1fr)}}
+  h3.exh{font-size:15px;margin:34px 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .exnote{color:var(--dim);max-width:44em;margin:0 0 12px;font-size:15px}
+  p.seealso{margin:-8px 0 18px;font-size:14px;color:var(--dim)}
+
+  /* Click any clip to open it full size. */
+  .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
+        position:relative;line-height:0;font:inherit;color:inherit}
+  .mbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mzoom{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;
+         font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;
+         padding:5px 7px;border-radius:4px;pointer-events:none}
+  .mbtn:hover .mzoom{background:var(--accent)}
+  .gallery .shot .mbtn,.gallery .shot .mbtn video{height:100%}
+
+  .lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;padding:30px}
+  .lb[hidden]{display:none}
+  .lb video,.lb img{display:block;width:auto;height:auto;background:#000;border-radius:4px;
+                    max-width:min(1600px,95vw);max-height:88vh}
+  .lbclose{position:absolute;top:14px;right:16px;background:var(--panel);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;cursor:pointer;
+           font:600 14px/1 inherit;padding:10px 14px}
+  .lbcap{position:absolute;left:0;right:0;bottom:16px;text-align:center;padding:0 24px;
+         color:#d6d6d6;font:13px/1.5 ui-monospace,Menlo,monospace}
+  footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--accent)}
+
+  /* Added for the arrays cards (Claude): wide previews and screen bezels. */
+  .lede p{margin:0}
+  .lede b{color:var(--ink)}
+  /* 360 viewer and diagram (Claude, v-ring only). */
+  .pano{position:relative;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+        background:#000;aspect-ratio:16/9;cursor:grab;touch-action:pan-y;outline:none}
+  .pano:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .pano.dragging{cursor:grabbing}
+  .pano canvas{display:block;width:100%;height:100%}
+  .pano video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .pano-hud{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.66);color:#fff;
+            font:600 12px/1 ui-monospace,Menlo,monospace;padding:6px 8px;border-radius:4px;pointer-events:none}
+  .pano.flat{aspect-ratio:auto;cursor:auto}
+  .pano.flat canvas,.pano.flat .pano-hud{display:none}
+  .pano.flat video{position:static;width:100%;height:auto;opacity:1;pointer-events:auto}
+  .diagram{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;margin:12px 0 18px;
+           background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+  @media (max-width:640px){.diagram{grid-template-columns:1fr}}
+  .diagram figure{margin:0}
+  .diagram svg{display:block;width:100%;height:auto}
+  .diagram figcaption{font-size:13px;color:var(--dim);text-align:center;margin-top:4px}
+  .diagram text{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+                fill:var(--dim);text-anchor:middle}
+  .diagram .side{text-anchor:end}
+  .diagram .deg{font-size:11px}
+  .diagram .num{fill:#fff;font-weight:700}
+  .diagram .num.dim{fill:var(--accent)}
+  .diagram .frame{fill:#000;stroke:var(--ink);stroke-width:1}
+  .diagram .hz{stroke:#777;stroke-dasharray:4 4}
+  .diagram .tick{stroke:var(--ink)}
+  .diagram .sq{fill:var(--accent)}
+  .diagram .ring{fill:none;stroke:var(--line);stroke-width:2;stroke-dasharray:4 4}
+  .diagram .arc{fill:none;stroke:var(--accent);stroke-width:12}
+  .diagram .you{fill:var(--ink)}
+  .media.yt{aspect-ratio:16/9}
+  .media.yt iframe{display:block;width:100%;height:100%;border:0}
+  .gallery.wide{max-width:none}
+  .gallery.wide .shot{aspect-ratio:auto}
+  .gallery.bleed{width:100vw;margin-left:calc(50% - 50vw);padding:0 16px}
+  .bezels{position:relative}
+  .bezels::before,.bezels::after{content:"";position:absolute;top:0;bottom:0;width:2px;
+    background:var(--accent);opacity:.8;pointer-events:none;z-index:1}
+  .bezels::before{left:33.333%}
+  .bezels::after{left:66.667%}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Beyond the single screen</h1>
+<p class="lede">These five step by steps provide you with the tools you'll need to explore multiscreen, 360, and multipanel (videos collaged on one screen) work. All of this also applies to projection work as well.</p>
+<p class="lede">This week I am happy for you to work on last week's <a href="../">After Effects tutorial</a> if you missed it. These exercises provide a nice extension to that - if three people make three sketches in After Effects (based perhaps on one theme, object or water colour) they will make a nice 3 screen triptych. If three people around you have made a nice After Effects spiral you can share that to learn how to place them in VR or in a grid or columns.</p>
+<p class="lede">If the technicality of After Effects didn't inspire you or you want to move on, grab some others and shoot some video you can use to test this stuff. Look at the student examples as clues or come up with an idea that explores a relation between video frames: people talking across the frames, singing together in the round, passing an object or a note, or simply engaging in the same activity. Perhaps it’s even just a static video portrait.</p>
+<p class="lede" style="margin-bottom:8px">Here are examples from BCM116 assessments that played with this idea:</p>
+<!-- DRAFT: Claude. One line per example, condensed from each card's student-work section. -->
+<ul class="lede">
+  <li><a href="v-ring/#students"><i>The Eccentric Eulogy</i></a>, Aidan Buckley and Kobey Hill (2025): a comic funeral staged in 360°. You turn from one speaker to the next.</li>
+  <li><a href="t-triptych/#students"><i>Disparate Diaspora</i></a>, Marotetini Tehei (2024): three versions of herself argue across three screens, each in her own language.</li>
+  <li><a href="c-columns/#students"><i>Walk this way</i></a>, a tutorial exercise: everyone filmed their own feet walking, shown side by side as strips.</li>
+</ul>
+<p class="lede">If it helps, think about where that idea might end up: as video arranged in VR space, as a grid on a single screen, or across two or three screens. Choose your step-by-step accordingly, or try various forms and see how they suggest different projects from the same content.</p>
+<p class="lede">The aim whatever you do is look for potential project ideas for 3 &amp; 4.</p>
+
+<h2 id="cards"><small>Cards</small>Step-by-steps</h2>
+<!-- DRAFT: Claude. Panorama featured first as the low bar. -->
+<p class="lede" style="margin-bottom:8px"><b>Start here.</b> Then pick the step-by-step for where your work will end up.</p>
+<div class="gallery g1 wide">
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="p-panorama/media/examples/hockney-viewer.mp4"></video></div>
+    <figcaption><b><a href="p-panorama/">Panorama</a></b> · 16 steps<br>A good place to start if you'd like to make work that combines video and collage in VR.</figcaption>
+  </figure>
+</div>
+<div class="gallery g2 wide">
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="v-ring/media/examples/v-ring-6k.mp4"></video></div>
+    <figcaption><b><a href="v-ring/">Multipanel and panoramic video for VR</a></b> · 5 steps<br>Go here to arrange panels of video around the viewer and export for YouTube 360.<br><a href="v-ring/#students">Student work: The Eccentric Eulogy</a> · <a href="v-ring/#export">Premiere VR export</a></figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="c-columns/media/c-student-walk.mp4"></video></div>
+    <figcaption><b><a href="c-columns/">Multipanel on one screen</a></b> · 9 steps<br>Go here to combine several shots on one screen, in a row or a grid.<br><a href="c-columns/#students">Walk this way</a></figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="r-remix/media/examples/street-zoom.mp4"></video></div>
+    <figcaption><b><a href="r-remix/">Remix time and space</a></b> · 18 steps<br>Go here to cut one shot into strips and start each strip at a different moment.</figcaption>
+  </figure>
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="t-triptych/media/examples/t-triptych.mp4"></video></div>
+    <figcaption><b><a href="t-triptych/">Two or more screens</a></b> · 9 steps<br>Go here if your work spans the screen array: one sequence per screen, put side by side in Premiere.<br><a href="t-triptych/#students">Student work: Disparate Diaspora</a></figcaption>
+  </figure>
+</div>
+
+<!-- DRAFT: Claude, in Mat's style, from Mat's note (2026-10-04). -->
+<div class="box">
+  <p style="margin:0"><b>Coming from the planetarium?</b> The dome is round, so everything here can work there with a radial composition: rings instead of strips, panels arranged around the centre instead of in a row. If you want to go further, try the advanced creative coding option, <a href="https://psychosophonis.github.io/dome-as-canvas/">The Dome as Canvas</a>.</p>
+</div>
+
+<!-- ================================================================= review -->
+<!-- Review section: for Mat while the cards are in draft. Remove before publishing. -->
+<!-- Moved here from the intro by Claude (2026-10-02); Mat's wording. -->
+<h2 id="investigation"><small>Assessment</small>Investigation 3 &amp; 4</h2>
+<div class="box">
+  <p style="margin:0">The challenge for investigation 3 &amp; 4 is to get started early - you can make 2, 2 min videos at 20% each or make a longer 4 min work marked at 40%. As with investigation 2 I'm happy for you to propose group works that double length or triple length. This would allow you to make a single work across three screens or 4 minutes run time with a team of three (for example). Maximum of three to a group. Submit 1 didactic panel per group.</p>
+  <p style="margin:10px 0 0">If you're planning on exploring projection or an installation work plan to have it ready for install in week 13 or make plans with Mat to install for marking on Tuesday of week 14.</p>
+  <p style="margin:10px 0 0">As usual the <a href="https://psychosophonis.github.io/bcm116Inter/prompts.html#a4">prompts</a> are there to give you a sense of what I am looking for and to help make ideation easier. Have another idea? Pitch it to me.</p>
+</div>
+
+<footer>BCM116 · Beyond the single screen</footer>
+</main>
+
+<script>
+// ---------------------------------------------------------------- lightbox
+// Clips are small in the page. Clicking one opens it full size.
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.hidden = true;
+lb.innerHTML = '<button class="lbclose" type="button">Close ✕</button>' +
+               '<div class="lbstage"></div><div class="lbcap"></div>';
+document.body.appendChild(lb);
+const lbStage = lb.querySelector('.lbstage');
+const lbCap = lb.querySelector('.lbcap');
+let lbReturn = null;
+
+const closeLb = () => {
+  lb.hidden = true;
+  lbStage.innerHTML = '';
+  if (lbReturn) { lbReturn.focus(); lbReturn = null; }
+};
+const openLb = (src, kind, caption, opener) => {
+  lbReturn = opener || null;
+  lbStage.innerHTML = '';
+  let el;
+  if (kind === 'img') {
+    el = new Image();
+    el.src = src;
+    el.alt = caption || '';
+  } else {
+    el = document.createElement('video');
+    el.src = src;
+    el.muted = true; el.loop = true; el.controls = true;
+    el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+    el.playsInline = true;
+    el.play().catch(() => {});
+  }
+  lbStage.appendChild(el);
+  lbCap.textContent = caption || '';
+  lb.hidden = false;
+  lb.querySelector('.lbclose').focus();
+};
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+lb.querySelector('.lbclose').addEventListener('click', closeLb);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+
+// Wrap a loaded element so clicking it opens the lightbox.
+const makeExpandable = (slot, el, src, kind, caption) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mbtn';
+  btn.setAttribute('aria-label', 'Open ' + caption + ' full size');
+  const tag = document.createElement('span');
+  tag.className = 'mzoom';
+  tag.textContent = '⤢ full size';
+  btn.appendChild(el);
+  btn.appendChild(tag);
+  btn.addEventListener('click', () => openLb(src, kind, caption, btn));
+  slot.innerHTML = '';
+  slot.appendChild(btn);
+  return btn;
+};
+
+// ------------------------------------------------------------- step media
+// Resolve media/<name>.mp4, then .png, then fall back to the note in
+// data-rec. A <video> does not reliably fire `error` on a 404, so ask the
+// server directly instead of relying on that. Nothing loads until the slot
+// is near the viewport, and clips show a still frame rather than autoplaying.
+const exists = async url => {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch (e) {
+    return null;          // file:// or blocked — caller falls back
+  }
+};
+
+const showPlaceholder = (slot, name) => {
+  slot.style.background = 'transparent';
+  slot.style.border = '0';
+  slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+    (slot.dataset.rec || '') + '</div>';
+};
+
+const showImg = (slot, name) => new Promise(res => {
+  const img = new Image();
+  img.alt = slot.dataset.rec || name;
+  img.onload = () => { makeExpandable(slot, img, img.src, 'img', name); res(true); };
+  img.onerror = () => res(false);
+  img.src = 'media/' + name + '.png';
+});
+
+const showVideo = (slot, name, confirmed) => new Promise(res => {
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  let settled = false;
+  const done = ok => { if (settled) return; settled = true; res(ok); };
+  v.onloadedmetadata = () => {
+    // Park on a middle frame: the first frame of a screen capture is
+    // usually the app sitting still, which says nothing about the step.
+    try { v.currentTime = Math.min(v.duration / 2, v.duration - 0.1); } catch (e) {}
+    if (!confirmed) { makeExpandable(slot, v, v.src, 'video', name); done(true); }
+  };
+  v.onerror = () => { if (!confirmed) done(false); };
+  v.src = 'media/' + name + '.mp4';
+  if (confirmed) {
+    // The server already said this file is there, so show it now rather than
+    // waiting on metadata — a codec the browser dislikes must not leave the
+    // slot blank. The seek above still runs when metadata arrives.
+    makeExpandable(slot, v, v.src, 'video', name);
+    done(true);
+  } else {
+    setTimeout(() => done(false), 6000);
+  }
+});
+
+const loadSlot = async slot => {
+  const name = slot.dataset.m;
+  const hasMp4 = await exists('media/' + name + '.mp4');
+  if (hasMp4 === true)  { if (await showVideo(slot, name, true)) return; }
+  if (hasMp4 === false) { if (await showImg(slot, name)) return; showPlaceholder(slot, name); return; }
+  // HEAD unavailable: try each in turn.
+  if (await showVideo(slot, name, false)) return;
+  if (await showImg(slot, name)) return;
+  showPlaceholder(slot, name);
+};
+
+const slots = document.querySelectorAll('.media[data-m]');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      loadSlot(e.target);
+    });
+  }, { rootMargin: '400px' });
+  slots.forEach(s => io.observe(s));
+} else {
+  slots.forEach(loadSlot);
+}
+
+// ---------------------------------------------------------------- gallery
+// Six finished renders. These are the point of the section, so they do play
+// in place once scrolled to — but only then, and they pause when they leave.
+(() => {
+  const shots = document.querySelectorAll('.gallery video[data-src]');
+  shots.forEach(v => {
+    const cap = v.closest('figure').querySelector('figcaption');
+    const btn = makeExpandable(v.closest('.shot'), v, v.dataset.src,
+                               'video', (cap && cap.textContent.trim()) || 'render');
+    btn.setAttribute('aria-label', 'Open this render full size');
+  });
+  const start = v => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) start(e.target);
+      else if (e.target.src) e.target.pause();
+    });
+  }, { rootMargin: '200px' });
+  shots.forEach(v => io.observe(v));
+})();
+
+</script>
+</body>
+</html>

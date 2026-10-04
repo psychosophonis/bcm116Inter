@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<!--
+  HOW TO ADD MEDIA
+  Each step has data-m="a-07" (or similar). Put a file with that name in
+  media/ beside this page:
+      media/a-07.mp4   a short silent screen-capture loop (preferred)
+      media/a-07.png   a still, if a loop isn't needed
+  The page tries .mp4 first, then .png. If neither exists, the slot shows
+  the note in data-rec, which says what to capture.
+  Keep loops 5-10 s, no audio, cropped to the part of the screen that matters.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panorama — BCM116</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#fff; --ink:#1a1a1e; --dim:#686872; --line:#dddbd6;
+    --accent:#b8531d; --soft:#faf3ee; --warn:#8a5a00; --warnbg:#fdf6e3;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }}
+  :root[data-theme="dark"]{
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }
+  *{box-sizing:border-box}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+  main{max-width:1080px;margin:0 auto;padding:40px 22px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+  .lede{color:var(--dim);max-width:44em;margin:0 0 28px}
+  h2{font-size:21px;margin:56px 0 6px;padding-top:18px;border-top:2px solid var(--ink)}
+  h2 small{display:block;font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.06em;
+           text-transform:uppercase;margin-bottom:4px}
+  .intro{color:var(--dim);max-width:44em;margin:0 0 18px}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:18px 0}
+  .fire{border-left:4px solid var(--accent);background:var(--soft)}
+  .fire b{color:var(--accent)}
+  .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:760px){.parts{grid-template-columns:1fr}}
+  .parts h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .parts ul{margin:0;padding-left:18px}
+  .parts li{margin:3px 0}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+  nav.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+            border-radius:999px;padding:5px 12px;background:var(--panel)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .chunk{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:22px 0;overflow:hidden}
+  .chunk>h3{margin:0;padding:12px 18px;font-size:16px;border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;gap:12px}
+  .chunk>h3 span{color:var(--dim);font-weight:500;font-size:13px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;
+              padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+  ol.steps>li:last-child{border-bottom:0}
+  @media (max-width:760px){ol.steps>li{grid-template-columns:1fr}}
+  .txt{display:flex;gap:12px}
+  .n{flex:none;font:600 13px/1 ui-monospace,Menlo,monospace;color:var(--accent);
+     border:1px solid var(--accent);border-radius:4px;padding:5px 6px;height:max-content;min-width:44px;text-align:center}
+  .txt p{margin:0}
+  .trap{margin-top:8px;font-size:14px;color:var(--warn);background:var(--warnbg);
+        border-radius:4px;padding:7px 10px}
+  .trap b{font-weight:600}
+  table.sizes{border-collapse:collapse;margin:8px 0 2px;font-size:14px}
+  table.sizes td{padding:3px 14px 3px 0;border-bottom:1px solid var(--line)}
+  code,kbd{font:14px ui-monospace,Menlo,monospace;background:var(--soft);border:1px solid var(--line);
+           border-radius:3px;padding:0 4px}
+  .menu{font-weight:600}
+
+  .media{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000;min-height:40px}
+  .media video,.media img{display:block;width:100%;height:auto}
+  .ph{background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 8px,var(--panel) 8px,var(--panel) 16px);
+      color:var(--dim);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px}
+  .ph b{display:block;font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);margin-bottom:4px}
+
+  li.check{background:var(--soft)}
+  li.check .n{background:var(--accent);color:var(--panel)}
+  .swap{border:1px dashed var(--accent)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:18px 0}
+  .gallery figure{margin:0}
+  .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
+  .gallery video{display:block;width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  .gallery.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.g1{grid-template-columns:minmax(0,1fr);max-width:520px}
+  @media (max-width:760px){.gallery.g3,.gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.gallery.g3,.gallery.g2{grid-template-columns:minmax(0,1fr)}}
+  h3.exh{font-size:15px;margin:34px 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .exnote{color:var(--dim);max-width:44em;margin:0 0 12px;font-size:15px}
+  p.seealso{margin:-8px 0 18px;font-size:14px;color:var(--dim)}
+
+  /* Click any clip to open it full size. */
+  .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
+        position:relative;line-height:0;font:inherit;color:inherit}
+  .mbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mzoom{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;
+         font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;
+         padding:5px 7px;border-radius:4px;pointer-events:none}
+  .mbtn:hover .mzoom{background:var(--accent)}
+  .gallery .shot .mbtn,.gallery .shot .mbtn video{height:100%}
+
+  .lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;padding:30px}
+  .lb[hidden]{display:none}
+  .lb video,.lb img{display:block;width:auto;height:auto;background:#000;border-radius:4px;
+                    max-width:min(1600px,95vw);max-height:88vh}
+  .lbclose{position:absolute;top:14px;right:16px;background:var(--panel);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;cursor:pointer;
+           font:600 14px/1 inherit;padding:10px 14px}
+  .lbcap{position:absolute;left:0;right:0;bottom:16px;text-align:center;padding:0 24px;
+         color:#d6d6d6;font:13px/1.5 ui-monospace,Menlo,monospace}
+  footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--accent)}
+
+  /* Added for the arrays cards (Claude): wide previews and screen bezels. */
+  .lede p{margin:0}
+  .lede b{color:var(--ink)}
+  /* 360 viewer and diagram (Claude, v-ring only). */
+  .pano{position:relative;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+        background:#000;aspect-ratio:16/9;cursor:grab;touch-action:pan-y;outline:none}
+  .pano:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .pano.dragging{cursor:grabbing}
+  .pano canvas{display:block;width:100%;height:100%}
+  .pano video{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .pano-hud{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.66);color:#fff;
+            font:600 12px/1 ui-monospace,Menlo,monospace;padding:6px 8px;border-radius:4px;pointer-events:none}
+  .pano.flat{aspect-ratio:auto;cursor:auto}
+  .pano.flat canvas,.pano.flat .pano-hud{display:none}
+  .pano.flat video{position:static;width:100%;height:auto;opacity:1;pointer-events:auto}
+  .diagram{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;margin:12px 0 18px;
+           background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
+  @media (max-width:640px){.diagram{grid-template-columns:1fr}}
+  .diagram figure{margin:0}
+  .diagram svg{display:block;width:100%;height:auto}
+  .diagram figcaption{font-size:13px;color:var(--dim);text-align:center;margin-top:4px}
+  .diagram text{font:12px -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+                fill:var(--dim);text-anchor:middle}
+  .diagram .side{text-anchor:end}
+  .diagram .deg{font-size:11px}
+  .diagram .num{fill:#fff;font-weight:700}
+  .diagram .num.dim{fill:var(--accent)}
+  .diagram .frame{fill:#000;stroke:var(--ink);stroke-width:1}
+  .diagram .hz{stroke:#777;stroke-dasharray:4 4}
+  .diagram .tick{stroke:var(--ink)}
+  .diagram .sq{fill:var(--accent)}
+  .diagram .ring{fill:none;stroke:var(--line);stroke-width:2;stroke-dasharray:4 4}
+  .diagram .arc{fill:none;stroke:var(--accent);stroke-width:12}
+  .diagram .you{fill:var(--ink)}
+  .media.yt{aspect-ratio:16/9}
+  .media.yt iframe{display:block;width:100%;height:100%;border:0}
+  .gallery.wide{max-width:none}
+  .gallery.wide .shot{aspect-ratio:auto}
+  .gallery.bleed{width:100vw;margin-left:calc(50% - 50vw);padding:0 16px}
+  .bezels{position:relative}
+  .bezels::before,.bezels::after{content:"";position:absolute;top:0;bottom:0;width:2px;
+    background:var(--accent);opacity:.8;pointer-events:none;z-index:1}
+  .bezels::before{left:33.333%}
+  .bezels::after{left:66.667%}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Panorama</h1>
+<!-- DRAFT: Claude, in Mat's style. Steps P-01 to P-07 and P-10 to P-12 are Mat's Week 8 recipe cards, tidied. -->
+<div class="lede">
+  <p>This is the low bar. Drop a Hockney collage into Premiere and you've got a 360 world you can stand inside on the Quests. That's all a panorama is: an image twice as wide as it is tall, wrapped around the viewer.</p>
+  <p style="margin-top:8px">Once that works, mess with it. Add green screen video. Alter it in Photoshop. Make your own panoramic photograph. Every one of these ends up as the same 2:1 file going through the same Premiere steps.</p>
+</div>
+
+<h3 class="exh">Here's what you'll make: drag to look around</h3>
+<div class="pano" tabindex="0" aria-label="360° viewer. Drag, or use the arrow keys, to look around.">
+  <canvas></canvas>
+  <video muted loop playsinline preload="none" data-pano="media/examples/hockney-viewer.mp4"></video>
+  <div class="pano-hud">Facing <span>straight ahead</span></div>
+</div>
+<p class="seealso" style="margin-top:6px">David Hockney, <i>Pearblossom Highway, 11–18th April 1986 (#2)</i>, placed twice on a 6000 × 3000 canvas. In the headset you just turn your head.</p>
+
+<div class="gallery g1 wide">
+  <figure>
+    <div class="shot"><video muted loop playsinline preload="none" data-src="media/examples/hockney-viewer.mp4"></video></div>
+    <figcaption>The same file laid out flat. The left and right edges meet behind you.</figcaption>
+  </figure>
+</div>
+
+<div class="box">
+  <nav class="toc">
+    <a href="#p1">P1 · Hockney into Premiere</a>
+    <a href="#p2">P2 · Mess with it</a>
+    <a href="#p3">P3 · Make your own panoramic photo</a>
+  </nav>
+</div>
+
+<!-- ================================================================= P1 -->
+<h2 id="p1"><small>Part 1</small>Hockney into Premiere</h2>
+<!-- DRAFT: Claude, in Mat's style -->
+<p class="intro">Download the <a href="media/hockney-6000x3000.jpg" download>Hockney panorama</a> (6000 × 3000). If you've got a soundtrack, bring that too.</p>
+
+<section class="chunk">
+  <h3>P1 · Make it a 360° video <span>7 steps</span></h3>
+  <ol class="steps">
+    <li><!-- DRAFT: Claude, from Mat's direction (2026-10-04): import by hand, so it works in any situation --><div class="txt"><div class="n">P-01</div><div>
+      <p>Open Premiere Pro and make a new project. In the New Project dialog, tick <b>Skip import mode</b> and click Create. In the Project panel, double-click where it says to import media (or choose <span class="menu">File → Import</span>) and bring in the Hockney panorama and your soundtrack, if you have one.</p>
+    </div></div><div class="media" data-m="p-01" data-rec="New Project dialog: Skip import mode; File → Import of the Hockney; it appears in the Project panel."></div></li>
+    <li><!-- DRAFT: Mat's recipe, reordered by Mat (2026-10-04): sequence first --><div class="txt"><div class="n">P-02</div><div>
+      <p>Choose <span class="menu">File → New → Sequence</span>. On the <b>Settings</b> tab, set Editing Mode to <b>Custom</b>, Frame Size to <code>6000</code> × <code>3000</code> and Pixel Aspect Ratio to <b>Square Pixels</b>. Then click the <b>VR Video</b> tab and set Projection to <b>Equirectangular</b> and Layout to <b>Monoscopic</b>.</p>
+      <div class="trap"><b>Why 6000 × 3000?</b> All panorama is 2:1. Across is turning all the way round; up and down is looking from your feet to the sky.</div>
+    </div></div><div class="media" data-m="p-02" data-rec="New Sequence: Settings tab (Custom, 6000 × 3000, Square Pixels); VR Video tab (Equirectangular, Monoscopic)."></div></li>
+    <li><!-- DRAFT: Mat's recipe, tidied --><div class="txt"><div class="n">P-03</div><div>
+      <p>Drag the image into the sequence. Drag it out to the length you want (2 mins).</p>
+      <div class="trap"><b>This image is already the right size,</b> so dragging it onto the New Item button would also make a sequence for you. Building the sequence yourself means you can make your own 6000 × 3000 images and drop them in, or fill the sequence with any content you like.</div>
+    </div></div><div class="media" data-m="p-03" data-rec="Hockney dragged into the sequence; clip dragged out to 2:00."></div></li>
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Mat's recipe, tidied; no illustration needed (Mat, 2026-10-04) --><div class="txt"><div class="n">P-04</div><div>
+      <p>Add your soundtrack to the audio track if you have one.</p>
+      <div class="trap"><b>You don’t need sound,</b> but it lets you make interesting combinations of panoramic image and sound.</div>
+    </div></div></li>
+    <li><!-- DRAFT: Mat's recipe, tidied --><div class="txt"><div class="n">P-05</div><div>
+      <p>To preview in 360°, click the spanner icon at the bottom right of the Program Monitor and choose <b>VR Video → Enable</b>. Drag with the mouse to look around.</p>
+    </div></div><div class="media" data-m="p-05" data-rec="Program Monitor spanner → VR Video → Enable; dragging to pan around the Hockney."></div></li>
+    <li><!-- Checked by Mat on Premiere (2026-10-04) --><div class="txt"><div class="n">P-06</div><div>
+      <p>Go to <span class="menu">File → Export → Media</span>. Set Format to <b>H.264</b>. Click <b>Video</b>; you might have to fold down the <b>More</b> options. At the bottom of the pane, tick <b>Video is VR</b> and make sure Frame Layout is <b>Monoscopic</b>. Then export.</p>
+      <div class="trap"><b>Forget to tick Video is VR and YouTube plays it flat.</b> Nothing changes in the picture. The tick writes a mark into the file that tells YouTube it's 360°.</div>
+    </div></div><div class="media" data-m="p-06" data-rec="Export settings: H.264; Video section, More folded down; Video is VR ticked; Frame Layout Monoscopic; Export."></div></li>
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Mat's recipe, tidied --><div class="txt"><div class="n">P-07</div><div>
+      <p>Upload to YouTube and test it in a headset. Open the YouTube app on a Quest, find your video and turn around.</p>
+    </div></div></li>
+    <li class="check" style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude, in Mat's style --><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check it works.</b> In a browser, drag across the YouTube video and the view should turn. If it plays flat, give YouTube time to finish processing before you export again.</p>
+    </div></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= P2 -->
+<h2 id="p2"><small>Part 2</small>Mess with it</h2>
+<!-- DRAFT: Claude, in Mat's style -->
+<p class="intro">The panorama is just an image, so anything you can put on an image you can put in the world around the viewer.</p>
+
+<section class="chunk">
+  <h3>P2 · Add video, alter the image <span>5 steps</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- Mat's wording from a check in Premiere (2026-10-04), split into steps --><div class="txt"><div class="n">P-08</div><div>
+      <p>Put some green screen video on the track above the panorama. If you haven’t shot any, <a href="https://pixabay.com/videos/search/green%20screen/">Pixabay has green screen clips</a> you can use for free.</p>
+    </div></div></li>
+    <li><!-- Mat's wording from a check in Premiere (2026-10-04) --><div class="txt"><div class="n">P-09</div><div>
+      <p>Choose <span class="menu">Window → Effects</span>. In the Effects panel, open <b>Video Effects</b>, then the <b>Keying</b> folder, and find <b>Ultra Key</b> at the bottom of the list. Drag Ultra Key onto the green screen clip in the timeline.</p>
+    </div></div><div class="media" data-m="p-09" data-rec="Window → Effects; Video Effects folder; Ultra Key dragged onto the clip."></div></li>
+    <li><!-- Mat's wording from a check in Premiere (2026-10-04) --><div class="txt"><div class="n">P-10</div><div>
+      <p>Find the <b>Effect Controls</b> panel, select the <b>Key Color</b> option, and use the eyedropper to pick the green background of the clip. It should disappear.</p>
+    </div></div><div class="media" data-m="p-10" data-rec="Effect Controls: Key Color eyedropper on the green; the background disappears."></div></li>
+    <li><!-- Mat's wording from a check in Premiere (2026-10-04) --><div class="txt"><div class="n">P-11</div><div>
+      <p>Select the clip in the timeline again. Drag it around and scale it so it sits on the horizon, halfway up the frame. This is easier with VR preview off.</p>
+      <div class="trap"><b>Keep it near the middle.</b> The top and bottom of the frame get stretched when they wrap round your head. The horizon is where things look the right shape.</div>
+    </div></div><div class="media" data-m="p-11" data-rec="Clip dragged and scaled onto the horizon, VR preview off."></div></li>
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude, in Mat's style --><div class="txt"><div class="n">P-12</div><div>
+      <p>Open the panorama in Photoshop and change it: paint on it, cut things out, collage in your own photos. Keep it 6000 × 3000 and export it as a PNG. Back in Premiere, right-click (or Control-click) the image in the Project panel and choose <b>Replace Footage</b>.</p>
+    </div></div></li>
+  </ol>
+</section>
+
+<!-- ================================================================= P3 -->
+<h2 id="p3"><small>Part 3</small>Make your own panoramic photo</h2>
+<!-- DRAFT: Mat's Week 8 technical guide and recipe, tidied; wide lens, compression and framing per Mat (2026-10-04) -->
+<p class="intro">Use a DSLR on a tripod. Choose a location that's panoramic and has depth: lens distortion shows most in the near field, so small rooms are harder to stitch.</p>
+<p class="intro">In reality this is a good way to see how a panoramic image is assembled, rather than a way to build a project. Manual tweaking will nearly always be needed.</p>
+<!-- Mat's wording (2026-10-04), tidied -->
+<div class="box fire">
+  <p style="margin:0"><b>These are basic instructions.</b> Ask Mat to run you through the process himself: it will be a lot clearer than stumbling through it. The main thing to understand is that a panorama is just an image that’s 2:1 (6000 by 3000 pixels), plus some metadata that Premiere writes into the file when you tick Video is VR (<a href="#p1">P-06</a>). So you can make a panorama from text, images, drawings, whatever.</p>
+</div>
+
+<section class="chunk">
+  <h3>P3 · Shoot, stitch, make it 2:1 <span>4 steps</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Mat's guide, tidied; 24 mm upright per Mat (2026-10-04) --><div class="txt"><div class="n">P-13</div><div>
+      <p>Shoot in manual, including manual focus. Set the aperture to f/22 (or f/16 if you need to) for deep focus, the shutter to 1/60 or faster, and the ISO so the exposure meter reads dead centre. Set the focal length to <code>24</code> mm and hold the camera upright. Turn the camera on the tripod and shoot overlapping images all the way round: about 15 on the Canon 90D.</p>
+      <div class="trap"><b>Why go wide?</b> Fewer images means fewer seams for Photomerge to get wrong, and a wider lens covers more of the view above and below the horizon, so there’s more to look at in the headset. The cost is more distortion, especially on things close to the camera, so keep near objects out of the shot.</div>
+    </div></div></li>
+    <li><!-- From Mat's note (2026-10-04): compress before stitching. Dialog checked from Mat's screenshot. --><div class="txt"><div class="n">P-14</div><div>
+      <p>Make smaller copies of your photos before you stitch them. In Photoshop, choose <span class="menu">File → Scripts → Image Processor</span>. Click <b>Select Folder…</b> and pick your folder of photos. Tick <b>Save as JPEG</b> with Quality <code>8</code>, tick <b>Resize to Fit</b> and set W and H to <code>2000</code> px. Run it.</p>
+      <p style="margin-top:8px">Resize to Fit keeps each photo’s shape: only its longer side becomes 2000 pixels, so an upright photo comes out 1333 × 2000.</p>
+      <div class="trap"><b>Why make them smaller?</b> Full-size camera files are huge. Stitched at full size they come out with weird artefacts, and the lab machines struggle. 2000 pixels is still plenty for a 6000 × 3000 panorama.</div>
+    </div></div><div class="media" data-m="p-14" data-rec="Image Processor: folder chosen; JPEG quality 8; Resize to Fit 2000 × 2000; Run."></div></li>
+    <li><!-- DRAFT: Mat's recipe, tidied --><div class="txt"><div class="n">P-15</div><div>
+      <p>Go to <span class="menu">File → Automate → Photomerge</span>. Choose Layout <b>Auto</b>, tick the options that let Photoshop manipulate your images, select your smaller copies and click OK. Fix the seams with the Clone Stamp or Healing Brush, then merge your layers without the background (Control-click a layer and choose <b>Merge Visible</b>).</p>
+    </div></div><div class="media" data-m="p-15" data-rec="Photomerge dialog: Auto; stitched result; Merge Visible."></div></li>
+    <li><!-- DRAFT: Mat's recipe, tidied --><div class="txt"><div class="n">P-16</div><div>
+      <p>Start a new document that's <code>6000</code> × <code>3000</code>. Copy the merged layer into it (<kbd>⌘C</kbd>, <kbd>⌘V</kbd>). Press <kbd>⌘T</kbd> and scale it so the panorama wraps as seamlessly as possible from the far left to the far right. Export it as a PNG, then take it through P-01 to P-07.</p>
+    </div></div><div class="media" data-m="p-16" data-rec="New 6000 × 3000 doc; pasted panorama; ⌘T scaling to meet both edges; Export As PNG."></div></li>
+  </ol>
+</section>
+
+<footer>BCM116 · Start here for 360: every other 360 card uses the same 2:1 file.</footer>
+</main>
+
+<script>
+// ---------------------------------------------------------------- lightbox
+// Clips are small in the page. Clicking one opens it full size.
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.hidden = true;
+lb.innerHTML = '<button class="lbclose" type="button">Close ✕</button>' +
+               '<div class="lbstage"></div><div class="lbcap"></div>';
+document.body.appendChild(lb);
+const lbStage = lb.querySelector('.lbstage');
+const lbCap = lb.querySelector('.lbcap');
+let lbReturn = null;
+
+const closeLb = () => {
+  lb.hidden = true;
+  lbStage.innerHTML = '';
+  if (lbReturn) { lbReturn.focus(); lbReturn = null; }
+};
+const openLb = (src, kind, caption, opener) => {
+  lbReturn = opener || null;
+  lbStage.innerHTML = '';
+  let el;
+  if (kind === 'img') {
+    el = new Image();
+    el.src = src;
+    el.alt = caption || '';
+  } else {
+    el = document.createElement('video');
+    el.src = src;
+    el.muted = true; el.loop = true; el.controls = true;
+    el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+    el.playsInline = true;
+    el.play().catch(() => {});
+  }
+  lbStage.appendChild(el);
+  lbCap.textContent = caption || '';
+  lb.hidden = false;
+  lb.querySelector('.lbclose').focus();
+};
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+lb.querySelector('.lbclose').addEventListener('click', closeLb);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+
+// Wrap a loaded element so clicking it opens the lightbox.
+const makeExpandable = (slot, el, src, kind, caption) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mbtn';
+  btn.setAttribute('aria-label', 'Open ' + caption + ' full size');
+  const tag = document.createElement('span');
+  tag.className = 'mzoom';
+  tag.textContent = '⤢ full size';
+  btn.appendChild(el);
+  btn.appendChild(tag);
+  btn.addEventListener('click', () => openLb(src, kind, caption, btn));
+  slot.innerHTML = '';
+  slot.appendChild(btn);
+  return btn;
+};
+
+// ------------------------------------------------------------- step media
+// Resolve media/<name>.mp4, then .png, then fall back to the note in
+// data-rec. A <video> does not reliably fire `error` on a 404, so ask the
+// server directly instead of relying on that. Nothing loads until the slot
+// is near the viewport, and clips show a still frame rather than autoplaying.
+const exists = async url => {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch (e) {
+    return null;          // file:// or blocked — caller falls back
+  }
+};
+
+const showPlaceholder = (slot, name) => {
+  slot.style.background = 'transparent';
+  slot.style.border = '0';
+  slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+    (slot.dataset.rec || '') + '</div>';
+};
+
+const showImg = (slot, name) => new Promise(res => {
+  const img = new Image();
+  img.alt = slot.dataset.rec || name;
+  img.onload = () => { makeExpandable(slot, img, img.src, 'img', name); res(true); };
+  img.onerror = () => res(false);
+  img.src = 'media/' + name + '.png';
+});
+
+const showVideo = (slot, name, confirmed) => new Promise(res => {
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  let settled = false;
+  const done = ok => { if (settled) return; settled = true; res(ok); };
+  v.onloadedmetadata = () => {
+    // Park on a middle frame: the first frame of a screen capture is
+    // usually the app sitting still, which says nothing about the step.
+    try { v.currentTime = Math.min(v.duration / 2, v.duration - 0.1); } catch (e) {}
+    if (!confirmed) { makeExpandable(slot, v, v.src, 'video', name); done(true); }
+  };
+  v.onerror = () => { if (!confirmed) done(false); };
+  v.src = 'media/' + name + '.mp4';
+  if (confirmed) {
+    // The server already said this file is there, so show it now rather than
+    // waiting on metadata — a codec the browser dislikes must not leave the
+    // slot blank. The seek above still runs when metadata arrives.
+    makeExpandable(slot, v, v.src, 'video', name);
+    done(true);
+  } else {
+    setTimeout(() => done(false), 6000);
+  }
+});
+
+const loadSlot = async slot => {
+  const name = slot.dataset.m;
+  const hasMp4 = await exists('media/' + name + '.mp4');
+  if (hasMp4 === true)  { if (await showVideo(slot, name, true)) return; }
+  if (hasMp4 === false) { if (await showImg(slot, name)) return; showPlaceholder(slot, name); return; }
+  // HEAD unavailable: try each in turn.
+  if (await showVideo(slot, name, false)) return;
+  if (await showImg(slot, name)) return;
+  showPlaceholder(slot, name);
+};
+
+const slots = document.querySelectorAll('.media[data-m]');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      loadSlot(e.target);
+    });
+  }, { rootMargin: '400px' });
+  slots.forEach(s => io.observe(s));
+} else {
+  slots.forEach(loadSlot);
+}
+
+// ---------------------------------------------------------------- gallery
+// Six finished renders. These are the point of the section, so they do play
+// in place once scrolled to — but only then, and they pause when they leave.
+(() => {
+  const shots = document.querySelectorAll('.gallery video[data-src]');
+  shots.forEach(v => {
+    const cap = v.closest('figure').querySelector('figcaption');
+    const btn = makeExpandable(v.closest('.shot'), v, v.dataset.src,
+                               'video', (cap && cap.textContent.trim()) || 'render');
+    btn.setAttribute('aria-label', 'Open this render full size');
+  });
+  const start = v => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) start(e.target);
+      else if (e.target.src) e.target.pause();
+    });
+  }, { rootMargin: '200px' });
+  shots.forEach(v => io.observe(v));
+})();
+
+// ------------------------------------------------------------- 360 viewer
+// Added for the 360 card (Claude). Draws the equirectangular video onto a
+// canvas as seen from inside the sphere. For each screen pixel the fragment
+// shader builds the direction you'd be looking in, converts it to longitude
+// and latitude, and reads the video at that point: longitude runs across the
+// 2:1 frame (centre = ahead), latitude runs up it. No library; plain WebGL.
+(() => {
+  const box = document.querySelector('.pano');
+  if (!box) return;
+  const canvas = box.querySelector('canvas');
+  const video = box.querySelector('video');
+  const hud = box.querySelector('.pano-hud span');
+  const gl = canvas.getContext('webgl');
+  const load = () => { if (!video.src) video.src = video.dataset.pano; video.play().catch(() => {}); };
+  if (!gl) {                       // no WebGL: show the flat file instead
+    box.classList.add('flat'); video.controls = true; load(); return;
+  }
+  const sh = (type, src) => { const o = gl.createShader(type); gl.shaderSource(o, src); gl.compileShader(o); return o; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER,
+    'attribute vec2 p; varying vec2 v; void main(){ v = p; gl_Position = vec4(p, 0., 1.); }'));
+  gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, `precision highp float;
+    varying vec2 v; uniform sampler2D tex; uniform vec3 f, r, u; uniform vec2 k;
+    void main(){
+      vec3 d = normalize(f + v.x * k.x * r + v.y * k.y * u);
+      float lon = atan(d.x, -d.z);              // 0 ahead, +right, ±pi behind
+      float lat = asin(clamp(d.y, -1., 1.));    // +up
+      gl_FragColor = texture2D(tex, vec2(fract(.5 + lon / 6.2831853), .5 - lat / 3.1415927));
+    }`));
+  gl.linkProgram(prog); gl.useProgram(prog);
+  gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pa = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(pa); gl.vertexAttribPointer(pa, 2, gl.FLOAT, false, 0, 0);
+  gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+  // The video isn't a power of two, so WebGL 1 needs clamping and no mipmaps.
+  [[gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE],
+   [gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR]]
+    .forEach(([a, b]) => gl.texParameteri(gl.TEXTURE_2D, a, b));
+  const U = n => gl.getUniformLocation(prog, n);
+
+  let yaw = 0, pitch = 0, live = false, raf = 0;
+  const VFOV = 70 * Math.PI / 180;
+  const resize = () => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(canvas.clientWidth * dpr);
+    canvas.height = Math.round(canvas.clientHeight * dpr);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  };
+  const draw = () => {
+    if (video.readyState >= 2) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, video);
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    gl.uniform3f(U('f'), sy * cp, sp, -cy * cp);      // forward
+    gl.uniform3f(U('r'), cy, 0, sy);                  // right
+    gl.uniform3f(U('u'), -sy * sp, cp, cy * sp);      // up
+    const ky = Math.tan(VFOV / 2);
+    gl.uniform2f(U('k'), ky * canvas.width / canvas.height, ky);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    const deg = Math.round(((yaw * 180 / Math.PI) % 360 + 540) % 360 - 180);
+    hud.textContent = Math.abs(deg) < 3 ? 'straight ahead'
+      : Math.abs(deg) > 177 ? 'straight behind'
+      : Math.abs(deg) + '° ' + (deg > 0 ? 'right' : 'left');
+  };
+  const tick = () => { draw(); if (live) raf = requestAnimationFrame(tick); };
+  const turn = (dy, dp) => {
+    yaw += dy; pitch = Math.max(-1.4, Math.min(1.4, pitch + dp));
+    if (!live) draw();
+  };
+
+  let drag = null;
+  canvas.addEventListener('pointerdown', e => {
+    drag = { x: e.clientX, y: e.clientY }; canvas.setPointerCapture(e.pointerId); box.classList.add('dragging');
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const s = 2 * Math.atan(Math.tan(VFOV / 2)) / canvas.clientHeight;   // radians per pixel
+    turn(-(e.clientX - drag.x) * s, (e.clientY - drag.y) * s);           // drag the picture
+    drag = { x: e.clientX, y: e.clientY };
+  });
+  const end = () => { drag = null; box.classList.remove('dragging'); };
+  canvas.addEventListener('pointerup', end);
+  canvas.addEventListener('pointercancel', end);
+  box.addEventListener('keydown', e => {
+    const step = 10 * Math.PI / 180;
+    const m = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] }[e.key];
+    if (m) { e.preventDefault(); turn(...m); }
+  });
+  new ResizeObserver(() => { resize(); draw(); }).observe(canvas);
+
+  // Load and play only while on screen, as the gallery does.
+  const start = () => { load(); if (!live) { live = true; tick(); } };
+  const stop = () => { live = false; cancelAnimationFrame(raf); video.pause(); };
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? start() : stop()),
+                             { rootMargin: '200px' }).observe(box);
+  } else start();
+})();
+</script>
+</body>
+</html>
+

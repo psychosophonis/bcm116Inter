@@ -11,13 +11,15 @@ a-08         Dragging the Levels white marker; the photo edge vanishes, then the
 a-09         Photo layer selected; box dragged around one mark; the other two disappear.
 a-10         Menu command; the anchor cross jumps to the middle of the mark.
 a-check-1    A single clean mark on white.
-a-11         Transform twirled open in the timeline; Rotation stopwatch at frame 0; 360 at the last frame; playing, the mark spins in place.
+a-11         Transform opened in the timeline; Rotation stopwatch at frame 0; 360 at the last frame; playing, the mark spins in place.
 a-12         Pre-compose dialog; the mark becomes one pre-comp layer, still spinning.
+a-check-comp-1 Composition navigator bar: clicking the main composition’s name to go back.
 a-13         Duplicating the pre-comp layer; twelve layers in the timeline.
 a-14         Typing rotation per copy; copies fan out round the centre.
 a-15         Copies covering each other; all selected; Multiply set; overlaps clear and colour builds.
 a-check-2    Finished ring, playing.
 a-16         Selecting the twelve copies; Pre-compose; the ring becomes one layer set to Multiply.
+a-check-comp-2 Composition navigator bar: clicking the main composition’s name to go back.
 a-17         Ring layer duplicated; two ring layers in the timeline.
 a-18         CC Kaleida on the lower ring; cycling Mirroring; pattern fills the background.
 a-19         Adjusting opacity on both layers; ring readable over the kaleidoscope.
@@ -26,12 +28,12 @@ b-01         Composition Settings: 2048 × 2048, 30 fps, 10 s.
 b-02         New Solid dialog; black solid fills the comp.
 b-03         Clicking empty timeline space; Rectangle tool; Fill and Stroke set to white; small rectangle drawn just above the centre.
 b-04         Menu command; the anchor cross jumps to the middle of the square.
-b-05         Transform: Rectangle 1 twirled open; Rotation keyframed 0 to 360; the square spins in place.
+b-05         Transform: Rectangle 1 opened; Rotation keyframed 0 to 360; the square spins in place.
 b-06         Add menu; Repeater added; copies set to 30.
 b-07         Setting Repeater position and rotation; ring forms.
 b-08         Center Anchor Point in Layer Content; Position 1024, 1024; Scale dragged down until the ring is small around the centre.
 b-09         Repeater 2; 16 copies; Scale adjusted until rings are spaced out; Rotation adjusted to offset them.
-b-10         Layer Transform twirled open; Rotation keyframed 0 to 360; the whole array turning on its centre.
+b-10         Layer Transform opened; Rotation keyframed 0 to 360; the whole array turning on its centre.
 b-11         Repeater 2 Offset keyframed 0 to 1; playing, the rings flow outward and loop without a jump.
 b-check-1    The loop playing twice through: no jump at the join.
 b-12         Video placed under the shape layer.
