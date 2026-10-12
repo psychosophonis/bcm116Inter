@@ -138,8 +138,20 @@ function renderMarkdown(md) {
         }
 
         if (block.type === 'img') {
+            // ![caption](YouTube or Vimeo URL) embeds the player instead of an image.
+            const yt = youtubeEmbedId(block.src);
+            const vm = block.src.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+            const player = yt ? `https://www.youtube-nocookie.com/embed/${yt}`
+                         : vm ? `https://player.vimeo.com/video/${vm[1]}` : null;
+            if (player) {
+                const site = yt ? 'YouTube' : 'Vimeo';
+                const watch = `<a href="${block.src}" target="_blank" rel="noopener">Watch on ${site} ↗</a>`;
+                const caption = `<figcaption>${block.alt ? inlineFormat(block.alt) + ' · ' : ''}${watch}</figcaption>`;
+                html += `<figure class="content-img"><div class="embed"><iframe src="${player}" title="${escapeHTML(block.alt.replace(/\*/g, ""))}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen></iframe></div>${caption}</figure>`;
+                continue;
+            }
             const caption = block.alt ? `<figcaption>${inlineFormat(block.alt)}</figcaption>` : '';
-            html += `<figure class="content-img"><img src="${block.src}" alt="${escapeHTML(block.alt)}" loading="lazy">${caption}</figure>`;
+            html += `<figure class="content-img"><a href="${block.src}" target="_blank" rel="noopener" title="Open full size"><img src="${block.src}" alt="${escapeHTML(block.alt.replace(/\*/g, ""))}" loading="lazy"></a>${caption}</figure>`;
             continue;
         }
 

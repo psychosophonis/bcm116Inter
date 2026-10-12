@@ -118,12 +118,17 @@ a { color: var(--red); }
 .content-img {
     margin: 4px 0 20px;
 }
-.content-img img {
+.content-img img,
+.content-img video {
     display: block;
     max-width: 100%;
     border: 1px solid var(--line);
     border-radius: 3px;
 }
+.content-img a:has(img), .content-img a:has(video) { display: block; cursor: zoom-in; }
+.content-img video { width: 100%; }
+.content-img .embed { position: relative; aspect-ratio: 16 / 9; }
+.content-img .embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 3px; }
 .content-img figcaption {
     font-size: 0.8em;
     color: var(--gray);
