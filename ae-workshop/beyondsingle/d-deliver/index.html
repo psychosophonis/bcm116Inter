@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<!--
+  HOW TO ADD MEDIA
+  Each step has data-m="a-07" (or similar). Put a file with that name in
+  media/ beside this page:
+      media/a-07.mp4   a short silent screen-capture loop (preferred)
+      media/a-07.png   a still, if a loop isn't needed
+  The page tries .mp4 first, then .png. If neither exists, the slot shows
+  the note in data-rec, which says what to capture.
+  Keep loops 5-10 s, no audio, cropped to the part of the screen that matters.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Preparing your work for the screen array — BCM116</title>
+<style>
+  :root{
+    --bg:#f6f5f2; --panel:#fff; --ink:#1a1a1e; --dim:#686872; --line:#dddbd6;
+    --accent:#b8531d; --soft:#faf3ee; --warn:#8a5a00; --warnbg:#fdf6e3;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }}
+  :root[data-theme="dark"]{
+    --bg:#0e0e11; --panel:#16161b; --ink:#e8e8ec; --dim:#8e8e99; --line:#2a2a31;
+    --accent:#e8813f; --soft:#1d1712; --warn:#e0b04a; --warnbg:#221c0f; }
+  *{box-sizing:border-box}
+  :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif}
+  main{max-width:1080px;margin:0 auto;padding:40px 22px 90px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+  .lede{color:var(--dim);max-width:44em;margin:0 0 28px}
+  h2{font-size:21px;margin:56px 0 6px;padding-top:18px;border-top:2px solid var(--ink)}
+  h2 small{display:block;font-size:13px;color:var(--dim);font-weight:500;letter-spacing:.06em;
+           text-transform:uppercase;margin-bottom:4px}
+  .intro{color:var(--dim);max-width:44em;margin:0 0 18px}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:18px 0}
+  .fire{border-left:4px solid var(--accent);background:var(--soft)}
+  .fire b{color:var(--accent)}
+  .parts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  @media (max-width:760px){.parts{grid-template-columns:1fr}}
+  .parts h3{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .parts ul{margin:0;padding-left:18px}
+  .parts li{margin:3px 0}
+  nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+  nav.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+            border-radius:999px;padding:5px 12px;background:var(--panel)}
+  nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+
+  .chunk{background:var(--panel);border:1px solid var(--line);border-radius:6px;margin:22px 0;overflow:hidden}
+  .chunk>h3{margin:0;padding:12px 18px;font-size:16px;border-bottom:1px solid var(--line);
+            display:flex;justify-content:space-between;gap:12px}
+  .chunk>h3 span{color:var(--dim);font-weight:500;font-size:13px}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps>li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:18px;
+              padding:16px 18px;border-bottom:1px solid var(--line);align-items:start}
+  ol.steps>li:last-child{border-bottom:0}
+  @media (max-width:760px){ol.steps>li{grid-template-columns:1fr}}
+  .txt{display:flex;gap:12px}
+  .n{flex:none;font:600 13px/1 ui-monospace,Menlo,monospace;color:var(--accent);
+     border:1px solid var(--accent);border-radius:4px;padding:5px 6px;height:max-content;min-width:44px;text-align:center}
+  .txt p{margin:0}
+  .trap{margin-top:8px;font-size:14px;color:var(--warn);background:var(--warnbg);
+        border-radius:4px;padding:7px 10px}
+  .trap b{font-weight:600}
+  table.sizes{border-collapse:collapse;margin:8px 0 2px;font-size:14px}
+  table.sizes td{padding:3px 14px 3px 0;border-bottom:1px solid var(--line)}
+  code,kbd{font:14px ui-monospace,Menlo,monospace;background:var(--soft);border:1px solid var(--line);
+           border-radius:3px;padding:0 4px}
+  .menu{font-weight:600}
+
+  .media{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#000;min-height:40px}
+  .media video,.media img{display:block;width:100%;height:auto}
+  .ph{background:repeating-linear-gradient(45deg,var(--soft),var(--soft) 8px,var(--panel) 8px,var(--panel) 16px);
+      color:var(--dim);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px}
+  .ph b{display:block;font:600 12px ui-monospace,Menlo,monospace;color:var(--accent);margin-bottom:4px}
+
+  li.check{background:var(--soft)}
+  li.check .n{background:var(--accent);color:var(--panel)}
+  .swap{border:1px dashed var(--accent)}
+
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:18px 0}
+  .gallery figure{margin:0}
+  .gallery .shot{border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#000;aspect-ratio:1}
+  .gallery video{display:block;width:100%;height:100%;object-fit:cover}
+  .gallery figcaption{margin-top:8px;font-size:14px;color:var(--dim)}
+  .gallery.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery.g1{grid-template-columns:minmax(0,1fr);max-width:520px}
+  @media (max-width:760px){.gallery.g3,.gallery.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:460px){.gallery.g3,.gallery.g2{grid-template-columns:minmax(0,1fr)}}
+  h3.exh{font-size:15px;margin:34px 0 4px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
+  .exnote{color:var(--dim);max-width:44em;margin:0 0 12px;font-size:15px}
+  p.seealso{margin:-8px 0 18px;font-size:14px;color:var(--dim)}
+
+  /* Click any clip to open it full size. */
+  .mbtn{display:block;width:100%;padding:0;border:0;background:#000;cursor:zoom-in;
+        position:relative;line-height:0;font:inherit;color:inherit}
+  .mbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mzoom{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.66);color:#fff;
+         font:600 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;
+         padding:5px 7px;border-radius:4px;pointer-events:none}
+  .mbtn:hover .mzoom{background:var(--accent)}
+  .gallery .shot .mbtn,.gallery .shot .mbtn video{height:100%}
+
+  .lb{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.92);
+      display:flex;align-items:center;justify-content:center;padding:30px}
+  .lb[hidden]{display:none}
+  .lb video,.lb img{display:block;width:auto;height:auto;background:#000;border-radius:4px;
+                    max-width:min(1600px,95vw);max-height:88vh}
+  .lbclose{position:absolute;top:14px;right:16px;background:var(--panel);color:var(--ink);
+           border:1px solid var(--line);border-radius:6px;cursor:pointer;
+           font:600 14px/1 inherit;padding:10px 14px}
+  .lbcap{position:absolute;left:0;right:0;bottom:16px;text-align:center;padding:0 24px;
+         color:#d6d6d6;font:13px/1.5 ui-monospace,Menlo,monospace}
+  footer{margin-top:60px;color:var(--dim);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
+  a{color:var(--accent)}
+
+  /* Added for the arrays cards (Claude): wide previews and screen bezels. */
+  .lede p{margin:0}
+  .lede b{color:var(--ink)}
+  .media.yt{aspect-ratio:16/9}
+  .media.yt iframe{display:block;width:100%;height:100%;border:0}
+  .gallery.wide{max-width:none}
+  .gallery.wide .shot{aspect-ratio:auto}
+  .gallery.bleed{width:100vw;margin-left:calc(50% - 50vw);padding:0 16px}
+  .bezels{position:relative}
+  .bezels::before,.bezels::after{content:"";position:absolute;top:0;bottom:0;width:2px;
+    background:var(--accent);opacity:.8;pointer-events:none;z-index:1}
+  .bezels::before{left:33.333%}
+  .bezels::after{left:66.667%}
+</style>
+</head>
+<body>
+<main>
+
+<h1>Preparing your work for the screen array</h1>
+<!-- DRAFT: Claude, from Mat's spec (2026-10-21): the array plays one 11520 × 2160 ProRes file (three 4K screens); screens are built in HD and only the Master is 4K; deliver to Mat directly or to the drop box. Steps moved here from Two or more screens (T-06 to T-08). -->
+<div class="lede">
+  <p><b>Here’s what you’ll make.</b> One ProRes file, 11520 × 2160, ready to play on the lab’s array of three 4K screens. It’s always this size, even if your work uses only two screens.</p>
+  <p style="margin-top:8px"><b>Why we’re doing this.</b> The array plays one file across all three screens, so every work arrives at the same size. You build each screen in HD, because 4K is heavy to edit, and the last step doubles each one to fill its 4K screen.</p>
+  <p style="margin-top:8px"><b>What you’ll come away with.</b> How to put your screens side by side in a 4K Master, export it as ProRes, and hand it in.</p>
+</div>
+
+<div class="box">
+  <p style="margin:0"><b>Start with one 1920 × 1080 video for each screen.</b> That might be the Screen sequences from <a href="../t-triptych/">Two or more screens</a>, loops from the <a href="../../">After Effects workshop</a>, or HD videos you’ve made somewhere else.</p>
+  <nav class="toc">
+    <a href="#d1">D1 · The 4K Master</a>
+    <a href="#deliver">Export and deliver</a>
+  </nav>
+</div>
+
+<h2 id="d1"><small>Part 1</small>Put your screens side by side in Premiere</h2>
+
+<section class="chunk">
+  <h3>D1 · Make the 4K Master <span>2 steps</span></h3>
+  <ol class="steps">
+    <li><div class="txt"><div class="n">D-01</div><div>
+      <p>Choose <span class="menu">File → New → Sequence</span>: <b>Custom</b>, <b>Square Pixels</b>, Frame Size <code>11520</code> × <code>2160</code>, and the same Timebase as your screens (<code>30</code> for phone video and your After Effects loops). Name it <b>Master</b>.</p>
+      <div class="trap"><b>Don’t leave the Timebase at the default.</b> Premiere suggests 23.976. If your screens are 30, Premiere has to drop frames to fit them in.</div>
+      <div class="trap"><b>Why 11520 × 2160?</b> The array is three 4K screens, each 3840 × 2160, and the file lays them side by side.</div>
+    </div></div><div class="media" data-m="d-01" data-rec="New Sequence: Custom, 11520 × 2160, Square Pixels, Timebase 30; named Master."></div></li>
+    <li><div class="txt"><div class="n">D-02</div><div>
+      <p>Drag your screens (the <b>Screen 1</b>, <b>Screen 2</b> and <b>Screen 3</b> sequences, or your three videos) from the Project panel into the Master sequence, each on its own track. Select each one in the timeline and, in the Properties panel, set its <b>Scale</b> to <code>200</code> and its Position to <code>1920</code>, <code>5760</code> or <code>9600</code> across (and <code>1080</code> down), left to right.</p>
+      <div class="trap"><b>Making two-screen work?</b> Place two screens only, at <code>1920</code> and <code>5760</code>. Leave the third panel empty: it exports as black, and that screen stays dark.</div>
+      <div class="trap"><b>Asked about a clip mismatch?</b> Choose <b>Keep existing settings</b>, so the Master stays at 11520 × 2160.</div>
+      <div class="trap"><b>Where do these numbers come from?</b> Scale <code>200</code> doubles each HD screen to 3840 × 2160, exactly one 4K screen. Position is the centre, so the centres are 3840 apart, starting at 1920 (half of 3840).</div>
+      <div class="trap"><b>Master playing slowly?</b> Set the Program Monitor’s playback resolution (the dropdown at the bottom right) to <b>1/4</b>. It only changes the preview, not the export.</div>
+    </div></div><div class="media" data-m="d-02" data-rec="Screen 1–3 dragged into Master on V1–V3; Scale 200; Positions 1920, 5760, 9600."></div></li>
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you go on.</b> The screens should sit side by side, edge to edge, with no gaps or overlaps. Three screens fill the wide frame; two fill the left two-thirds.</p>
+    </div></div><div class="media" data-m="d-check-1" data-rec="The Master sequence playing: three screens edge to edge."></div></li>
+  </ol>
+</section>
+
+<h2 id="deliver"><small>Part 2</small>Export and deliver</h2>
+
+<section class="chunk">
+  <h3>D2 · Export as ProRes and hand it in <span>2 steps</span></h3>
+  <ol class="steps">
+    <li style="grid-template-columns:minmax(0,1fr)"><div class="txt"><div class="n">D-03</div><div>
+      <p>Choose <span class="menu">File → Export → Media</span>, set Format to <b>QuickTime</b> and Preset to <b>Apple ProRes 422</b>, and export.</p>
+      <!-- DRAFT: Claude. Size estimated from Apple's published ProRes 422 rate for 4K30 (~589 Mb/s) × 3 screens; check against a real export. -->
+      <div class="trap"><b>Expect a big file.</b> ProRes at this size is roughly 13 GB a minute. Check you have the space before you export.</div>
+    </div></div></li>
+    <li style="grid-template-columns:minmax(0,1fr)"><div class="txt"><div class="n">D-04</div><div>
+      <p>Give the ProRes file to me directly, or upload it to the drop box. The link is on Moodle and Discord.</p>
+    </div></div></li>
+    <li class="check"><div class="txt"><div class="n">✓</div><div>
+      <p><b>Check before you hand it in.</b> Open the exported file and skim through it. Each screen’s video should sit in its own third of the frame, from start to finish.</p>
+    </div></div></li>
+  </ol>
+</section>
+
+<footer>BCM116 · Relevant to Investigation prompts 1, 6 and 9.</footer>
+</main>
+
+<script>
+// ---------------------------------------------------------------- lightbox
+// Clips are small in the page. Clicking one opens it full size.
+const lb = document.createElement('div');
+lb.className = 'lb';
+lb.hidden = true;
+lb.innerHTML = '<button class="lbclose" type="button">Close ✕</button>' +
+               '<div class="lbstage"></div><div class="lbcap"></div>';
+document.body.appendChild(lb);
+const lbStage = lb.querySelector('.lbstage');
+const lbCap = lb.querySelector('.lbcap');
+let lbReturn = null;
+
+const closeLb = () => {
+  lb.hidden = true;
+  lbStage.innerHTML = '';
+  if (lbReturn) { lbReturn.focus(); lbReturn = null; }
+};
+const openLb = (src, kind, caption, opener) => {
+  lbReturn = opener || null;
+  lbStage.innerHTML = '';
+  let el;
+  if (kind === 'img') {
+    el = new Image();
+    el.src = src;
+    el.alt = caption || '';
+  } else {
+    el = document.createElement('video');
+    el.src = src;
+    el.muted = true; el.loop = true; el.controls = true;
+    el.setAttribute('muted', ''); el.setAttribute('playsinline', '');
+    el.playsInline = true;
+    el.play().catch(() => {});
+  }
+  lbStage.appendChild(el);
+  lbCap.textContent = caption || '';
+  lb.hidden = false;
+  lb.querySelector('.lbclose').focus();
+};
+lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+lb.querySelector('.lbclose').addEventListener('click', closeLb);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+
+// Wrap a loaded element so clicking it opens the lightbox.
+const makeExpandable = (slot, el, src, kind, caption) => {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'mbtn';
+  btn.setAttribute('aria-label', 'Open ' + caption + ' full size');
+  const tag = document.createElement('span');
+  tag.className = 'mzoom';
+  tag.textContent = '⤢ full size';
+  btn.appendChild(el);
+  btn.appendChild(tag);
+  btn.addEventListener('click', () => openLb(src, kind, caption, btn));
+  slot.innerHTML = '';
+  slot.appendChild(btn);
+  return btn;
+};
+
+// ------------------------------------------------------------- step media
+// Resolve media/<name>.mp4, then .png, then fall back to the note in
+// data-rec. A <video> does not reliably fire `error` on a 404, so ask the
+// server directly instead of relying on that. Nothing loads until the slot
+// is near the viewport, and clips show a still frame rather than autoplaying.
+const exists = async url => {
+  try {
+    const r = await fetch(url, { method: 'HEAD' });
+    return r.ok;
+  } catch (e) {
+    return null;          // file:// or blocked — caller falls back
+  }
+};
+
+const showPlaceholder = (slot, name) => {
+  slot.style.background = 'transparent';
+  slot.style.border = '0';
+  slot.innerHTML = '<div class="ph"><b>media/' + name + '.mp4 or .png</b>' +
+    (slot.dataset.rec || '') + '</div>';
+};
+
+const showImg = (slot, name) => new Promise(res => {
+  const img = new Image();
+  img.alt = slot.dataset.rec || name;
+  img.onload = () => { makeExpandable(slot, img, img.src, 'img', name); res(true); };
+  img.onerror = () => res(false);
+  img.src = 'media/' + name + '.png';
+});
+
+const showVideo = (slot, name, confirmed) => new Promise(res => {
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'metadata';
+  v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+  let settled = false;
+  const done = ok => { if (settled) return; settled = true; res(ok); };
+  v.onloadedmetadata = () => {
+    // Park on a middle frame: the first frame of a screen capture is
+    // usually the app sitting still, which says nothing about the step.
+    try { v.currentTime = Math.min(v.duration / 2, v.duration - 0.1); } catch (e) {}
+    if (!confirmed) { makeExpandable(slot, v, v.src, 'video', name); done(true); }
+  };
+  v.onerror = () => { if (!confirmed) done(false); };
+  v.src = 'media/' + name + '.mp4';
+  if (confirmed) {
+    // The server already said this file is there, so show it now rather than
+    // waiting on metadata — a codec the browser dislikes must not leave the
+    // slot blank. The seek above still runs when metadata arrives.
+    makeExpandable(slot, v, v.src, 'video', name);
+    done(true);
+  } else {
+    setTimeout(() => done(false), 6000);
+  }
+});
+
+const loadSlot = async slot => {
+  const name = slot.dataset.m;
+  const hasMp4 = await exists('media/' + name + '.mp4');
+  if (hasMp4 === true)  { if (await showVideo(slot, name, true)) return; }
+  if (hasMp4 === false) { if (await showImg(slot, name)) return; showPlaceholder(slot, name); return; }
+  // HEAD unavailable: try each in turn.
+  if (await showVideo(slot, name, false)) return;
+  if (await showImg(slot, name)) return;
+  showPlaceholder(slot, name);
+};
+
+const slots = document.querySelectorAll('.media[data-m]');
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+      loadSlot(e.target);
+    });
+  }, { rootMargin: '400px' });
+  slots.forEach(s => io.observe(s));
+} else {
+  slots.forEach(loadSlot);
+}
+
+// ---------------------------------------------------------------- gallery
+// Six finished renders. These are the point of the section, so they do play
+// in place once scrolled to — but only then, and they pause when they leave.
+(() => {
+  const shots = document.querySelectorAll('.gallery video[data-src]');
+  shots.forEach(v => {
+    const cap = v.closest('figure').querySelector('figcaption');
+    const btn = makeExpandable(v.closest('.shot'), v, v.dataset.src,
+                               'video', (cap && cap.textContent.trim()) || 'render');
+    btn.setAttribute('aria-label', 'Open this render full size');
+  });
+  const start = v => { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); };
+  if (!('IntersectionObserver' in window)) { shots.forEach(start); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) start(e.target);
+      else if (e.target.src) e.target.pause();
+    });
+  }, { rootMargin: '200px' });
+  shots.forEach(v => io.observe(v));
+})();
+</script>
+</body>
+</html>

@@ -139,9 +139,9 @@
 <h1>Two or more screens</h1>
 <!-- DRAFT: Claude -->
 <div class="lede">
-  <p><b>Here’s what you’ll make.</b> One video file that plays across two or more screens. In Premiere you make one HD sequence for each screen, then put them side by side in one wide sequence and export it as one file. The lab’s array has three screens, so the examples here use three.</p>
+  <p><b>Here’s what you’ll make.</b> One HD video for each screen, ready to put side by side on the lab’s array of three screens. You make one sequence per screen in Premiere, then <a href="../d-deliver/">Preparing your work for the screen array</a> turns them into the one file the array plays.</p>
   <p style="margin-top:8px"><b>Why we’re doing this.</b> The computer treats the screens as one wide display, but in the room they’re separate screens with gaps between them. Making each screen’s video on its own means each one fits its screen exactly.</p>
-  <p style="margin-top:8px"><b>What you’ll come away with.</b> How to build a sequence as wide as all your screens, place one video on each screen, and play the result full screen across the array.</p>
+  <p style="margin-top:8px"><b>What you’ll come away with.</b> How to build one sequence per screen and place a video on each, keeping everything inside its own screen.</p>
 </div>
 
 <h3 class="exh" id="students">What students have made with three screens</h3>
@@ -172,15 +172,14 @@
     <a href="#students">Student work</a>
     <a href="#t1">T1 · One sequence per screen</a>
     <a href="#t2">T2 · Fill each screen</a>
-    <a href="#t3">T3 · Side by side</a>
-    <a href="#export">Export and play</a>
+    <a href="../d-deliver/">Next: prepare for the array</a>
     <a href="#examples">Examples</a>
   </nav>
 </div>
 
 <h2 id="t1"><small>Part 1</small>Assemble your screens in Premiere</h2>
 <!-- DRAFT: Claude, from Mat's method (2026-10-04): a 1920 × 1080 sequence per screen with a white Color Matte background, nested side by side in a wide master sequence. -->
-<p class="intro">You’ll make one 1920 × 1080 sequence for each screen, then put them side by side in one wide master sequence. Bring the videos you want on the screens: loops from the <a href="../../">After Effects workshop</a>, footage you shot, or something from the other step-by-steps.</p>
+<p class="intro">You’ll make one 1920 × 1080 sequence for each screen. Bring the videos you want on the screens: loops from the <a href="../../">After Effects workshop</a>, footage you shot, or something from the other step-by-steps.</p>
 
 <section class="chunk">
   <h3>T1 · Make one sequence per screen <span>4 steps</span></h3>
@@ -211,46 +210,10 @@
   </ol>
 </section>
 
-<section class="chunk" id="t3">
-  <h3>T3 · Put the screens side by side <span>2 steps</span></h3>
-  <ol class="steps">
-    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">T-06</div><div>
-      <p>Choose <span class="menu">File → New → Sequence</span> again: <b>Custom</b>, <b>Square Pixels</b>, the same Timebase as your screens, height <code>1080</code>, and width 1920 times the number of screens. Name it <b>Master</b>.</p>
-      <table class="sizes">
-        <tr><td>2 screens</td><td>width <code>3840</code></td></tr>
-        <tr><td>3 screens</td><td>width <code>5760</code></td></tr>
-        <tr><td>4 screens</td><td>width <code>7680</code></td></tr>
-      </table>
-      <div class="trap"><b>Note: the video misses this.</b> In the video, the Master’s Timebase is left at the default, 23.976. Don’t copy that: set it to the same Timebase as your screens (30 for phone video and your After Effects loops), or Premiere has to drop frames to fit them in.</div>
-      <div class="trap"><b>Why multiply by 1920?</b> Each screen is an HD screen, 1920 pixels wide, and the file lays them side by side. If the screens are 4K, they scale the HD picture up to fill themselves.</div>
-    </div></div><div class="media" data-m="t-06" data-rec="New Sequence: Custom, 5760 × 1080; named Master."></div></li>
-    <li><!-- DRAFT: Claude --><div class="txt"><div class="n">T-07</div><div>
-      <p>Turn on snapping: click the spanner icon at the bottom right of the Program Monitor and choose <b>Snap in Program Monitor</b>. Drag <b>Screen 1</b>, <b>Screen 2</b> and <b>Screen 3</b> from the Project panel into the Master sequence, each on its own track. Then select each one in the timeline and drag it in the Program Monitor until they snap edge to edge, left to right. To make it exact, set each one’s Position in the Properties panel: <code>960</code>, <code>2880</code>, <code>4800</code> across (and <code>540</code> down).</p>
-      <div class="trap"><b>Asked about a clip mismatch?</b> Choose <b>Keep existing settings</b>, so the Master stays as wide as your screens.</div>
-      <div class="trap"><b>Where do 960, 2880 and 4800 come from?</b> Position is the centre. Each screen is 1920 wide, so the centres are 1920 apart, starting at 960 (half of 1920). A fourth screen would be at 6720.</div>
-    </div></div><div class="media" data-m="t-07" data-rec="Snap on; Screen 1–3 dragged into Master on V1–V3; dragged edge to edge; Positions 960, 2880, 4800."></div></li>
-    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
-      <p><b>Check before you go on.</b> The three screens should sit side by side, edge to edge, filling the wide frame with no gaps or overlaps.</p>
-    </div></div><div class="media" data-m="t-check-1" data-rec="The Master sequence playing: three screens edge to edge."></div></li>
-  </ol>
-</section>
-
-<h2 id="export"><small>Part 2</small>Export and play on the screens</h2>
-
-<section class="chunk">
-  <h3>E1 · Export, then play full screen in VLC <span>2 steps</span></h3>
-  <ol class="steps">
-    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude --><div class="txt"><div class="n">T-08</div><div>
-      <p>Choose <span class="menu">File → Export → Media</span>, set Format to <b>H.264</b>, and export.</p>
-    </div></div></li>
-    <li style="grid-template-columns:minmax(0,1fr)"><!-- DRAFT: Claude --><div class="txt"><div class="n">T-09</div><div>
-      <p>On the computer connected to the screens, open the file in VLC. Choose <span class="menu">Playback → Repeat</span>, then <span class="menu">Video → Fullscreen</span>.</p>
-    </div></div></li>
-    <li class="check"><!-- DRAFT: Claude --><div class="txt"><div class="n">✓</div><div>
-      <p><b>Check that it works.</b> You should see each video on its own screen, playing round.</p>
-    </div></div><div class="media" data-m="t-check-2" data-rec="Photo of the three screens playing."></div></li>
-  </ol>
-</section>
+<!-- DRAFT: Claude (2026-10-21): T3 and the export moved to ../d-deliver/. -->
+<div class="box fire">
+  <p style="margin:0"><b>Next: put your screens side by side for the array.</b> <a href="../d-deliver/">Preparing your work for the screen array</a> makes the 4K Master, exports it as ProRes and tells you how to hand it in.</p>
+</div>
 
 <h2 id="examples"><small>Made this way</small>Examples</h2>
 <!-- Captions: Mat to write. -->
