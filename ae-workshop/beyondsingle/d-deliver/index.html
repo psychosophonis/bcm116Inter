@@ -147,21 +147,24 @@
 <div class="box">
   <p style="margin:0"><b>Start with one 1920 × 1080 video for each screen.</b> That might be the Screen sequences from <a href="../t-triptych/">Two or more screens</a>, loops from the <a href="../../">After Effects workshop</a>, or HD videos you’ve made somewhere else.</p>
   <nav class="toc">
-    <a href="#d1">D1 · The 4K Master</a>
-    <a href="#deliver">Export and deliver</a>
+    <a href="#d1">D1 · Master in Premiere</a>
+    <a href="#d2">D2 · Or in After Effects</a>
+    <a href="#deliver">Hand it in</a>
   </nav>
 </div>
 
-<h2 id="d1"><small>Part 1</small>Put your screens side by side in Premiere</h2>
+<h2 id="d1"><small>Part 1</small>Make the 4K Master in Premiere</h2>
+<!-- DRAFT: Claude (2026-10-21). Adobe's docs give Premiere's maximum sequence frame size as 10,240 × 8,192; Mat reports making 11520 × 2160 in Premiere. D-01's check covers either case, and Part 2 is the fallback. -->
 
 <section class="chunk">
-  <h3>D1 · Make the 4K Master <span>2 steps</span></h3>
+  <h3>D1 · Master and export in Premiere <span>3 steps</span></h3>
   <ol class="steps">
     <li><div class="txt"><div class="n">D-01</div><div>
       <p>Choose <span class="menu">File → New → Sequence</span>: <b>Custom</b>, <b>Square Pixels</b>, Frame Size <code>11520</code> × <code>2160</code>, and the same Timebase as your screens (<code>30</code> for phone video and your After Effects loops). Name it <b>Master</b>.</p>
+      <div class="trap"><b>Check the width stuck.</b> Choose <span class="menu">Sequence → Sequence Settings</span>. If the width now says <code>10240</code>, your version of Premiere won’t make a sequence this wide: use <a href="#d2">After Effects</a> instead.</div>
       <div class="trap"><b>Don’t leave the Timebase at the default.</b> Premiere suggests 23.976. If your screens are 30, Premiere has to drop frames to fit them in.</div>
       <div class="trap"><b>Why 11520 × 2160?</b> The array is three 4K screens, each 3840 × 2160, and the file lays them side by side.</div>
-    </div></div><div class="media" data-m="d-01" data-rec="New Sequence: Custom, 11520 × 2160, Square Pixels, Timebase 30; named Master."></div></li>
+    </div></div><div class="media" data-m="d-01" data-rec="New Sequence: Custom, 11520 × 2160, Square Pixels, Timebase 30; named Master; Sequence Settings showing 11520."></div></li>
     <li><div class="txt"><div class="n">D-02</div><div>
       <p>Drag your screens (the <b>Screen 1</b>, <b>Screen 2</b> and <b>Screen 3</b> sequences, or your three videos) from the Project panel into the Master sequence, each on its own track. Select each one in the timeline and, in the Properties panel, set its <b>Scale</b> to <code>200</code> and its Position to <code>1920</code>, <code>5760</code> or <code>9600</code> across (and <code>1080</code> down), left to right.</p>
       <div class="trap"><b>Making two-screen work?</b> Place two screens only, at <code>1920</code> and <code>5760</code>. Leave the third panel empty: it exports as black, and that screen stays dark.</div>
@@ -172,24 +175,46 @@
     <li class="check"><div class="txt"><div class="n">✓</div><div>
       <p><b>Check before you go on.</b> The screens should sit side by side, edge to edge, with no gaps or overlaps. Three screens fill the wide frame; two fill the left two-thirds.</p>
     </div></div><div class="media" data-m="d-check-1" data-rec="The Master sequence playing: three screens edge to edge."></div></li>
+    <li style="grid-template-columns:minmax(0,1fr)"><div class="txt"><div class="n">D-03</div><div>
+      <p>Choose <span class="menu">File → Export → Media</span>, set Format to <b>QuickTime</b> and Preset to <b>Apple ProRes 422 Proxy</b>, and export. Then go to <a href="#deliver">Hand it in</a>.</p>
+    </div></div></li>
   </ol>
 </section>
 
-<h2 id="deliver"><small>Part 2</small>Export and deliver</h2>
+<h2 id="d2"><small>Part 2</small>Or make the 4K Master in After Effects</h2>
+<!-- DRAFT: Claude (2026-10-21). After Effects compositions go up to 30,000 px, so 11520 is well inside its limit. -->
+<p class="intro">The same Master, built as an After Effects composition. Use this if Premiere won’t keep the 11520 width, or if your screens came from the After Effects workshop. If your screens are Premiere sequences, export each one as an HD file first.</p>
+<!-- DRAFT: Claude (2026-10-21). Limits from review sites (Storyblocks, CineD, Toolfarm), not Blackmagic's spec sheet. -->
+<div class="trap"><b>Using DaVinci Resolve?</b> The free version caps timelines and exports at 3840 × 2160, so it can’t make the Master (Resolve Studio, the paid version, can). Edit your screens in Resolve, export each one as a 1920 × 1080 file, and build the Master in Premiere or After Effects.</div>
 
 <section class="chunk">
-  <h3>D2 · Export as ProRes and hand it in <span>2 steps</span></h3>
+  <h3>D2 · Master and export in After Effects <span>3 steps</span></h3>
   <ol class="steps">
-    <li style="grid-template-columns:minmax(0,1fr)"><div class="txt"><div class="n">D-03</div><div>
-      <p>Choose <span class="menu">File → Export → Media</span>, set Format to <b>QuickTime</b> and Preset to <b>Apple ProRes 422</b>, and export.</p>
-      <!-- DRAFT: Claude. Size estimated from Apple's published ProRes 422 rate for 4K30 (~589 Mb/s) × 3 screens; check against a real export. -->
-      <div class="trap"><b>Expect a big file.</b> ProRes at this size is roughly 13 GB a minute. Check you have the space before you export.</div>
-    </div></div></li>
-    <li style="grid-template-columns:minmax(0,1fr)"><div class="txt"><div class="n">D-04</div><div>
-      <p>Give the ProRes file to me directly, or upload it to the drop box. The link is on Moodle and Discord.</p>
-    </div></div></li>
+    <li><div class="txt"><div class="n">D-04</div><div>
+      <p>Choose <span class="menu">Composition → New Composition</span>. Untick <b>Lock Aspect Ratio</b>, then set Width <code>11520</code>, Height <code>2160</code>, Pixel Aspect Ratio <b>Square Pixels</b>, Frame Rate to match your screens (<code>30</code>), Duration to the length of your work, and Background Color to <b>black</b>. Name it <b>Master</b>.</p>
+    </div></div><div class="media" data-m="d-04" data-rec="Composition Settings: 11520 × 2160, Square Pixels, 30 fps, black; named Master."></div></li>
+    <li><div class="txt"><div class="n">D-05</div><div>
+      <p>Import your three HD videos and drag them into the Master. For each layer, press <kbd>S</kbd> and set Scale to <code>200</code>, then press <kbd>P</kbd> and set Position to <code>1920, 1080</code>, <code>5760, 1080</code> or <code>9600, 1080</code>, left to right.</p>
+      <div class="trap"><b>Making two-screen work?</b> Place two videos only. The empty third panel renders as the black background.</div>
+    </div></div><div class="media" data-m="d-05" data-rec="Three layers in Master; S → Scale 200; P → Positions 1920/5760/9600, 1080."></div></li>
+    <li><div class="txt"><div class="n">D-06</div><div>
+      <p>Choose <span class="menu">Composition → Add to Render Queue</span>. Click the <b>Output Module</b> setting, set Format to <b>QuickTime</b>, then under <b>Format Options</b> set Video Codec to <b>Apple ProRes 422 Proxy</b>. Choose where to save, and click <b>Render</b>.</p>
+    </div></div><div class="media" data-m="d-06" data-rec="Render Queue: Output Module → QuickTime → Format Options → Apple ProRes 422 Proxy; Render."></div></li>
+  </ol>
+</section>
+
+<h2 id="deliver"><small>Part 3</small>Hand it in</h2>
+
+<section class="chunk">
+  <h3>D3 · Check and deliver <span>1 step</span></h3>
+  <ol class="steps">
     <li class="check"><div class="txt"><div class="n">✓</div><div>
       <p><b>Check before you hand it in.</b> Open the exported file and skim through it. Each screen’s video should sit in its own third of the frame, from start to finish.</p>
+    </div></div></li>
+    <li style="grid-template-columns:minmax(0,1fr)"><div class="txt"><div class="n">D-07</div><div>
+      <p>Give the ProRes file to me directly, or upload it to the drop box. The link is on Moodle and Discord.</p>
+      <!-- DRAFT: Claude. Proxy chosen by Mat (2026-10-21). Apple's white paper gives ProRes 422 Proxy at 1080p29.97 as 45 Mb/s; 11520 × 2160 is 12× the pixels, so about 540 Mb/s, about 4 GB a minute. Check against a real export. -->
+      <div class="trap"><b>Expect a big file.</b> ProRes Proxy at this size is roughly 4 GB a minute. Check you have the space before you export, and allow time for the upload.</div>
     </div></div></li>
   </ol>
 </section>
