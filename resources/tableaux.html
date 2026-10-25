@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCM116 — tableauX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/content.css">
+</head>
+<body>
+
+<a class="back-link" href="index.html">← All learning resources</a>
+
+<div class="w-banner">
+    <h1>tableauX</h1>
+    <p class="w-tagline">The app that plays the lab's screen array: one video per screen, full screen at each screen's own resolution, all in step. It runs on any Mac, so you can see your multiscreen work whole before it goes on the array. <a href="https://github.com/psychosophonis/tableauX">Download it and read the full guide on GitHub</a>.</p>
+</div>
+
+<div id="rendered"></div>
+
+<!-- DRAFT: Claude (2026-10-26), from the tableauX README and docs/architecture.md (v0.3.25). -->
+<script type="text/markdown" id="content">
+A multiscreen work in tableauX is just a folder of videos, one per screen. There's no wide file to build: each screen stays its own HD video, and tableauX starts them together and keeps them together. The step-by-step for getting a work onto the array is **[Preparing your work for the screen array](../ae-workshop/beyondsingle/d-deliver/)**; this page is the wider picture of what the app can do.
+
+## Getting it
+
+[Download tableauX](https://github.com/psychosophonis/tableauX/releases/latest/download/tableauX.zip), unzip it and move it to Applications. It runs on macOS 13 or later, on Apple silicon and Intel Macs. The first time, macOS blocks it: open **System Settings → Privacy & Security**, scroll down and click **Open Anyway**. The first launch can take up to half a minute while macOS checks the app.
+
+## A work is a folder
+
+- **One file per screen**, each name ending in its screen number: `Smith_1`, `Smith_2`, `Smith_3`, numbered left to right.
+- **A missing number leaves that screen black.** Two-screen work is just `_1` and `_2`.
+- **Make the screens the same length** unless you mean otherwise. Each file loops on its own length, so screens of different lengths slide further out of step on every loop. That can be the work itself: loops of slightly different lengths never meet the same way twice. tableauX warns you when lengths differ, so you know which you've got.
+
+## Seeing it on your own Mac
+
+Choose **Import work…** and pick your folder. The **Tableau** line sets how many displays the show uses; set it to the number of screens in your work. **Preview** plays every screen as a tile, side by side in one window, so you can check order and timing on a laptop. **Esc** closes it.
+
+In the setup window, click a screen to choose its video, or **None** to keep it black. Each screen has its own **Audio** switch, and **Fit** (the whole picture, with black bars if the shapes differ) or **Fill** (covering the screen).
+
+## Shows: several works in a row
+
+A **show** is a playlist of works. Each work plays, the screens go black for a moment, the next starts, and after the last it loops back to the first. That's how the array runs a screening of everyone's work, and how you'd run your own exhibition: **New show…** in the Show menu, then **Remove** and **Add from library** to choose what's in it. **Present** plays it full screen on real displays; **Space** pauses, **→ / ←** change work.
+
+## More screens than the array
+
+A work can be as big as you have screens for. Several Macs, each with its own displays, can play one work together over the network: one Mac conducts and the others follow. Number the files across the whole work: a six-screen piece on two three-display Macs is `_1`–`_3` on the first Mac and `_4`–`_6` on the second. You can compose this ahead on a laptop with **Add a Mac…** and Preview the whole thing before you're in the room. The [GitHub guide](https://github.com/psychosophonis/tableauX#the-library-works-and-shows-on-one-mac-or-several) has the details.
+</script>
+
+<script src="../assets/content.js"></script>
+</body>
+</html>
